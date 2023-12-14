@@ -28,3 +28,4 @@ DerivedData/
 app/homeassistant-native/Config.swift
 .DS_Store
 app/homeassistant-native.xcodeproj/project.xcworkspace/xcshareddata/WorkspaceSettings.xcsettings
+app/homeassistant-native/Config.swift
