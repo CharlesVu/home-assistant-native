@@ -9,12 +9,12 @@ import SwiftUI
 
 struct UserSettingTileView: View {
     var body: some View {
-        HStack(){
+        HStack {
             Rectangle()
                 .frame(width: 50, height: 50)
                 .cornerRadius(30)
                 .foregroundColor(ColorManager.haDefaultTertiary)
-            VStack{
+            VStack {
                 HAMainTextView(text: "santoru")
                 HAFootNoteView(text: "Admin")
             }

@@ -19,6 +19,6 @@ struct HABasicIconView: View {
 
 struct HABasicIconView_Previews: PreviewProvider {
     static var previews: some View {
-        HABasicIconView(icon:"gear")
+        HABasicIconView(icon: "gear")
     }
 }

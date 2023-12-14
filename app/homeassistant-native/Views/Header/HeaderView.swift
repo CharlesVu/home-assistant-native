@@ -6,17 +6,27 @@
 //
 
 import SwiftUI
+import Combine
+
+class HeaderViewModel: ObservableObject {
+    let temperatureHumidityWidgetViewModel: TemperatureHumidityWidgetViewModel
+
+    init(subject: PassthroughSubject<EntityState, Never>) {
+        temperatureHumidityWidgetViewModel = .init(subject: subject)
+    }
+}
 
 struct HeaderView: View {
-    @State
-    var showSettings = false
+    @State var showSettings = false
+    @ObservedObject var viewModel: HeaderViewModel
+
     var body: some View {
-        VStack(spacing:0){
-            HStack{
+        VStack(spacing: 0) {
+            HStack {
                 HATitleTextView(
-                    text:"Wohnung",
-                    icon:"house.fill")
-                
+                    text: "Citadel",
+                    icon: "house.fill")
+
                 Button(action: {
                     self.showSettings = true
                 }) {
@@ -30,14 +40,13 @@ struct HeaderView: View {
                 })
             }
             .padding()
-            TemperatureHumidityWidgetView()
+            TemperatureHumidityWidgetView(viewModel: viewModel.temperatureHumidityWidgetViewModel)
         }
     }
 }
 
-
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView()
+        HeaderView(viewModel: .init(subject: .init()))
     }
 }

@@ -14,8 +14,8 @@ struct MediaPlayerView: View {
     var body: some View {
         let color: Color = darkColorScheme ? ColorManager.haDefaultDark : ColorManager.haDefaultLighter
 
-            VStack{
-                HStack{
+            VStack {
+                HStack {
                     Image("haDefaultAdele")
                         .resizable()
                         .frame(width: 50, height: 50)
@@ -28,7 +28,7 @@ struct MediaPlayerView: View {
                     HABasicIconView(icon: "play", darkColorScheme: darkColorScheme)
                     HABasicIconView(icon: "forward.end", darkColorScheme: darkColorScheme)
                 }
-                HStack{
+                HStack {
                     HABasicIconView(icon: "speaker", darkColorScheme: darkColorScheme)
                     Slider(
                         value: $volume,

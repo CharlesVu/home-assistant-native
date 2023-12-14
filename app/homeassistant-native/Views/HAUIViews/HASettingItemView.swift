@@ -12,9 +12,9 @@ struct HASettingItemView: View {
     var icon: String
     var foregroundColor: Color
     var backgroundColor: Color
-    
+
     var body: some View {
-        HStack{
+        HStack {
             Image(systemName: icon)
                 .frame(width: 25, height: 25)
                 .background(backgroundColor)
@@ -22,12 +22,12 @@ struct HASettingItemView: View {
                 .cornerRadius(5)
             Text(text)
         }
-        
+
     }
 }
 
 struct HASettingItemView_Previews: PreviewProvider {
     static var previews: some View {
-        HASettingItemView(text:"Test", icon:"globe", foregroundColor: .white, backgroundColor: .blue)
+        HASettingItemView(text: "Test", icon: "globe", foregroundColor: .white, backgroundColor: .blue)
     }
 }

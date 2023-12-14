@@ -7,77 +7,106 @@
 
 import Foundation
 import Combine
+import OSLog
 
-class WidgetDataSource: ObservableObject {
-    @Published var items = [HomeAssistantEntityModel]()
-    
-    init() {
-        loadEntities()
+class WidgetDataSource: NSObject {
+
+    var socket: URLSessionWebSocketTask!
+    var decoder = JSONDecoder()
+
+    let messageLogger = Logger(subsystem: "Network", category: "Message")
+    let websocketLogger = Logger(subsystem: "Network", category: "Websocket")
+
+    let subject = PassthroughSubject<EntityState, Never>()
+
+    override init() {
+        super.init()
+
+        socket = URLSession.shared.webSocketTask(with: Config.websocketEndpoint)
+        socket.resume()
+
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+
+        decoder.dateDecodingStrategy = .formatted(formatter)
+
+        receive()
     }
-    
-    
-    private func loadEntities() {
-        print("Loading HomeAssistant entities")
-        let decoder = JSONDecoder()
-        //decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        //let dateFormatter = DateFormatter()
-        //dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-        //dateFormatter.locale = Locale(identifier: "it_IT")
-        //dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-        //decoder.dateDecodingStrategy = .formatted(dateFormatter)
-        
-        let url = URL(string: Config.statesEndpoint)!
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue(Config.authorizationHeader, forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTaskPublisher(for: request)
-            .tryMap() { element -> Data in
-                guard let httpResponse = element.response as? HTTPURLResponse,
-                      httpResponse.statusCode == 200 else {
-                          print("HTTP Error, status code: \(String(describing: (element.response as? HTTPURLResponse)?.statusCode))")
-                          throw URLError(.badServerResponse)
-                      }
-                return element.data
+}
+
+extension WidgetDataSource: URLSessionTaskDelegate {
+    // MARK: Receive
+    func receive() {
+        let workItem = DispatchWorkItem { [weak self] in
+            guard let self else { return }
+            self.socket.receive(completionHandler: { result in
+                switch result {
+                case .success(let message):
+                    switch message {
+                    case .data(let data):
+                        print("Data received \(data)")
+                    case .string(let str):
+                        do {
+                            let message = try self.decoder.decode(HAMessage.self, from: str.data(using: .utf8)!)
+                            Task {
+                                await self.handleMessage(message: message)
+                            }
+                        } catch {
+                            self.messageLogger.error("----->\n\n\(error)\n\n\(str)\n\n<-----")
+                        }
+                    default:
+                        break
+                    }
+                case .failure(let error):
+                    ()
+                    print("[SOCKET] Error Receiving \(error)")
+                }
+                self.receive()
+            })
+        }
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: workItem)
+    }
+
+    @MainActor
+    func handleMessage(message: HAMessage) async {
+        if message.type == .authRequired {
+            try? await sendAuthData()
+        } else if message.type == .authOk {
+            try? await sendGetStates()
+            try? await sendSubscribe()
+        } else if message.type == .event {
+            if let newState = message.event?.data.newState {
+//                messageLogger.debug("New State for \(newState.entityId)")
+                subject.send(newState)
             }
-            .decode(type: [HomeAssistantDecodableEntityModel].self, decoder: decoder)
-            .receive(on: DispatchQueue.main)
-            .handleEvents(receiveOutput: { response in
-            })
-            .map({ response in
-                var results = [HomeAssistantEntityModel]()
-                for entity in response {
-                    let type = entity.entity_id.components(separatedBy: ".")[0]
-                    if type != "light" {
-                        continue
-                    }
-                    let full_name = entity.entity_id.components(separatedBy: ".")[1]
-                    if Config.DEBUG {
-                        print("Entity \(type) with name \(full_name)")
-                        print("Friendly name \(String(describing: entity.attributes.friendly_name))")
-                        print("Status: \(entity.state)")
-                    }
-                    let richEntity = entity.enrich(
-                        type:type,
-                        full_name: full_name
-                    )
-                    results.append(richEntity)
-                }
-                return self.items + results
-            })
-            .catch({ error -> AnyPublisher<[HomeAssistantEntityModel], Never> in
-                if error is URLError {
-                    print("URLError: \(error)")
-                    return Just([])
-                        .eraseToAnyPublisher()
-                } else {
-                    print("Generic error: \(error)")
-                    return Empty(completeImmediately: true)
-                        .eraseToAnyPublisher()
-                }
-            })
-                    .assign(to: &$items)
+        } else if message.type == .result, let results = message.result {
+            results.forEach { subject.send($0) }
+        }
+    }
+}
+
+// MARK: Websocket Commands
+extension WidgetDataSource {
+    func send(message: HAMessage) async throws {
+        let json = try! JSONEncoder().encode(message)
+        try await socket.send(.string(String(data: json, encoding: .utf8)!))
+    }
+
+    func sendSubscribe() async throws {
+        let message = HAMessageBuilder.subscribeMessage()
+        try await send(message: message)
+    }
+
+    func sendAuthData() async throws {
+        let message = HAMessageBuilder.authMessage(accessToken: Config.authToken)
+        try await send(message: message)
+    }
+
+    func sendGetStates()  async throws {
+        let message = HAMessageBuilder.getStateMessage()
+        try await send(message: message)
     }
 }

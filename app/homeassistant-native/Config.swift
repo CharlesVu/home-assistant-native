@@ -8,10 +8,6 @@
 import Foundation
 
 enum Config {
-    static let DEBUG: Bool = false
-    static let authorizationHeader: String = ""
-    
-    static let baseEndpoint: String = "http://homeassistant.local:8123/api/"
-    static let statesEndpoint: String = baseEndpoint + "states"
-    static let lightToggleEndpoint: String = baseEndpoint + "services/light/toggle"
+    static let websocketEndpoint = URL(string: "ws://10.0.0.10:8123/api/websocket")!
+    static let authToken = ""
 }

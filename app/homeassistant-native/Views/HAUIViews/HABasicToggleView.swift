@@ -7,29 +7,28 @@
 
 import SwiftUI
 
-
 class ToggleObserver: ObservableObject {
-    
+
     private var entityId: String = ""
     private var initialized: Bool = false
-    
+
     @Published var toggleValue: Bool = false {
-        didSet {            
+        didSet {
             if entityId != "" {
                 _ = ChangeStatusController(entityId: self.entityId)
             }
-            
+
         }
     }
-    func setToggleStatus(state: String){
-        if initialized{
+    func setToggleStatus(state: String) {
+        if initialized {
             return
         }
         self.toggleValue = state == "on" ? true : false
         self.initialized = true
     }
-    
-    func setEntityId(entityId: String){
+
+    func setEntityId(entityId: String) {
         if self.entityId != "" {
             return
         }
@@ -39,23 +38,22 @@ class ToggleObserver: ObservableObject {
 
 struct HABasicToggleView: View {
     @ObservedObject(initialValue: ToggleObserver()) var viewModel: ToggleObserver
-    
+
     var state: String
     var entityId: String
-    
+    #if canImport(UIKit)
     private let haptic = UINotificationFeedbackGenerator()
-    
-    
+    #endif
+
     init(_ state: String, _ entityId: String) {
         self.state = state
         self.entityId = entityId
-        
+
         viewModel.setToggleStatus(state: self.state)
         viewModel.setEntityId(entityId: self.entityId)
-        
-        
+
     }
-    
+
     var body: some View {
         Toggle(isOn: $viewModel.toggleValue, label: {
             Text("")
@@ -65,8 +63,9 @@ struct HABasicToggleView: View {
             .toggleStyle(PowerToggleStyle())
             .padding(.trailing)
             .onTapGesture {
-                self.haptic.notificationOccurred(.error)
-                
+                #if canImport(UIKit)
+                    self.haptic.notificationOccurred(.error)
+                #endif
             }
     }
 }
@@ -78,9 +77,9 @@ struct HABasicToggleView_Previews: PreviewProvider {
 }
 
 struct PowerToggleStyle: ToggleStyle {
-    
+
     func makeBody(configuration: Self.Configuration) -> some View {
-        
+
         return HStack {
             configuration.label
             Spacer()
@@ -93,6 +92,6 @@ struct PowerToggleStyle: ToggleStyle {
                     configuration.isOn.toggle()
                 }
         }
-        
+
     }
 }

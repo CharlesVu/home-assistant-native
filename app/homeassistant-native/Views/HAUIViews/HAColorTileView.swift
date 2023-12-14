@@ -15,7 +15,7 @@ struct HAColorTileView: View {
         Button(action: {
             print("TODO")
         }) {
-        
+
         Rectangle()
             .frame(width: edge, height: edge)
             .cornerRadius(radius)

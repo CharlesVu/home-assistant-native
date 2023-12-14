@@ -6,43 +6,75 @@
 //
 
 import SwiftUI
+import Combine
+
+class ContentViewModel: ObservableObject {
+    let widgetDataSource = WidgetDataSource()
+    let headerViewModel: HeaderViewModel
+    var subscriptions = Set<AnyCancellable>()
+
+    @Published var carItems = Set<EntityState>()
+    @Published var lights = Set<EntityState>()
+
+    init() {
+        headerViewModel = HeaderViewModel(subject: widgetDataSource.subject)
+
+        widgetDataSource
+            .subject
+            .filter {
+                $0.entityId == "binary_sensor.ioniq_5_ev_battery_charge" ||
+                $0.entityId == "sensor.ioniq_5_ev_battery_level" ||
+                $0.entityId == "binary_sensor.ioniq_5_ev_charge_port" ||
+                $0.entityId == "sensor.ioniq_5_car_battery_level" ||
+                $0.entityId == "lock.ioniq_5_door_lock"
+            }
+            .sink { self.carItems.insert($0) }
+            .store(in: &subscriptions)
+        
+        widgetDataSource
+            .subject
+            .filter {
+                $0.entityId == "switch.pond_pump_switch" 
+            }
+            .sink { self.lights.insert($0) }
+            .store(in: &subscriptions)
+    }
+}
 
 struct ContentView: View {
     @State var show = false
-    @StateObject var widgetDataSource = WidgetDataSource()
-    
-    @State var renderWidget = HomeAssistantEntityModel(name: "A", room: "B", icon: "gear")
-    
+    @ObservedObject var viewModel: ContentViewModel = .init()
+
     var body: some View {
-        
-        NavigationView {
-            VStack(spacing:0) {
-                HeaderView()
+        VStack(spacing: 0) {
+            HeaderView(viewModel: viewModel.headerViewModel)
+            HStack {
                 List {
-                    Section{
-                        MediaPlayerView()
-                    }
-                    Section(){
-                        ForEach(widgetDataSource.items) { widget in
-                            Button(action: {
-                                renderWidget = widget
-                                show.toggle() }) {
-                                    SwitchWidgetListView(
-                                        widget:widget)
-                                }
+                    Section("IONIQ 5") {
+                        ForEach(Array(viewModel.carItems)) { item in
+                            SimpleStateWidget(viewModel: .init(
+                                initialState: item,
+                                subject: viewModel.widgetDataSource.subject
+                            ))
                         }
                     }
                 }
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarHidden(true)
-            }.bottomSheet(
-                isPresented: $show,
-                height: 300
-            ) {
-                LightWidgetDetailsView(widget:renderWidget)
+                
+                List {
+                    Section("Lights") {
+                        ForEach(Array(viewModel.lights)) { item in
+                            SimpleStateWidget(viewModel: .init(
+                                initialState: item,
+                                subject: viewModel.widgetDataSource.subject
+                            ))
+                        }
+                    }
+                }
             }
-            
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarHidden(true)
         }
+
     }
 }
 

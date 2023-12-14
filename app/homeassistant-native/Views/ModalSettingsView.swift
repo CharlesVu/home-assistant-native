@@ -8,20 +8,20 @@
 import SwiftUI
 
 struct ModalSettingsView: View {
-    
+
     @Environment(\.presentationMode)
     var presentationMode: Binding<PresentationMode>
-    
+
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 0){
+            VStack(alignment: .leading, spacing: 0) {
                 HATitleTextView(text: "Settings", icon: "gear")
                     .padding()
                 List {
-                    Section(){
+                    Section {
                         UserSettingTileView()
                     }
-                    Section() {
+                    Section {
                         HASettingItemView(text: "General", icon: "gear", foregroundColor: .white, backgroundColor: .gray)
                         HASettingItemView(text: "Appearance", icon: "textformat.size", foregroundColor: .white, backgroundColor: .blue)
                         HASettingItemView(text: "Networking", icon: "globe", foregroundColor: .white, backgroundColor: .green)
@@ -29,19 +29,21 @@ struct ModalSettingsView: View {
                     }
                 }
             }
+            #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
                 trailing:
                     Button("Dismiss", action: {
                         self.presentationMode.wrappedValue.dismiss()
                     }
-                          ).accentColor(ColorManager.haDefaultDark))
+                          ).accentColor(ColorManager.haDefaultDark)
+            )
+            #endif
         }
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.systemGray))
 
     }
 }
-
 
 struct ModalSettingsView_Previews: PreviewProvider {
     static var previews: some View {

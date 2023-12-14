@@ -9,11 +9,12 @@ import SwiftUI
 
 struct HAWidgetImageView: View {
     var imageName: String
+    var color: Color = ColorManager.haDefaultDark
     var body: some View {
         Image(systemName: imageName)
-            .frame(width: 32, height: 32)
+            .frame(width: 42, height: 42)
             .font(.system(size: 24.0).bold())
-            .foregroundColor(ColorManager.haDefaultDark)
+            .foregroundColor(color)
             .cornerRadius(5)
     }
 }

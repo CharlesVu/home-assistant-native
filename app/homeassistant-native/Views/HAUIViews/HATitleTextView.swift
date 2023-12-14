@@ -10,9 +10,9 @@ import SwiftUI
 struct HATitleTextView: View {
     var text: String
     var icon: String
-    
+
     var body: some View {
-        HStack{
+        HStack {
             Image(systemName: icon)
                 .font(Font.title.weight(.bold))
             Text(text)                .fontWeight(.bold)
@@ -20,12 +20,12 @@ struct HATitleTextView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.largeTitle)
         .foregroundColor(ColorManager.haDefaultDark)
-        
+
     }
 }
 
 struct HATitleTextView_Previews: PreviewProvider {
     static var previews: some View {
-        HATitleTextView(text:"Test", icon:"house.fill")
+        HATitleTextView(text: "Test", icon: "house.fill")
     }
 }

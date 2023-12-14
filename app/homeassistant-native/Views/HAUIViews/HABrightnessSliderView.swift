@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct HaBrightnessSliderView: View {
+struct HABrightnessSliderView: View {
     @State private var isEditing = false
     @State private var brightness = 50.0
 
     var body: some View {
         VStack {
-            HStack{
+            HStack {
                 HABasicIconView(icon: "light.min")
                 Slider(
                     value: $brightness,
@@ -34,6 +34,6 @@ struct HaBrightnessSliderView: View {
 
 struct HaBrightnessSliderView_Previews: PreviewProvider {
     static var previews: some View {
-        HaBrightnessSliderView()
+        HABrightnessSliderView()
     }
 }
