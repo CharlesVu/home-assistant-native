@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import OSLog
+import Factory
 
 protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
@@ -9,6 +10,8 @@ protocol HomeAssistantBridging {
 }
 
 class HomeAssistantBridge: NSObject {
+    @Injected(\.config) private var config
+
     var socket: URLSessionWebSocketTask!
     var decoder = JSONDecoder()
 
@@ -21,7 +24,7 @@ class HomeAssistantBridge: NSObject {
     override init() {
         super.init()
 
-        socket = URLSession.shared.webSocketTask(with: Config.websocketEndpoint)
+        socket = URLSession.shared.webSocketTask(with: config.websocketEndpoint)
         socket.resume()
 
         let formatter = DateFormatter()
@@ -101,7 +104,7 @@ extension HomeAssistantBridge: HomeAssistantBridging {
     }
 
     func sendAuthData() async throws {
-        let message = HAMessageBuilder.authMessage(accessToken: Config.authToken)
+        let message = HAMessageBuilder.authMessage(accessToken: config.authToken)
         try await send(message: message)
     }
 

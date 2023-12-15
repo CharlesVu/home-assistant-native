@@ -5,4 +5,9 @@ extension Container {
         Factory(self) { HomeAssistantBridge() }
             .singleton
     }
+
+    var config: Factory<Config> {
+        Factory(self) { Config() }
+            .singleton
+    }
 }
