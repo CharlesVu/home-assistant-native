@@ -28,7 +28,7 @@ class ContentViewModel: ObservableObject {
         websocket
             .entityPublisher
             .filter {
-                $0.entityId == "light.charles_key_light"
+                $0.entityId.hasPrefix("light") && $0.attributes.hueType == "room"
             }
             .sink { self.lights.insert($0) }
             .store(in: &subscriptions)

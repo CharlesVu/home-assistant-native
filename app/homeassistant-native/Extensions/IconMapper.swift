@@ -26,6 +26,8 @@ struct IconMapper {
                 } else {
                     return "car.side.lock.open"
                 }
+            case "mdi:lightbulb-group":
+                return "lightbulb.led.wide.fill"
             default:
                 print("!!! \(haIcon)")
                 return "questionmark.diamond.fill"

@@ -43,6 +43,7 @@ struct EntityAttribute: Codable {
     let rgb: [Double]?
     let hs: [Double]?
     let brightness: Double?
+    let hueType: String?
 
     enum CodingKeys: String, CodingKey {
         case unit = "unit_of_measurement"
@@ -56,6 +57,7 @@ struct EntityAttribute: Codable {
         case rgb = "rgb_color"
         case hs = "hs_color"
         case brightness
+        case hueType = "hue_type"
     }
 
     static var zero = EntityAttribute(
@@ -69,6 +71,7 @@ struct EntityAttribute: Codable {
         icon: nil,
         rgb: nil,
         hs: nil,
-        brightness: nil
+        brightness: nil,
+        hueType: nil
     )
 }
