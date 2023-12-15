@@ -1,3 +1,4 @@
+import Combine
 import Factory
 import SwiftUI
 import UIKit
@@ -6,17 +7,34 @@ class ToggleObserver: ObservableObject {
     @Injected(\.websocket) private var websocket
 
     private var entityId: String
+    private var requestId: Int = 0
+    private var subscriptions = Set<AnyCancellable>()
 
+    @Published var isWaitingForResponse = false
     @Published var toggleValue: Bool {
         didSet {
             Task {
-                try! await websocket.turnLight(on: toggleValue, entityID: entityId)
-                self.isWaitingForResponse = true
+                if requestId == 0 {
+                    requestId = try! await websocket.turnLight(on: toggleValue, entityID: entityId)
+                    isWaitingForResponse = true
+                    websocket.responsePublisher
+                        .receive(on: DispatchQueue.main)
+                        .filter { $0.id == self.requestId }
+                        .prefix(1)
+                        .sink { [weak self] message in
+                            guard let self else { return }
+                            if message.success == true {
+                                self.isWaitingForResponse = false
+                            } else {
+                                self.isWaitingForResponse = false
+                                self.toggleValue = !self.toggleValue
+                            }
+                            self.requestId = 0
+                        }.store(in: &subscriptions)
+                }
             }
         }
     }
-
-    var isWaitingForResponse = false
 
     init(entityId: String, toggleValue: Bool = false) {
         self.entityId = entityId

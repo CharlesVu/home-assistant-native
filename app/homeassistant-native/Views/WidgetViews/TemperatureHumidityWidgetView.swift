@@ -17,7 +17,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     init() {
-        websocket.subject
+        websocket.entityPublisher
             .filter { $0.entityId == "weather.forecast_home" }
             .receive(on: DispatchQueue.main)
             .sink {
@@ -27,7 +27,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             }
             .store(in: &subscriptions)
 
-        websocket.subject
+        websocket.entityPublisher
             .filter {
                 $0.entityId
                     == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"

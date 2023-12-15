@@ -3,8 +3,9 @@ import Foundation
 import OSLog
 
 protocol HomeAssistantBridging {
-    func turnLight(on: Bool, entityID: String) async throws
-    var subject: PassthroughSubject<EntityState, Never> { get }
+    func turnLight(on: Bool, entityID: String) async throws -> Int
+    var entityPublisher: PassthroughSubject<EntityState, Never> { get }
+    var responsePublisher: PassthroughSubject<HAMessage, Never> { get }
 }
 
 class HomeAssistantBridge: NSObject {
@@ -14,7 +15,8 @@ class HomeAssistantBridge: NSObject {
     let messageLogger = Logger(subsystem: "Network", category: "Message")
     let websocketLogger = Logger(subsystem: "Network", category: "Websocket")
 
-    let subject = PassthroughSubject<EntityState, Never>()
+    let entityPublisher = PassthroughSubject<EntityState, Never>()
+    let responsePublisher = PassthroughSubject<HAMessage, Never>()
 
     override init() {
         super.init()
@@ -76,10 +78,12 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
             try? await sendSubscribe()
         } else if message.type == .event {
             if let newState = message.event?.data.newState {
-                subject.send(newState)
+                entityPublisher.send(newState)
             }
         } else if message.type == .result, case .entities(let results) = message.result {
-            results.forEach { subject.send($0) }
+            results.forEach { entityPublisher.send($0) }
+        } else if message.type == .result {
+            responsePublisher.send(message)
         }
     }
 }
@@ -106,8 +110,9 @@ extension HomeAssistantBridge: HomeAssistantBridging {
         try await send(message: message)
     }
 
-    func turnLight(on: Bool, entityID: String) async throws {
+    func turnLight(on: Bool, entityID: String) async throws -> Int {
         let message = HAMessageBuilder.turnLight(on: on, entityID: entityID)
         try await send(message: message)
+        return message.id!
     }
 }

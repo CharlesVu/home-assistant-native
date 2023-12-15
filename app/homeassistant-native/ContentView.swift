@@ -15,7 +15,7 @@ class ContentViewModel: ObservableObject {
         headerViewModel = HeaderViewModel()
 
         websocket
-            .subject
+            .entityPublisher
             .filter {
                 $0.entityId == "binary_sensor.ioniq_5_ev_battery_charge"
                     || $0.entityId == "sensor.ioniq_5_ev_battery_level"
@@ -26,7 +26,7 @@ class ContentViewModel: ObservableObject {
             .store(in: &subscriptions)
 
         websocket
-            .subject
+            .entityPublisher
             .filter {
                 $0.entityId == "light.charles_key_light"
             }

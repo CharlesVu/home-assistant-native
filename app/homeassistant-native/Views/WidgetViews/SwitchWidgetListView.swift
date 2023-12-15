@@ -19,7 +19,7 @@ class SwitchWidgetViewModel: ObservableObject {
         self.entityID = initialState.entityId
         updateViewModel(entity: initialState)
 
-        websocket.subject
+        websocket.entityPublisher
             .filter { $0.entityId == initialState.entityId }
             .receive(on: DispatchQueue.main)
             .sink {
@@ -33,8 +33,9 @@ class SwitchWidgetViewModel: ObservableObject {
         state = entity.state
         if let icon = entity.attributes.icon {
             self.icon = IconMapper.map(haIcon: icon, state: entity.state)
+        } else {
+            self.icon = "lightbulb.led.wide.fill"
         }
-
         iconColor = IconColorTransformer.transform(entity)
     }
 }
@@ -52,7 +53,6 @@ struct SwitchWidgetListView: View {
             VStack(alignment: .leading) {
                 HAMainTextView(text: viewModel.name ?? "nil")
             }
-
             HABasicToggleView(viewModel.state, viewModel.entityID)
         }
     }

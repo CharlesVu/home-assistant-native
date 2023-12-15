@@ -18,7 +18,7 @@ class SimpleStateWidgetViewModel: ObservableObject {
     ) {
         updateViewModel(entity: initialState)
 
-        websocket.subject
+        websocket.entityPublisher
             .filter { $0.entityId == initialState.entityId }
             .receive(on: DispatchQueue.main)
             .sink {

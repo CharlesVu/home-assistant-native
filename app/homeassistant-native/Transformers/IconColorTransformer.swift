@@ -26,6 +26,10 @@ struct IconColorTransformer {
             } else {
                 return ColorManager.warning
             }
+        }  else if let hs = entity.attributes.hs,
+                   let brightness = entity.attributes.brightness,
+                   hs.count == 2 {
+            return Color(hue: hs[0] / 255, saturation: hs[1] / 255, brightness: brightness / 255)
         }
 
         return ColorManager.haDefaultDark

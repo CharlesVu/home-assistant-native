@@ -4,6 +4,7 @@ extension HAMessageBuilder {
     static func turnLight(on: Bool, entityID: String) -> HAMessage {
         let serviceName = on ? "turn_on" : "turn_off"
         return HAMessage(
+            id: currentID,
             type: .callService,
             domain: "light",
             service: serviceName,

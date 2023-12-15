@@ -40,6 +40,9 @@ struct EntityAttribute: Codable {
     let humidity: Int?
     let windSpeed: Double!
     let icon: String?
+    let rgb: [Double]?
+    let hs: [Double]?
+    let brightness: Double?
 
     enum CodingKeys: String, CodingKey {
         case unit = "unit_of_measurement"
@@ -50,6 +53,9 @@ struct EntityAttribute: Codable {
         case humidity
         case windSpeed = "wind_speed"
         case icon
+        case rgb = "rgb_color"
+        case hs = "hs_color"
+        case brightness
     }
 
     static var zero = EntityAttribute(
@@ -60,6 +66,9 @@ struct EntityAttribute: Codable {
         temperature: nil,
         humidity: nil,
         windSpeed: nil,
-        icon: nil
+        icon: nil,
+        rgb: nil,
+        hs: nil,
+        brightness: nil
     )
 }
