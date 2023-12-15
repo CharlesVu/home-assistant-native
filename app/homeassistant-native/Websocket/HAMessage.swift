@@ -8,6 +8,17 @@
 import Foundation
 
 struct HAMessage: Codable {
+    var id: Int?
+    var type: MessageType
+    var haVersion: String?
+    var accessToken: String?
+    var success: Bool?
+    var event: HAEvent?
+    var result: [EntityState]?
+    var domain: String?
+    var service: String?
+    var target: HATarget?
+
     enum MessageType: String, Codable {
         case authRequired = "auth_required"
         case auth
@@ -17,17 +28,10 @@ struct HAMessage: Codable {
         case result
         case event
         case getStates = "get_states"
+        case callService = "call_service"
         // Ignored
         case recorder_5min_statistics_generated
     }
-
-    var id: Int?
-    var type: MessageType
-    var haVersion: String?
-    var accessToken: String?
-    var success: Bool?
-    var event: HAEvent?
-    var result: [EntityState]?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -37,26 +41,8 @@ struct HAMessage: Codable {
         case success
         case event
         case result
+        case domain
+        case target
     }
 }
 
-struct HAMessageBuilder {
-    static var _currentID = 0
-    static var currentID: Int {
-        _currentID += 1
-        return _currentID
-    }
-
-    static func authMessage(accessToken: String) -> HAMessage {
-        HAMessage(type: .auth, accessToken: accessToken)
-    }
-
-    static func subscribeMessage() -> HAMessage {
-        HAMessage(id: currentID, type: .subscribeEvents)
-    }
-
-    static func getStateMessage() -> HAMessage {
-        HAMessage(id: currentID, type: .getStates)
-    }
-
-}

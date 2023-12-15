@@ -8,6 +8,9 @@
 import Foundation
 
 struct HAEvent: Codable {
+    let eventType: EventType
+    let data: EventData
+
     enum EventType: String, Codable {
         case stateChanged = "state_changed"
         case serviceRemoved = "service_removed"
@@ -15,8 +18,6 @@ struct HAEvent: Codable {
         case callService = "call_service"
         case click
     }
-    let eventType: EventType
-    let data: EventData
 
     enum CodingKeys: String, CodingKey {
         case eventType = "event_type"
@@ -37,18 +38,6 @@ struct EventData: Codable {
 }
 
 struct EntityState: Codable, Hashable, Identifiable {
-    var id: String {
-        return entityId
-    }
-
-    static func == (lhs: EntityState, rhs: EntityState) -> Bool {
-        lhs.entityId == rhs.entityId
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(entityId)
-    }
-
     let entityId: String
     let lastChanged: Date
     let state: String
@@ -59,6 +48,23 @@ struct EntityState: Codable, Hashable, Identifiable {
         case entityId = "entity_id"
         case state
         case attributes
+    }
+
+    static var zero = EntityState(entityId: "", lastChanged: .init(), state: "", attributes: .zero)
+
+    // MARK: Identifiable
+    var id: String {
+        return entityId
+    }
+
+    // MARK: Equatable
+    static func == (lhs: EntityState, rhs: EntityState) -> Bool {
+        lhs.entityId == rhs.entityId
+    }
+
+    // MARK: Hashable
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(entityId)
     }
 }
 
@@ -82,4 +88,6 @@ struct EntityAttribute: Codable {
         case windSpeed = "wind_speed"
         case icon
     }
+    
+    static var zero = EntityAttribute(unit: nil, name: nil, deviceClass: nil, stateClass: nil, temperature: nil, humidity: nil, windSpeed: nil, icon: nil)
 }

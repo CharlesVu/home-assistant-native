@@ -6,17 +6,14 @@
 //
 
 import SwiftUI
+import UIKit
 
 class ToggleObserver: ObservableObject {
-
     private var entityId: String = ""
     private var initialized: Bool = false
 
     @Published var toggleValue: Bool = false {
         didSet {
-            if entityId != "" {
-                _ = ChangeStatusController(entityId: self.entityId)
-            }
 
         }
     }
@@ -41,9 +38,7 @@ struct HABasicToggleView: View {
 
     var state: String
     var entityId: String
-    #if canImport(UIKit)
     private let haptic = UINotificationFeedbackGenerator()
-    #endif
 
     init(_ state: String, _ entityId: String) {
         self.state = state
@@ -63,9 +58,7 @@ struct HABasicToggleView: View {
             .toggleStyle(PowerToggleStyle())
             .padding(.trailing)
             .onTapGesture {
-                #if canImport(UIKit)
-                    self.haptic.notificationOccurred(.error)
-                #endif
+                self.haptic.notificationOccurred(.success)
             }
     }
 }

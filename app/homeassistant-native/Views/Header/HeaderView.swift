@@ -11,8 +11,8 @@ import Combine
 class HeaderViewModel: ObservableObject {
     let temperatureHumidityWidgetViewModel: TemperatureHumidityWidgetViewModel
 
-    init(subject: PassthroughSubject<EntityState, Never>) {
-        temperatureHumidityWidgetViewModel = .init(subject: subject)
+    init() {
+        temperatureHumidityWidgetViewModel = .init()
     }
 }
 
@@ -47,6 +47,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(viewModel: .init(subject: .init()))
+        HeaderView(viewModel: .init())
     }
 }

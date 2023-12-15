@@ -7,8 +7,11 @@
 
 import SwiftUI
 import Combine
+import Factory
 
 class SimpleStateWidgetViewModel: ObservableObject {
+    @Injected(\.websocket) private var websocket
+
     @Published var icon: String = ""
     @Published var name: String?
     @Published var type: String? = ""
@@ -18,12 +21,11 @@ class SimpleStateWidgetViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     init(
-        initialState: EntityState,
-        subject: PassthroughSubject<EntityState, Never>
+        initialState: EntityState
     ) {
         updateViewModel(entity: initialState)
 
-        subject
+        websocket.subject
             .filter { $0.entityId == initialState.entityId}
             .receive(on: DispatchQueue.main)
             .sink {
@@ -34,67 +36,21 @@ class SimpleStateWidgetViewModel: ObservableObject {
 
     func updateViewModel(entity: EntityState) {
         name = entity.attributes.name
-        state = transformState(entity)
+        state = StateTransformer.transform(entity)
         if let icon = entity.attributes.icon {
             self.icon = IconMapper.map(haIcon: icon, state: entity.state)
         }
-        iconColor = computeIconColor(entity)
-    }
-
-    func transformState(_ entity: EntityState) -> String {
-        if entity.attributes.deviceClass == "door" {
-            if entity.state == "off" {
-                return "Closed"
-            } else {
-                return "Open"
-            }
-        } else if let unit = entity.attributes.unit {
-            return "\(entity.state)\(unit)"
-        } else if entity.attributes.deviceClass == "battery_charging" {
-            if entity.state == "off" {
-                return "Not Charging"
-            } else {
-                return "Charging"
-            }
-        }
-
-        return entity.state.capitalized
-    }
-
-    func computeIconColor(_ entity: EntityState) -> Color {
-        if entity.attributes.deviceClass == "battery" {
-            if let stateValue = Int(entity.state) {
-                if stateValue < 25 {
-                    return ColorManager.error
-                } else if stateValue < 50 {
-                    return ColorManager.warning
-                } else if stateValue < 75 {
-                    return ColorManager.neutral
-                } else {
-                    return ColorManager.positive
-                }
-            }
-        } else if entity.attributes.deviceClass == "door" {
-            if entity.state == "off" {
-                return ColorManager.neutral
-            } else {
-                return ColorManager.warning
-            }
-        } else if entity.entityId.hasPrefix("lock") {
-            if entity.state == "locked" {
-                return ColorManager.neutral
-            } else {
-                return ColorManager.warning
-            }
-        }
-
-        return ColorManager.haDefaultDark
+        iconColor = IconColorTransformer.transform(entity)
     }
 }
 
 struct SimpleStateWidget: View {
     @ObservedObject var viewModel: SimpleStateWidgetViewModel
 
+    init(initialState: EntityState) {
+        viewModel = .init(initialState: initialState)
+    }
+    
     var body: some View {
         HStack {
             HAWidgetImageView(

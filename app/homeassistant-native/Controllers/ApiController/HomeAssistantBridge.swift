@@ -9,8 +9,12 @@ import Foundation
 import Combine
 import OSLog
 
-class WidgetDataSource: NSObject {
+protocol HomeAssistantBridging {
+    func turnLight(on: Bool, entityID: String) async throws
+    var subject: PassthroughSubject<EntityState, Never> { get }
+}
 
+class HomeAssistantBridge: NSObject {
     var socket: URLSessionWebSocketTask!
     var decoder = JSONDecoder()
 
@@ -37,9 +41,9 @@ class WidgetDataSource: NSObject {
     }
 }
 
-extension WidgetDataSource: URLSessionTaskDelegate {
+extension HomeAssistantBridge: URLSessionTaskDelegate {
     // MARK: Receive
-    func receive() {
+    private func receive() {
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             self.socket.receive(completionHandler: { result in
@@ -71,7 +75,7 @@ extension WidgetDataSource: URLSessionTaskDelegate {
     }
 
     @MainActor
-    func handleMessage(message: HAMessage) async {
+    private func handleMessage(message: HAMessage) async {
         if message.type == .authRequired {
             try? await sendAuthData()
         } else if message.type == .authOk {
@@ -79,7 +83,6 @@ extension WidgetDataSource: URLSessionTaskDelegate {
             try? await sendSubscribe()
         } else if message.type == .event {
             if let newState = message.event?.data.newState {
-//                messageLogger.debug("New State for \(newState.entityId)")
                 subject.send(newState)
             }
         } else if message.type == .result, let results = message.result {
@@ -89,7 +92,7 @@ extension WidgetDataSource: URLSessionTaskDelegate {
 }
 
 // MARK: Websocket Commands
-extension WidgetDataSource {
+extension HomeAssistantBridge: HomeAssistantBridging {
     func send(message: HAMessage) async throws {
         let json = try! JSONEncoder().encode(message)
         try await socket.send(.string(String(data: json, encoding: .utf8)!))
@@ -105,8 +108,13 @@ extension WidgetDataSource {
         try await send(message: message)
     }
 
-    func sendGetStates()  async throws {
+    func sendGetStates() async throws {
         let message = HAMessageBuilder.getStateMessage()
+        try await send(message: message)
+    }
+
+    func turnLight(on: Bool, entityID: String) async throws {
+        let message = HALightMessageBuilder.turnLight(on: on, entityID: entityID)
         try await send(message: message)
     }
 }

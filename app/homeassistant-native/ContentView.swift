@@ -7,9 +7,11 @@
 
 import SwiftUI
 import Combine
+import Factory
 
 class ContentViewModel: ObservableObject {
-    let widgetDataSource = WidgetDataSource()
+    @Injected(\.websocket) private var websocket
+
     let headerViewModel: HeaderViewModel
     var subscriptions = Set<AnyCancellable>()
 
@@ -17,9 +19,9 @@ class ContentViewModel: ObservableObject {
     @Published var lights = Set<EntityState>()
 
     init() {
-        headerViewModel = HeaderViewModel(subject: widgetDataSource.subject)
+        headerViewModel = HeaderViewModel()
 
-        widgetDataSource
+        websocket
             .subject
             .filter {
                 $0.entityId == "binary_sensor.ioniq_5_ev_battery_charge" ||
@@ -31,10 +33,10 @@ class ContentViewModel: ObservableObject {
             .sink { self.carItems.insert($0) }
             .store(in: &subscriptions)
         
-        widgetDataSource
+        websocket
             .subject
             .filter {
-                $0.entityId == "switch.pond_pump_switch" 
+                $0.entityId == "light.charles_key_light"
             }
             .sink { self.lights.insert($0) }
             .store(in: &subscriptions)
@@ -52,10 +54,9 @@ struct ContentView: View {
                 List {
                     Section("IONIQ 5") {
                         ForEach(Array(viewModel.carItems)) { item in
-                            SimpleStateWidget(viewModel: .init(
-                                initialState: item,
-                                subject: viewModel.widgetDataSource.subject
-                            ))
+                            SimpleStateWidget(
+                                initialState: item
+                            )
                         }
                     }
                 }
@@ -63,10 +64,9 @@ struct ContentView: View {
                 List {
                     Section("Lights") {
                         ForEach(Array(viewModel.lights)) { item in
-                            SimpleStateWidget(viewModel: .init(
-                                initialState: item,
-                                subject: viewModel.widgetDataSource.subject
-                            ))
+                            SwitchWidgetListView(
+                                initialState: item
+                            )
                         }
                     }
                 }

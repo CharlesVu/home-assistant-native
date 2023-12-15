@@ -7,8 +7,11 @@
 
 import SwiftUI
 import Combine
+import Factory
 
 class TemperatureHumidityWidgetViewModel: ObservableObject {
+    @Injected(\.websocket) private var websocket
+
     @Published var temperature: Double = 0
     @Published var humidity: Int = 0
     @Published var windSpeed: Double = 0
@@ -20,8 +23,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
 
     private var subscriptions = Set<AnyCancellable>()
 
-    init(subject: PassthroughSubject<EntityState, Never>) {
-        subject
+    init() {
+        websocket.subject
         .filter { $0.entityId == "weather.forecast_home" }
         .receive(on: DispatchQueue.main)
         .sink {
@@ -31,7 +34,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
         }
         .store(in: &subscriptions)
 
-        subject
+        websocket.subject
         .filter {
             $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption" ||
             $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost" ||
@@ -110,6 +113,6 @@ struct TemperatureHumidityWidgetView: View {
 
 struct TemperatureHumidityWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        TemperatureHumidityWidgetView(viewModel: .init(subject: .init()))
+        TemperatureHumidityWidgetView(viewModel: .init())
     }
 }
