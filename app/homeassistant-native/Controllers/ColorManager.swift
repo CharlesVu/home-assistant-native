@@ -1,11 +1,5 @@
-//
-//  ColorManager.swift
-//  homeassistant-native
-//
-//  Created by santoru on 24/12/21.
-//
-import SwiftUI
 import Foundation
+import SwiftUI
 
 struct ColorManager {
     static let haSystemColor = Color("HaSystemColor")

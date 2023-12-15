@@ -1,12 +1,5 @@
-//
-//  WidgetDataSource.swift
-//  homeassistant-native
-//
-//  Created by santoru on 07/01/22.
-//
-
-import Foundation
 import Combine
+import Foundation
 import OSLog
 
 protocol HomeAssistantBridging {
@@ -48,25 +41,25 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
             guard let self else { return }
             self.socket.receive(completionHandler: { result in
                 switch result {
-                case .success(let message):
-                    switch message {
-                    case .data(let data):
-                        print("Data received \(data)")
-                    case .string(let str):
-                        do {
-                            let message = try self.decoder.decode(HAMessage.self, from: str.data(using: .utf8)!)
-                            Task {
-                                await self.handleMessage(message: message)
-                            }
-                        } catch {
-                            self.messageLogger.error("----->\n\n\(error)\n\n\(str)\n\n<-----")
+                    case .success(let message):
+                        switch message {
+                            case .data(let data):
+                                print("Data received \(data)")
+                            case .string(let str):
+                                do {
+                                    let message = try self.decoder.decode(HAMessage.self, from: str.data(using: .utf8)!)
+                                    Task {
+                                        await self.handleMessage(message: message)
+                                    }
+                                } catch {
+                                    self.messageLogger.error("----->\n\n\(error)\n\n\(str)\n\n<-----")
+                                }
+                            default:
+                                break
                         }
-                    default:
-                        break
-                    }
-                case .failure(let error):
-                    ()
-                    print("[SOCKET] Error Receiving \(error)")
+                    case .failure(let error):
+                        ()
+                        print("[SOCKET] Error Receiving \(error)")
                 }
                 self.receive()
             })
@@ -85,7 +78,7 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
             if let newState = message.event?.data.newState {
                 subject.send(newState)
             }
-        } else if message.type == .result, let results = message.result {
+        } else if message.type == .result, case .entities(let results) = message.result {
             results.forEach { subject.send($0) }
         }
     }
@@ -114,7 +107,7 @@ extension HomeAssistantBridge: HomeAssistantBridging {
     }
 
     func turnLight(on: Bool, entityID: String) async throws {
-        let message = HALightMessageBuilder.turnLight(on: on, entityID: entityID)
+        let message = HAMessageBuilder.turnLight(on: on, entityID: entityID)
         try await send(message: message)
     }
 }

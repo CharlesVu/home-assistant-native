@@ -1,12 +1,5 @@
-//
-//  HeaderView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 24/12/21.
-//
-
-import SwiftUI
 import Combine
+import SwiftUI
 
 class HeaderViewModel: ObservableObject {
     let temperatureHumidityWidgetViewModel: TemperatureHumidityWidgetViewModel
@@ -25,7 +18,8 @@ struct HeaderView: View {
             HStack {
                 HATitleTextView(
                     text: "Citadel",
-                    icon: "house.fill")
+                    icon: "house.fill"
+                )
 
                 Button(action: {
                     self.showSettings = true
@@ -35,9 +29,12 @@ struct HeaderView: View {
                         .font(.title)
                 }
                 .frame(alignment: .trailing)
-                .sheet(isPresented: $showSettings, content: {
-                    ModalSettingsView()
-                })
+                .sheet(
+                    isPresented: $showSettings,
+                    content: {
+                        ModalSettingsView()
+                    }
+                )
             }
             .padding()
             TemperatureHumidityWidgetView(viewModel: viewModel.temperatureHumidityWidgetViewModel)

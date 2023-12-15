@@ -1,13 +1,6 @@
-//
-//  SwitchWidgetView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 24/12/21.
-//
-
-import SwiftUI
 import Combine
 import Factory
+import SwiftUI
 
 class SwitchWidgetViewModel: ObservableObject {
     @Injected(\.websocket) private var websocket
@@ -18,7 +11,6 @@ class SwitchWidgetViewModel: ObservableObject {
     @Published var state: String = "off"
 
     let entityID: String
-
     private var subscriptions = Set<AnyCancellable>()
 
     init(
@@ -28,7 +20,7 @@ class SwitchWidgetViewModel: ObservableObject {
         updateViewModel(entity: initialState)
 
         websocket.subject
-            .filter { $0.entityId == initialState.entityId}
+            .filter { $0.entityId == initialState.entityId }
             .receive(on: DispatchQueue.main)
             .sink {
                 self.updateViewModel(entity: $0)
@@ -38,10 +30,11 @@ class SwitchWidgetViewModel: ObservableObject {
 
     func updateViewModel(entity: EntityState) {
         name = entity.attributes.name
-        state = StateTransformer.transform(entity)
+        state = entity.state
         if let icon = entity.attributes.icon {
             self.icon = IconMapper.map(haIcon: icon, state: entity.state)
         }
+
         iconColor = IconColorTransformer.transform(entity)
     }
 }
@@ -59,8 +52,8 @@ struct SwitchWidgetListView: View {
             VStack(alignment: .leading) {
                 HAMainTextView(text: viewModel.name ?? "nil")
             }
-            HABasicToggleView(viewModel.state, viewModel.entityID)
 
+            HABasicToggleView(viewModel.state, viewModel.entityID)
         }
     }
 }

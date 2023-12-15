@@ -1,41 +1,4 @@
-//
-//  HAEvent.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 13/12/2023.
-//
-
 import Foundation
-
-struct HAEvent: Codable {
-    let eventType: EventType
-    let data: EventData
-
-    enum EventType: String, Codable {
-        case stateChanged = "state_changed"
-        case serviceRemoved = "service_removed"
-        case serviceRegistered = "service_registered"
-        case callService = "call_service"
-        case click
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case eventType = "event_type"
-        case data
-    }
-}
-
-struct EventData: Codable {
-    let entityId: String
-    let oldState: EntityState
-    let newState: EntityState
-
-    enum CodingKeys: String, CodingKey {
-        case entityId = "entity_id"
-        case oldState = "old_state"
-        case newState = "new_state"
-    }
-}
 
 struct EntityState: Codable, Hashable, Identifiable {
     let entityId: String
@@ -88,6 +51,15 @@ struct EntityAttribute: Codable {
         case windSpeed = "wind_speed"
         case icon
     }
-    
-    static var zero = EntityAttribute(unit: nil, name: nil, deviceClass: nil, stateClass: nil, temperature: nil, humidity: nil, windSpeed: nil, icon: nil)
+
+    static var zero = EntityAttribute(
+        unit: nil,
+        name: nil,
+        deviceClass: nil,
+        stateClass: nil,
+        temperature: nil,
+        humidity: nil,
+        windSpeed: nil,
+        icon: nil
+    )
 }

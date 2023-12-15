@@ -1,10 +1,3 @@
-//
-//  IconColorTransformer.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 15/12/2023.
-//
-
 import SwiftUI
 
 struct IconColorTransformer {

@@ -1,10 +1,3 @@
-//
-//  HATitleTextView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 25/12/21.
-//
-
 import SwiftUI
 
 struct HATitleTextView: View {
@@ -15,7 +8,8 @@ struct HATitleTextView: View {
         HStack {
             Image(systemName: icon)
                 .font(Font.title.weight(.bold))
-            Text(text)                .fontWeight(.bold)
+            Text(text)
+                .fontWeight(.bold)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.largeTitle)

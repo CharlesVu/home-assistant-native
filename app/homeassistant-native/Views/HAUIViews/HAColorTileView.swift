@@ -1,10 +1,3 @@
-//
-//  HAColorTileView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 26/12/21.
-//
-
 import SwiftUI
 
 struct HAColorTileView: View {
@@ -16,10 +9,10 @@ struct HAColorTileView: View {
             print("TODO")
         }) {
 
-        Rectangle()
-            .frame(width: edge, height: edge)
-            .cornerRadius(radius)
-            .foregroundColor(color)
+            Rectangle()
+                .frame(width: edge, height: edge)
+                .cornerRadius(radius)
+                .foregroundColor(color)
         }
     }
 }

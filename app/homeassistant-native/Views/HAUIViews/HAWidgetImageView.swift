@@ -1,10 +1,3 @@
-//
-//  HAWidgetImageView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 25/12/21.
-//
-
 import SwiftUI
 
 struct HAWidgetImageView: View {

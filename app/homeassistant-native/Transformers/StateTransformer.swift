@@ -1,10 +1,3 @@
-//
-//  StateTransformer.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 15/12/2023.
-//
-
 import Foundation
 
 struct StateTransformer {

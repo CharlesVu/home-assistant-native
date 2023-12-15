@@ -1,10 +1,3 @@
-//
-//  homeassistant_nativeApp.swift
-//  homeassistant-native
-//
-//  Created by santoru on 24/12/21.
-//
-
 import SwiftUI
 
 @main

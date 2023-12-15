@@ -1,10 +1,3 @@
-//
-//  HaBrightnessSliderView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 26/12/21.
-//
-
 import SwiftUI
 
 struct HABrightnessSliderView: View {

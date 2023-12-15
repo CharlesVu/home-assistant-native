@@ -1,10 +1,3 @@
-//
-//  HAMessageBuilder.swift
-//  homeassistant-native
-//Hi
-//  Created by Charles Vu on 15/12/2023.
-//
-
 import Foundation
 
 struct HAMessageBuilder {

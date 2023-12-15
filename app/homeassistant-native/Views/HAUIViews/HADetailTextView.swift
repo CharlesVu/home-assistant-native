@@ -1,10 +1,3 @@
-//
-//  HADetailTextView.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 14/12/2023.
-//
-
 import SwiftUI
 
 struct HADetailTextView: View {

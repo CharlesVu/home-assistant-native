@@ -1,13 +1,6 @@
-//
-//  SimpleStateWidget.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 14/12/2023.
-//
-
-import SwiftUI
 import Combine
 import Factory
+import SwiftUI
 
 class SimpleStateWidgetViewModel: ObservableObject {
     @Injected(\.websocket) private var websocket
@@ -26,7 +19,7 @@ class SimpleStateWidgetViewModel: ObservableObject {
         updateViewModel(entity: initialState)
 
         websocket.subject
-            .filter { $0.entityId == initialState.entityId}
+            .filter { $0.entityId == initialState.entityId }
             .receive(on: DispatchQueue.main)
             .sink {
                 self.updateViewModel(entity: $0)
@@ -50,7 +43,7 @@ struct SimpleStateWidget: View {
     init(initialState: EntityState) {
         viewModel = .init(initialState: initialState)
     }
-    
+
     var body: some View {
         HStack {
             HAWidgetImageView(

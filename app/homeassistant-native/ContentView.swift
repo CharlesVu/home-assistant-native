@@ -1,13 +1,6 @@
-//
-//  ContentView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 24/12/21.
-//
-
-import SwiftUI
 import Combine
 import Factory
+import SwiftUI
 
 class ContentViewModel: ObservableObject {
     @Injected(\.websocket) private var websocket
@@ -24,15 +17,14 @@ class ContentViewModel: ObservableObject {
         websocket
             .subject
             .filter {
-                $0.entityId == "binary_sensor.ioniq_5_ev_battery_charge" ||
-                $0.entityId == "sensor.ioniq_5_ev_battery_level" ||
-                $0.entityId == "binary_sensor.ioniq_5_ev_charge_port" ||
-                $0.entityId == "sensor.ioniq_5_car_battery_level" ||
-                $0.entityId == "lock.ioniq_5_door_lock"
+                $0.entityId == "binary_sensor.ioniq_5_ev_battery_charge"
+                    || $0.entityId == "sensor.ioniq_5_ev_battery_level"
+                    || $0.entityId == "binary_sensor.ioniq_5_ev_charge_port"
+                    || $0.entityId == "sensor.ioniq_5_car_battery_level" || $0.entityId == "lock.ioniq_5_door_lock"
             }
             .sink { self.carItems.insert($0) }
             .store(in: &subscriptions)
-        
+
         websocket
             .subject
             .filter {
@@ -60,7 +52,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                
+
                 List {
                     Section("Lights") {
                         ForEach(Array(viewModel.lights)) { item in

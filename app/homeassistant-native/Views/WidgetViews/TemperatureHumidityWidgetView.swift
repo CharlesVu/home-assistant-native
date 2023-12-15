@@ -1,13 +1,6 @@
-//
-//  TemperatureHumidityWidgetView.swift
-//  homeassistant-native
-//
-//  Created by santoru on 25/12/21.
-//
-
-import SwiftUI
 import Combine
 import Factory
+import SwiftUI
 
 class TemperatureHumidityWidgetViewModel: ObservableObject {
     @Injected(\.websocket) private var websocket
@@ -15,7 +8,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
     @Published var temperature: Double = 0
     @Published var humidity: Int = 0
     @Published var windSpeed: Double = 0
-    
+
     @Published var electricityUsage: Double = 0
     @Published var electricityTotalPrice: Double = 0
     @Published var gasUsage: Double = 0
@@ -25,35 +18,45 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
 
     init() {
         websocket.subject
-        .filter { $0.entityId == "weather.forecast_home" }
-        .receive(on: DispatchQueue.main)
-        .sink {
-            self.temperature = $0.attributes.temperature!
-            self.humidity = $0.attributes.humidity!
-            self.windSpeed = $0.attributes.windSpeed!
-        }
-        .store(in: &subscriptions)
+            .filter { $0.entityId == "weather.forecast_home" }
+            .receive(on: DispatchQueue.main)
+            .sink {
+                self.temperature = $0.attributes.temperature!
+                self.humidity = $0.attributes.humidity!
+                self.windSpeed = $0.attributes.windSpeed!
+            }
+            .store(in: &subscriptions)
 
         websocket.subject
-        .filter {
-            $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption" ||
-            $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost" ||
-            $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption" ||
-            $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
-        }
-        .receive(on: DispatchQueue.main)
-        .sink {
-            if $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption" {
-                self.electricityUsage = Double($0.state)!.truncate(places: 2)
-            } else if $0.entityId == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost" {
-                self.electricityTotalPrice = Double($0.state)!.truncate(places: 2)
-            } else if $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption" {
-                self.gasUsage = Double($0.state)!.truncate(places: 2)
-            } else if $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost" {
-                self.gasTotalPrice = Double($0.state)!.truncate(places: 2)
+            .filter {
+                $0.entityId
+                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
+                    || $0.entityId
+                        == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
+                    || $0.entityId
+                        == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
+                    || $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
             }
-        }
-        .store(in: &subscriptions)
+            .receive(on: DispatchQueue.main)
+            .sink {
+                if $0.entityId
+                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
+                {
+                    self.electricityUsage = Double($0.state)!.truncate(places: 2)
+                } else if $0.entityId
+                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
+                {
+                    self.electricityTotalPrice = Double($0.state)!.truncate(places: 2)
+                } else if $0.entityId
+                    == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
+                {
+                    self.gasUsage = Double($0.state)!.truncate(places: 2)
+                } else if $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
+                {
+                    self.gasTotalPrice = Double($0.state)!.truncate(places: 2)
+                }
+            }
+            .store(in: &subscriptions)
 
     }
 }

@@ -1,10 +1,3 @@
-//
-//  Message.swift
-//  homeassistant-native
-//
-//  Created by Charles Vu on 13/12/2023.
-//
-
 import Foundation
 
 struct HAMessage: Codable {
@@ -14,10 +7,37 @@ struct HAMessage: Codable {
     var accessToken: String?
     var success: Bool?
     var event: HAEvent?
-    var result: [EntityState]?
+    var result: ResultType?
     var domain: String?
     var service: String?
     var target: HATarget?
+
+    enum ResultType: Codable {
+        case entities([EntityState])
+        case single(HACallResult)
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let values = try? container.decode([EntityState].self) {
+                self = .entities(values)
+                return
+            }
+
+            if let value = try? container.decode(HACallResult.self) {
+                self = .single(value)
+                return
+            }
+
+            throw DecodingError.typeMismatch(
+                ResultType.self,
+                DecodingError.Context(
+                    codingPath: decoder.codingPath,
+                    debugDescription: "Type is not matched",
+                    underlyingError: nil
+                )
+            )
+        }
+    }
 
     enum MessageType: String, Codable {
         case authRequired = "auth_required"
@@ -43,6 +63,6 @@ struct HAMessage: Codable {
         case result
         case domain
         case target
+        case service
     }
 }
-
