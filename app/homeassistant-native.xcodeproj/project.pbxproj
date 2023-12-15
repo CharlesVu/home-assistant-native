@@ -101,14 +101,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		56237BF52B2938E4004AF4A9 /* Websocket */ = {
+		56237BF52B2938E4004AF4A9 /* HomeAssistant */ = {
 			isa = PBXGroup;
 			children = (
 				56AD28332B2CEB150076CAF2 /* Models */,
 				56AD26F72B2C77030076CAF2 /* Message Builders */,
 				56AD28362B2CF1560076CAF2 /* HomeAssistantBridge.swift */,
 			);
-			path = Websocket;
+			path = HomeAssistant;
 			sourceTree = "<group>";
 		};
 		56AD26F22B2C72410076CAF2 /* Transformers */ = {
@@ -177,7 +177,7 @@
 				68C81E442777A00000A99F04 /* Extensions */,
 				56AD26F22B2C72410076CAF2 /* Transformers */,
 				68C81E352777969100A99F04 /* Views */,
-				56237BF52B2938E4004AF4A9 /* Websocket */,
+				56237BF52B2938E4004AF4A9 /* HomeAssistant */,
 			);
 			path = "homeassistant-native";
 			sourceTree = "<group>";
