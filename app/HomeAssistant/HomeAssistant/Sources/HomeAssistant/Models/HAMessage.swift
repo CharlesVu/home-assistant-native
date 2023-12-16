@@ -1,22 +1,22 @@
 import Foundation
 
-struct HAMessage: Codable {
-    var id: Int?
-    var type: MessageType
-    var haVersion: String?
-    var accessToken: String?
-    var success: Bool?
-    var event: HAEvent?
-    var result: ResultType?
-    var domain: String?
-    var service: String?
-    var target: HATarget?
+public struct HAMessage: Codable {
+    public var id: Int?
+    public var type: MessageType
+    public var haVersion: String?
+    public var accessToken: String?
+    public var success: Bool?
+    public var event: HAEvent?
+    public var result: ResultType?
+    public var domain: String?
+    public var service: String?
+    public var target: HATarget?
 
-    enum ResultType: Codable {
+    public enum ResultType: Codable {
         case entities([EntityState])
         case single(HACallResult)
 
-        init(from decoder: Decoder) throws {
+        public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             if let values = try? container.decode([EntityState].self) {
                 self = .entities(values)
@@ -39,7 +39,7 @@ struct HAMessage: Codable {
         }
     }
 
-    enum MessageType: String, Codable {
+    public enum MessageType: String, Codable {
         case authRequired = "auth_required"
         case auth
         case authOk = "auth_ok"

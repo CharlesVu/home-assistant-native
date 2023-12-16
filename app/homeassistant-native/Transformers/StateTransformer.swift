@@ -1,4 +1,5 @@
 import Foundation
+import HomeAssistant
 
 struct StateTransformer {
     static func transform(_ entity: EntityState) -> String {

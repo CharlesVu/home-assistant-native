@@ -1,7 +1,7 @@
 import Foundation
 
-struct HATarget: Codable {
-    let entityID: String
+public struct HATarget: Codable {
+    public let entityID: String
 
     enum CodingKeys: String, CodingKey {
         case entityID = "entity_id"

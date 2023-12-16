@@ -1,5 +1,6 @@
 import Combine
 import Factory
+import HomeAssistant
 import SwiftUI
 
 class SwitchWidgetViewModel: ObservableObject {

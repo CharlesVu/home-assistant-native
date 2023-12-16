@@ -1,10 +1,10 @@
 import Foundation
 
-struct EntityState: Codable, Hashable, Identifiable {
-    let entityId: String
-    let lastChanged: Date
-    let state: String
-    let attributes: EntityAttribute
+public struct EntityState: Codable, Hashable, Identifiable {
+    public let entityId: String
+    public let lastChanged: Date
+    public let state: String
+    public let attributes: EntityAttribute
 
     enum CodingKeys: String, CodingKey {
         case lastChanged = "last_changed"
@@ -13,37 +13,37 @@ struct EntityState: Codable, Hashable, Identifiable {
         case attributes
     }
 
-    static var zero = EntityState(entityId: "", lastChanged: .init(), state: "", attributes: .zero)
+    public static var zero = EntityState(entityId: "", lastChanged: .init(), state: "", attributes: .zero)
 
     // MARK: Identifiable
-    var id: String {
+    public var id: String {
         return entityId
     }
 
     // MARK: Equatable
-    static func == (lhs: EntityState, rhs: EntityState) -> Bool {
+    public static func == (lhs: EntityState, rhs: EntityState) -> Bool {
         lhs.entityId == rhs.entityId
     }
 
     // MARK: Hashable
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(entityId)
     }
 }
 
-struct EntityAttribute: Codable {
-    let unit: String?
-    let name: String?
-    let deviceClass: String?
-    let stateClass: String?
-    let temperature: Double?
-    let humidity: Int?
-    let windSpeed: Double!
-    let icon: String?
-    let rgb: [Double]?
-    let hs: [Double]?
-    let brightness: Double?
-    let hueType: String?
+public struct EntityAttribute: Codable {
+    public let unit: String?
+    public let name: String?
+    public let deviceClass: String?
+    public let stateClass: String?
+    public let temperature: Double?
+    public let humidity: Int?
+    public let windSpeed: Double!
+    public let icon: String?
+    public let rgb: [Double]?
+    public let hs: [Double]?
+    public let brightness: Double?
+    public let hueType: String?
 
     enum CodingKeys: String, CodingKey {
         case unit = "unit_of_measurement"

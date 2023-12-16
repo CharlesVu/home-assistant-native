@@ -1,16 +1,18 @@
+import ApplicationConfiguration
 import Combine
+import Factory
 import Foundation
 import OSLog
-import Factory
 
-protocol HomeAssistantBridging {
+public protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
     var entityPublisher: PassthroughSubject<EntityState, Never> { get }
     var responsePublisher: PassthroughSubject<HAMessage, Never> { get }
 }
 
-class HomeAssistantBridge: NSObject {
-    @Injected(\.config) private var config
+public final class HomeAssistantBridge: NSObject {
+    @Injected(\.config) private var configurationPublisher
+    var configuration: HomeAssistantConfiguration!
 
     var socket: URLSessionWebSocketTask!
     var decoder = JSONDecoder()
@@ -18,14 +20,12 @@ class HomeAssistantBridge: NSObject {
     let messageLogger = Logger(subsystem: "Network", category: "Message")
     let websocketLogger = Logger(subsystem: "Network", category: "Websocket")
 
-    let entityPublisher = PassthroughSubject<EntityState, Never>()
-    let responsePublisher = PassthroughSubject<HAMessage, Never>()
+    public let entityPublisher = PassthroughSubject<EntityState, Never>()
+    public let responsePublisher = PassthroughSubject<HAMessage, Never>()
+    private var subscriptions = Set<AnyCancellable>()
 
-    override init() {
+    override public init() {
         super.init()
-
-        socket = URLSession.shared.webSocketTask(with: config.websocketEndpoint)
-        socket.resume()
 
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
@@ -35,7 +35,20 @@ class HomeAssistantBridge: NSObject {
 
         decoder.dateDecodingStrategy = .formatted(formatter)
 
-        receive()
+        configurationPublisher
+            .homeAssistantConfigurationPublisher
+            .sink { [weak self] configuration in
+                guard let self, let configuration else { return }
+                self.configuration = configuration
+                if self.socket != nil {
+                    socket.cancel()
+                }
+                self.socket = URLSession.shared.webSocketTask(with: configuration.websocketEndpoint)
+                self.socket.resume()
+                receive()
+            }
+            .store(in: &subscriptions)
+        _ = HomeAssistantConfigurationManager()
     }
 }
 
@@ -43,13 +56,11 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
     // MARK: Receive
     private func receive() {
         let workItem = DispatchWorkItem { [weak self] in
-            guard let self else { return }
-            self.socket.receive(completionHandler: { result in
+            guard let self, let socket = self.socket else { return }
+            socket.receive(completionHandler: { result in
                 switch result {
                     case .success(let message):
                         switch message {
-                            case .data(let data):
-                                print("Data received \(data)")
                             case .string(let str):
                                 do {
                                     let message = try self.decoder.decode(HAMessage.self, from: str.data(using: .utf8)!)
@@ -63,7 +74,6 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
                                 break
                         }
                     case .failure(let error):
-                        ()
                         print("[SOCKET] Error Receiving \(error)")
                 }
                 self.receive()
@@ -104,7 +114,7 @@ extension HomeAssistantBridge: HomeAssistantBridging {
     }
 
     func sendAuthData() async throws {
-        let message = HAMessageBuilder.authMessage(accessToken: config.authToken)
+        let message = HAMessageBuilder.authMessage(accessToken: configuration.authToken)
         try await send(message: message)
     }
 
@@ -113,7 +123,7 @@ extension HomeAssistantBridge: HomeAssistantBridging {
         try await send(message: message)
     }
 
-    func turnLight(on: Bool, entityID: String) async throws -> Int {
+    public func turnLight(on: Bool, entityID: String) async throws -> Int {
         let message = HAMessageBuilder.turnLight(on: on, entityID: entityID)
         try await send(message: message)
         return message.id!

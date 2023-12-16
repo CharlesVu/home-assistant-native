@@ -1,10 +1,10 @@
 import Foundation
 
-struct HAEvent: Codable {
-    let eventType: EventType
-    let data: EventData
+public struct HAEvent: Codable {
+    public let eventType: EventType
+    public let data: EventData
 
-    enum EventType: String, Codable {
+    public enum EventType: String, Codable {
         case stateChanged = "state_changed"
         case serviceRemoved = "service_removed"
         case serviceRegistered = "service_registered"
@@ -18,10 +18,10 @@ struct HAEvent: Codable {
     }
 }
 
-struct EventData: Codable {
-    let entityId: String
-    let oldState: EntityState
-    let newState: EntityState
+public struct EventData: Codable {
+    public let entityId: String
+    public let oldState: EntityState
+    public let newState: EntityState
 
     enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"
