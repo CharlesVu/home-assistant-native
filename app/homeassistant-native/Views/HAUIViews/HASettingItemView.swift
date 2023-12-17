@@ -14,8 +14,8 @@ struct HASettingItemView: View {
                 .foregroundColor(foregroundColor)
                 .cornerRadius(5)
             Text(text)
+                .foregroundStyle(.accent)
         }
-
     }
 }
 

@@ -9,19 +9,9 @@ public struct HomeAssistantConfiguration {
 public class HomeAssistantConfigurationManager {
     @Injected(\.config) private var config
 
-    public var websocketEndpoint: URL! {
-        didSet {
-            UserDefaults.standard.setValue(websocketEndpoint, forKey: "HomeAssistantConfiguration.websocketEndpoint")
-            sendUpdateIfNeeded()
-        }
-    }
+    var websocketEndpoint: URL!
 
-    public var authToken: String! {
-        didSet {
-            UserDefaults.standard.setValue(authToken, forKey: "HomeAssistantConfiguration.authToken")
-            sendUpdateIfNeeded()
-        }
-    }
+    var authToken: String!
 
     public init() {
         websocketEndpoint = URL(
@@ -37,5 +27,16 @@ public class HomeAssistantConfigurationManager {
                 .init(websocketEndpoint: websocketEndpoint, authToken: authToken)
             )
         }
+    }
+
+    public func set(websocketEndpoint: URL, authToken: String) {
+        self.websocketEndpoint = websocketEndpoint
+        self.authToken = authToken
+        UserDefaults.standard.setValue(
+            websocketEndpoint.absoluteString,
+            forKey: "HomeAssistantConfiguration.websocketEndpoint"
+        )
+        UserDefaults.standard.setValue(authToken, forKey: "HomeAssistantConfiguration.authToken")
+        sendUpdateIfNeeded()
     }
 }

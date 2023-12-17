@@ -12,15 +12,16 @@ struct ModalSettingsView: View {
                 .padding()
                 List {
                     Section {
-                        UserSettingTileView()
-                    }
-                    Section {
-                        HASettingItemView(
-                            text: "General",
-                            icon: "gear",
-                            foregroundColor: .white,
-                            backgroundColor: .gray
-                        )
+                        NavigationLink {
+                            HomeAssistantSettingsView()
+                        } label: {
+                            HASettingItemView(
+                                text: "Home Assistant",
+                                icon: "house.fill",
+                                foregroundColor: .blue,
+                                backgroundColor: .white
+                            )
+                        }
                         HASettingItemView(
                             text: "Appearance",
                             icon: "textformat.size",
