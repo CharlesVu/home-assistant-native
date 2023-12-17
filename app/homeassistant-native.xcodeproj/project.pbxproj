@@ -16,6 +16,8 @@
 		56AD26F42B2C72520076CAF2 /* StateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD26F32B2C72520076CAF2 /* StateTransformer.swift */; };
 		56AD26F62B2C72960076CAF2 /* IconColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */; };
 		56AD282C2B2C7BE80076CAF2 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 56AD282B2B2C7BE80076CAF2 /* Factory */; };
+		56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */; };
+		56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */; };
 		56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */; };
 		680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */; };
 		680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE9902779C96200FC62A8 /* HABasicIconView.swift */; };
@@ -49,6 +51,8 @@
 		56770B242B292FD500D151F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		56AD26F32B2C72520076CAF2 /* StateTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTransformer.swift; sourceTree = "<group>"; };
 		56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColorTransformer.swift; sourceTree = "<group>"; };
+		56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSettingsView.swift; sourceTree = "<group>"; };
+		56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDetailSettingsView.swift; sourceTree = "<group>"; };
 		56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssistantSettingsView.swift; sourceTree = "<group>"; };
 		680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerView.swift; sourceTree = "<group>"; };
 		680AE9902779C96200FC62A8 /* HABasicIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABasicIconView.swift; sourceTree = "<group>"; };
@@ -99,6 +103,25 @@
 				56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */,
 			);
 			path = Transformers;
+			sourceTree = "<group>";
+		};
+		56C5132B2B2F6B1400AC0340 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				56C5132C2B2F6B2800AC0340 /* Sections */,
+				56D7B0962B2EFC780005E627 /* HomeAssistant */,
+				68C81E4B2777B7AE00A99F04 /* ModalSettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		56C5132C2B2F6B2800AC0340 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */,
+				56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */,
+			);
+			path = Sections;
 			sourceTree = "<group>";
 		};
 		56D7B0962B2EFC780005E627 /* HomeAssistant */ = {
@@ -173,12 +196,11 @@
 		68C81E352777969100A99F04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				56D7B0962B2EFC780005E627 /* HomeAssistant */,
+				56C5132B2B2F6B1400AC0340 /* Settings */,
 				68C81E3A2777997200A99F04 /* HAUIViews */,
 				68C81E302777955600A99F04 /* WidgetViews */,
 				68C81E2E2777952200A99F04 /* Header */,
 				680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */,
-				68C81E4B2777B7AE00A99F04 /* ModalSettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -302,7 +324,9 @@
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
+				56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
+				56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */,
 				68A3D5ED2779111900BFDE39 /* SwitchWidgetListView.swift in Sources */,
 				6839796527766E420033DFBA /* homeassistant_nativeApp.swift in Sources */,
 				68C81E4E2777BC5900A99F04 /* HATitleTextView.swift in Sources */,

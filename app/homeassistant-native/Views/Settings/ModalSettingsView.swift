@@ -11,6 +11,18 @@ struct ModalSettingsView: View {
                 HATitleTextView(text: "Settings", icon: "gear")
                 .padding()
                 List {
+                    Section("Display") {
+                        NavigationLink {
+                            SectionsSettingsView()
+                        } label: {
+                            HASettingItemView(
+                                text: "Sections",
+                                icon: "list.dash.header.rectangle",
+                                foregroundColor: .accentColor,
+                                backgroundColor: .white
+                            )
+                        }
+                    }
                     Section {
                         NavigationLink {
                             HomeAssistantSettingsView()
