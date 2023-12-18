@@ -7,18 +7,25 @@ class EntityDetailConfigurationSettingsViewModel: ObservableObject {
     @Injected(\.entityConfigurationManager) private var entityManager
 
     @Published var entityConfiguration: EntityConfiguration
-    @Published var sectionID: String
+    @Published var sectionID: String = ""
     @Published var position: String
     @Published var buttonTitle = "Save"
-    @Published var isValid = false
+
+    @Published var sections: [SectionInformation]
 
     var path: Binding<NavigationPath>
 
-    init(entityConfiguration: EntityConfiguration, path: Binding<NavigationPath>) {
+    init(
+        entityConfiguration: EntityConfiguration,
+        path: Binding<NavigationPath>,
+        sections: [SectionInformation]
+    ) {
         self.entityConfiguration = entityConfiguration
         self.sectionID = entityConfiguration.sectionID ?? ""
         self.position = entityConfiguration.position
         self.path = path
+        self.sections = sections
+        self.sections.insert(SectionInformation(), at: 0)
     }
 
     @MainActor
@@ -36,15 +43,24 @@ class EntityDetailConfigurationSettingsViewModel: ObservableObject {
 
 struct EntityDetailConfigurationSettingsView: View {
     @ObservedObject var viewModel: EntityDetailConfigurationSettingsViewModel
-
-    init(path: Binding<NavigationPath>, entityConfiguration: EntityConfiguration) {
-        viewModel = .init(entityConfiguration: entityConfiguration, path: path)
+    
+    init(
+        path: Binding<NavigationPath>,
+        entityConfiguration: EntityConfiguration,
+        sections: [SectionInformation]
+    ) {
+        viewModel = .init(entityConfiguration: entityConfiguration, path: path, sections: sections)
     }
 
     var body: some View {
         Form {
             Section("sectionID") {
-                TextField("Name", text: $viewModel.sectionID)
+                Picker("Select a Section", selection: $viewModel.sectionID) {
+                    ForEach(viewModel.sections) {
+                        Text($0.name)
+                    }
+                }
+                .pickerStyle(.menu)
             }
             Section("Position") {
                 TextField("1", text: $viewModel.position)
@@ -54,7 +70,6 @@ struct EntityDetailConfigurationSettingsView: View {
                     await viewModel.save()
                 }
             }
-            .disabled(!viewModel.isValid)
             .transition(.opacity)
             .accentColor(ColorManager.haDefaultDark)
         }

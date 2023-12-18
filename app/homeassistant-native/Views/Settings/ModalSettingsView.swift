@@ -5,7 +5,7 @@ enum NavigationDestination: Hashable {
     case sectionsSettingsView
     case sectionDetailSettingsView(sectionInformation: SectionInformation)
     case entityConfigurationSettingsView
-    case entityConfigurationDetailSettingsView(entityConfiguration: EntityConfiguration)
+    case entityConfigurationDetailSettingsView(entityConfiguration: EntityConfiguration, sections: [SectionInformation])
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -15,8 +15,8 @@ enum NavigationDestination: Hashable {
                 SectionDetailSettingsView(path: path, sectionInformation: sectionInformation)
             case .entityConfigurationSettingsView:
                 EntityConfigurationSettingsView(path: path)
-            case .entityConfigurationDetailSettingsView(let entityConfiguration):
-                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration)
+            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
+                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
         }
     }
 }

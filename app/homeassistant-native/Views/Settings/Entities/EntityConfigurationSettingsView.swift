@@ -114,7 +114,8 @@ struct EntityConfigurationSettingsView: View {
                             ForEach(viewModel.configurations[section]!) { entity in
                                 NavigationLink(
                                     value: NavigationDestination.entityConfigurationDetailSettingsView(
-                                        entityConfiguration: entity
+                                        entityConfiguration: entity,
+                                        sections: viewModel.sections
                                     ),
                                     label: {
                                         Text(entity.friendlyName ?? entity.entityID)
@@ -130,7 +131,8 @@ struct EntityConfigurationSettingsView: View {
                 ForEach($viewModel.unmappedEntityConfigurations) { entity in
                     NavigationLink(
                         value: NavigationDestination.entityConfigurationDetailSettingsView(
-                            entityConfiguration: entity.wrappedValue
+                            entityConfiguration: entity.wrappedValue,
+                            sections: viewModel.sections
                         )
                     ) {
                         VStack(alignment: .leading) {
