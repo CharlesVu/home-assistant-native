@@ -21,15 +21,14 @@ class SectionDetailSettingsViewModel: ObservableObject {
 
     @Published var buttonTitle = "Save"
     @Published var isValid = false
-    var path: Binding<[SectionInformation]>
+    var path: Binding<NavigationPath>
 
-    init(sectionInformation: SectionInformation?, path: Binding<[SectionInformation]>) {
+    init(sectionInformation: SectionInformation?, path: Binding<NavigationPath>) {
         if let sectionInformation {
             self.sectionInformation = sectionInformation
             self.name = sectionInformation.name
             self.parentSection = sectionInformation.parentSection
-        }
-        else {
+        } else {
             self.sectionInformation = .init()
             self.name = ""
             self.parentSection = ""
@@ -57,7 +56,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
 struct SectionDetailSettingsView: View {
     @ObservedObject var viewModel: SectionDetailSettingsViewModel
 
-    init(path: Binding<[SectionInformation]>, sectionInformation: SectionInformation?) {
+    init(path: Binding<NavigationPath>, sectionInformation: SectionInformation?) {
         viewModel = .init(sectionInformation: sectionInformation, path: path)
     }
 

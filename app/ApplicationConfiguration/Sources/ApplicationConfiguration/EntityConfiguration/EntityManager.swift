@@ -1,5 +1,5 @@
-import Foundation
 import Factory
+import Foundation
 
 public class EntityConfigurationManager {
     @Injected(\.config) private var config
@@ -8,9 +8,11 @@ public class EntityConfigurationManager {
     private var entityCache: Set<EntityConfiguration> = []
 
     init() {
-        entityCache = Set(databaseManager.database().objects(EntityConfigurationModelObject.self).map({
-            EntityConfiguration(model: $0)
-        }))
+        entityCache = Set(
+            databaseManager.database().objects(EntityConfigurationModelObject.self).map({
+                EntityConfiguration(model: $0)
+            })
+        )
         notifyForChanges()
     }
 

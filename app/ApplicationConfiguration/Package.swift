@@ -18,7 +18,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         .package(url: "https://github.com/hmlongco/Factory", from: "2.3.0"),
-        .package(url: "https://github.com/realm/realm-swift", from: "10.45.0")
+        .package(url: "https://github.com/realm/realm-swift", from: "10.45.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -27,7 +27,7 @@ let package = Package(
             name: "ApplicationConfiguration",
             dependencies: [
                 "Factory",
-                .product(name: "RealmSwift", package: "realm-swift")
+                .product(name: "RealmSwift", package: "realm-swift"),
             ]
         )
     ]

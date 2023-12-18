@@ -1,5 +1,5 @@
-import Foundation
 import Factory
+import Foundation
 
 public class SectionManager {
     @Injected(\.config) private var config
@@ -8,9 +8,11 @@ public class SectionManager {
     private var sectionCache: Set<SectionInformation> = []
 
     init() {
-        sectionCache = Set(databaseManager.database().objects(SectionModelObject.self).map({
-            SectionInformation(model: $0)
-        }))
+        sectionCache = Set(
+            databaseManager.database().objects(SectionModelObject.self).map({
+                SectionInformation(model: $0)
+            })
+        )
         notifyForChanges()
     }
 

@@ -19,6 +19,7 @@
 		56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */; };
 		56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */; };
 		56C5145F2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */; };
+		56C514612B2FCB0F00AC0340 /* EntityDetailConfigurationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C514602B2FCB0F00AC0340 /* EntityDetailConfigurationSettingsView.swift */; };
 		56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */; };
 		680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */; };
 		680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE9902779C96200FC62A8 /* HABasicIconView.swift */; };
@@ -55,6 +56,7 @@
 		56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSettingsView.swift; sourceTree = "<group>"; };
 		56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDetailSettingsView.swift; sourceTree = "<group>"; };
 		56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityConfigurationSettingsView.swift; sourceTree = "<group>"; };
+		56C514602B2FCB0F00AC0340 /* EntityDetailConfigurationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityDetailConfigurationSettingsView.swift; sourceTree = "<group>"; };
 		56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssistantSettingsView.swift; sourceTree = "<group>"; };
 		680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerView.swift; sourceTree = "<group>"; };
 		680AE9902779C96200FC62A8 /* HABasicIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABasicIconView.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */,
+				56C514602B2FCB0F00AC0340 /* EntityDetailConfigurationSettingsView.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
+				56C514612B2FCB0F00AC0340 /* EntityDetailConfigurationSettingsView.swift in Sources */,
 				56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
 				56C5145F2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift in Sources */,

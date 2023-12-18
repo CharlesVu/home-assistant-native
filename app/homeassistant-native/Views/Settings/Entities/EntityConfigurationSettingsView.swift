@@ -37,7 +37,7 @@ class EntityConfigurationSettingsViewModel: ObservableObject {
                 self?.sections = sections
                 self?.listenForEntitiesConfigurationIfNeeded()
             }
-            .store (in: &subscriptions)
+            .store(in: &subscriptions)
     }
 
     func listenForEntitiesConfigurationIfNeeded() {
@@ -68,7 +68,7 @@ class EntityConfigurationSettingsViewModel: ObservableObject {
                 }
                 self?.listenForEnititiesIfNeeded()
             }
-            .store (in: &subscriptions)
+            .store(in: &subscriptions)
     }
 
     func listenForEnititiesIfNeeded() {
@@ -78,13 +78,19 @@ class EntityConfigurationSettingsViewModel: ObservableObject {
             .sink { [weak self] entityState in
                 if self?.configurationList.contains(where: { $0.entityID == entityState.entityId }) == false {
                     Task { [weak self] in
-                        try! await self!.entityConfigurationManager.addConfiguration(.init(entityID: entityState.entityId))
+                        try! await self!.entityConfigurationManager.addConfiguration(
+                            .init(entityID: entityState.entityId)
+                        )
                     }
                 }
-                self?.configurationList.first(where: {$0.entityID == entityState.entityId} )?.friendlyName = entityState.attributes.name
+                self?.configurationList.first(where: { $0.entityID == entityState.entityId })?.friendlyName =
+                    entityState.attributes.name
             }
             .store(in: &subscriptions)
+    }
 
+    func getConfigurationByID(_ entityID: String) -> EntityConfiguration {
+        configurationList.first(where: { $0.entityID == entityID })!
     }
 }
 
@@ -97,45 +103,45 @@ extension SectionInformation: Comparable {
 
 struct EntityConfigurationSettingsView: View {
     @ObservedObject var viewModel: EntityConfigurationSettingsViewModel = .init()
-    @State private var path: [EntityConfiguration] = []
+    var path: Binding<NavigationPath>
 
     var body: some View {
-        NavigationStack(path: $path) {
-            List {
-                ForEach(viewModel.sections) { section in
-                    Section(section.name) {
-                        List {
-                            if viewModel.configurations[section] != nil {
-                                ForEach(viewModel.configurations[section]!) { entity in
-                                    NavigationLink(value: entity, label: {
+        List {
+            ForEach(viewModel.sections) { section in
+                Section(section.name) {
+                    List {
+                        if viewModel.configurations[section] != nil {
+                            ForEach(viewModel.configurations[section]!) { entity in
+                                NavigationLink(
+                                    value: NavigationDestination.entityConfigurationDetailSettingsView(
+                                        entityConfiguration: entity
+                                    ),
+                                    label: {
                                         Text(entity.friendlyName ?? entity.entityID)
-                                    })
-                                    //                            .navigationDestination(for: SectionInformation.self) { section in
-                                    //                                SectionDetailSettingsView(path: $path, sectionInformation: section)
-                                    //                            }
-                                }
-                                .accentColor(ColorManager.haDefaultDark)
+                                    }
+                                )
+                            }
+                            .accentColor(ColorManager.haDefaultDark)
+                        }
+                    }
+                }
+            }
+            Section("New Entitites") {
+                ForEach($viewModel.unmappedEntityConfigurations) { entity in
+                    NavigationLink(
+                        value: NavigationDestination.entityConfigurationDetailSettingsView(
+                            entityConfiguration: entity.wrappedValue
+                        )
+                    ) {
+                        VStack(alignment: .leading) {
+                            HAMainTextView(text: entity.wrappedValue.friendlyName ?? entity.wrappedValue.entityID)
+                            if entity.wrappedValue.friendlyName != nil {
+                                HAFootNoteView(text: entity.wrappedValue.entityID)
                             }
                         }
                     }
                 }
-                Section("New Entitites") {
-                    ForEach($viewModel.unmappedEntityConfigurations) { entity in
-                        NavigationLink(value: entity.wrappedValue) {
-                            VStack(alignment: .leading) {
-                                HAMainTextView(text: entity.wrappedValue.friendlyName ?? entity.wrappedValue.entityID)
-                                if entity.wrappedValue.friendlyName != nil {
-                                    HAFootNoteView(text: entity.wrappedValue.entityID)
-                                }
-                            }
-                        }
-//                        .navigationDestination(for: EntityConfiguration.self) { entity in
-//                            EntityDetailConfigurationSettingsView(path: $path, entity: entity)
-//                        }
-                    }
-                    .accentColor(ColorManager.haDefaultDark)
-                }
-
+                .accentColor(ColorManager.haDefaultDark)
             }
         }
     }

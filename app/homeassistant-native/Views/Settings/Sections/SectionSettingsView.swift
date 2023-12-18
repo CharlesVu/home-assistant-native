@@ -23,26 +23,25 @@ class SectionsSettingsViewModel: ObservableObject {
 
 struct SectionsSettingsView: View {
     @ObservedObject var viewModel: SectionsSettingsViewModel = .init()
-    @State private var path: [SectionInformation] = []
+    var path: Binding<NavigationPath>
 
     var body: some View {
-        NavigationStack(path: $path) {
-            List {
-                ForEach(viewModel.sections) { section in
-                    NavigationLink(value: section, label: {
+        List {
+            ForEach(viewModel.sections) { section in
+                NavigationLink(
+                    value: NavigationDestination.sectionDetailSettingsView(sectionInformation: section),
+                    label: {
                         Text(section.name)
-                    }).navigationDestination(for: SectionInformation.self) { section in
-                        SectionDetailSettingsView(path: $path, sectionInformation: section)
                     }
-                }
-                .accentColor(ColorManager.haDefaultDark)
-
+                )
             }
-        }            
+            .accentColor(ColorManager.haDefaultDark)
+
+        }
         .navigationBarItems(
             trailing:
                 NavigationLink {
-                    SectionDetailSettingsView(path: $path, sectionInformation: nil)
+                    SectionDetailSettingsView(path: path, sectionInformation: nil)
                 } label: {
                     Text("Add")
                 }

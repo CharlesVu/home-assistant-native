@@ -1,20 +1,39 @@
+import ApplicationConfiguration
 import SwiftUI
 
-struct ModalSettingsView: View {
+enum NavigationDestination: Hashable {
+    case sectionsSettingsView
+    case sectionDetailSettingsView(sectionInformation: SectionInformation)
+    case entityConfigurationSettingsView
+    case entityConfigurationDetailSettingsView(entityConfiguration: EntityConfiguration)
 
+    @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
+        switch self {
+            case .sectionsSettingsView:
+                SectionsSettingsView(path: path)
+            case .sectionDetailSettingsView(let sectionInformation):
+                SectionDetailSettingsView(path: path, sectionInformation: sectionInformation)
+            case .entityConfigurationSettingsView:
+                EntityConfigurationSettingsView(path: path)
+            case .entityConfigurationDetailSettingsView(let entityConfiguration):
+                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration)
+        }
+    }
+}
+
+struct ModalSettingsView: View {
     @Environment(\.presentationMode)
     var presentationMode: Binding<PresentationMode>
+    @State private var path: NavigationPath = .init()
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             VStack(alignment: .leading, spacing: 0) {
                 HATitleTextView(text: "Settings", icon: "gear")
                 .padding()
                 List {
                     Section("Display") {
-                        NavigationLink {
-                            SectionsSettingsView()
-                        } label: {
+                        NavigationLink(value: NavigationDestination.sectionsSettingsView) {
                             HASettingItemView(
                                 text: "Sections",
                                 icon: "list.dash.header.rectangle",
@@ -22,9 +41,11 @@ struct ModalSettingsView: View {
                                 backgroundColor: .white
                             )
                         }
-                        NavigationLink {
-                            EntityConfigurationSettingsView()
-                        } label: {
+                        .navigationDestination(for: NavigationDestination.self) { option in
+                            option.view($path)
+                        }
+
+                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
                             HASettingItemView(
                                 text: "Entities",
                                 icon: "list.dash.header.rectangle",
@@ -80,7 +101,6 @@ struct ModalSettingsView: View {
             #endif
         }
         .background(Color(.systemGray))
-
     }
 }
 
