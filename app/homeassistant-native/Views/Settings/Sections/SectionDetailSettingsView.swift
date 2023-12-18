@@ -21,8 +21,9 @@ class SectionDetailSettingsViewModel: ObservableObject {
 
     @Published var buttonTitle = "Save"
     @Published var isValid = false
+    var path: Binding<[SectionInformation]>
 
-    init(sectionInformation: SectionInformation?) {
+    init(sectionInformation: SectionInformation?, path: Binding<[SectionInformation]>) {
         if let sectionInformation {
             self.sectionInformation = sectionInformation
             self.name = sectionInformation.name
@@ -33,6 +34,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
             self.name = ""
             self.parentSection = ""
         }
+        self.path = path
     }
 
     func validateInput() {
@@ -45,7 +47,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
             sectionInformation.name = name
             sectionInformation.parentSection = parentSection
             try await sectionManager.addSection(sectionInformation)
-            buttonTitle = "Saved"
+            path.wrappedValue.removeLast()
         } catch {
             buttonTitle = "The Dev fucked up"
         }
@@ -55,8 +57,8 @@ class SectionDetailSettingsViewModel: ObservableObject {
 struct SectionDetailSettingsView: View {
     @ObservedObject var viewModel: SectionDetailSettingsViewModel
 
-    init(sectionInformation: SectionInformation?) {
-        viewModel = .init(sectionInformation: sectionInformation)
+    init(path: Binding<[SectionInformation]>, sectionInformation: SectionInformation?) {
+        viewModel = .init(sectionInformation: sectionInformation, path: path)
     }
 
     var body: some View {

@@ -18,6 +18,7 @@
 		56AD282C2B2C7BE80076CAF2 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 56AD282B2B2C7BE80076CAF2 /* Factory */; };
 		56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */; };
 		56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */; };
+		56C5145F2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */; };
 		56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */; };
 		680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */; };
 		680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE9902779C96200FC62A8 /* HABasicIconView.swift */; };
@@ -53,6 +54,7 @@
 		56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColorTransformer.swift; sourceTree = "<group>"; };
 		56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSettingsView.swift; sourceTree = "<group>"; };
 		56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDetailSettingsView.swift; sourceTree = "<group>"; };
+		56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityConfigurationSettingsView.swift; sourceTree = "<group>"; };
 		56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssistantSettingsView.swift; sourceTree = "<group>"; };
 		680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerView.swift; sourceTree = "<group>"; };
 		680AE9902779C96200FC62A8 /* HABasicIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABasicIconView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		56C5132B2B2F6B1400AC0340 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				56C5145D2B2FA3B900AC0340 /* Entities */,
 				56C5132C2B2F6B2800AC0340 /* Sections */,
 				56D7B0962B2EFC780005E627 /* HomeAssistant */,
 				68C81E4B2777B7AE00A99F04 /* ModalSettingsView.swift */,
@@ -122,6 +125,14 @@
 				56C5132F2B2F6DC000AC0340 /* SectionDetailSettingsView.swift */,
 			);
 			path = Sections;
+			sourceTree = "<group>";
+		};
+		56C5145D2B2FA3B900AC0340 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				56C5145E2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 		56D7B0962B2EFC780005E627 /* HomeAssistant */ = {
@@ -326,6 +337,7 @@
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
 				56C5132E2B2F6B3E00AC0340 /* SectionSettingsView.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
+				56C5145F2B2FAF6000AC0340 /* EntityConfigurationSettingsView.swift in Sources */,
 				56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */,
 				68A3D5ED2779111900BFDE39 /* SwitchWidgetListView.swift in Sources */,
 				6839796527766E420033DFBA /* homeassistant_nativeApp.swift in Sources */,

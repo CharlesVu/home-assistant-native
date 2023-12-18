@@ -15,6 +15,12 @@ public extension Container {
         Factory(self) { SectionManager() }
             .singleton
     }
+
+    var entityConfigurationManager: Factory<EntityConfigurationManager> {
+        Factory(self) { EntityConfigurationManager() }
+            .singleton
+    }
+
 }
 
 extension Container {

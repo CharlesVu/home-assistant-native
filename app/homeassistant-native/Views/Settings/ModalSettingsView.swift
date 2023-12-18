@@ -22,6 +22,17 @@ struct ModalSettingsView: View {
                                 backgroundColor: .white
                             )
                         }
+                        NavigationLink {
+                            EntityConfigurationSettingsView()
+                        } label: {
+                            HASettingItemView(
+                                text: "Entities",
+                                icon: "list.dash.header.rectangle",
+                                foregroundColor: .accentColor,
+                                backgroundColor: .white
+                            )
+                        }
+
                     }
                     Section {
                         NavigationLink {

@@ -2,11 +2,11 @@ import Foundation
 import RealmSwift
 
 class RealmManager {
-//    private let serialQueue = DispatchQueue(label: "serial-queue")
     private let realm: Realm
 
     init() {
-        realm = try! Realm()
+        let configuration = Realm.Configuration(schemaVersion: 3)
+        realm = try! Realm(configuration: configuration)
     }
 
     func database() -> Realm {
