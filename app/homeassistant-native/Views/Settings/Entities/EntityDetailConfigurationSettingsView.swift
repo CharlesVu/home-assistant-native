@@ -4,14 +4,9 @@ import Factory
 import SwiftUI
 
 class EntityDetailConfigurationSettingsViewModel: ObservableObject {
-    @Injected(\.entityConfigurationManager) private var entityManager
-
-    @Published var entityConfiguration: EntityConfiguration
     @Published var sectionID: String = ""
     @Published var position: String
     @Published var buttonTitle = "Save"
-
-    @Published var sections: [SectionInformation]
 
     var path: Binding<NavigationPath>
 

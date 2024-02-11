@@ -2,32 +2,16 @@ import ApplicationConfiguration
 import Combine
 import Factory
 import SwiftUI
-
-class SectionsSettingsViewModel: ObservableObject {
-    @Injected(\.config) private var configurationPublisher
-
-    @Published var sections: [SectionInformation] = []
-
-    private var subscriptions = Set<AnyCancellable>()
-
-    init() {
-        configurationPublisher
-            .sectionPublisher
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] sections in
-                self?.sections = sections
-            }
-            .store(in: &subscriptions)
-    }
-}
+import RealmSwift
 
 struct SectionsSettingsView: View {
-    @ObservedObject var viewModel: SectionsSettingsViewModel = .init()
+    @ObservedResults(SectionModelObject.self) var sections
+    
     var path: Binding<NavigationPath>
 
     var body: some View {
         List {
-            ForEach(viewModel.sections) { section in
+            ForEach(sections) { section in
                 NavigationLink(
                     value: NavigationDestination.sectionDetailSettingsView(sectionInformation: section),
                     label: {

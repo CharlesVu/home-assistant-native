@@ -1,7 +1,7 @@
 import Factory
 
 public extension Container {
-    var websocket: Factory<HomeAssistantBridging> {
+    var homeAssistant: Factory<HomeAssistantBridging> {
         Factory(self) { HomeAssistantBridge() }
             .singleton
     }

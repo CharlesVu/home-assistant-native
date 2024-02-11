@@ -10,20 +10,7 @@ public extension Container {
         Factory(self) { HomeAssistantConfigurationManager() }
             .singleton
     }
-
-    var sectionManager: Factory<SectionManager> {
-        Factory(self) { SectionManager() }
-            .singleton
-    }
-
-    var entityConfigurationManager: Factory<EntityConfigurationManager> {
-        Factory(self) { EntityConfigurationManager() }
-            .singleton
-    }
-
-}
-
-extension Container {
+    
     var databaseManager: Factory<RealmManager> {
         Factory(self) { RealmManager() }
             .singleton

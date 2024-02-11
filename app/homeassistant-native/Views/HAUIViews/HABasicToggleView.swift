@@ -1,12 +1,13 @@
 import Combine
 import Factory
 import SwiftUI
-import UIKit
+import RealmSwift
+import ApplicationConfiguration
 
 class ToggleObserver: ObservableObject {
-    @Injected(\.websocket) private var websocket
+    @Injected(\.homeAssistant) private var homeAssistant
 
-    private var entityId: String
+    private var entity: EntityModelObject
     private var requestId: Int = 0
     private var subscriptions = Set<AnyCancellable>()
 
@@ -14,31 +15,34 @@ class ToggleObserver: ObservableObject {
     @Published var toggleValue: Bool {
         didSet {
             Task {
-                if requestId == 0 {
-                    requestId = try! await websocket.turnLight(on: toggleValue, entityID: entityId)
-                    isWaitingForResponse = true
-                    websocket.responsePublisher
-                        .receive(on: DispatchQueue.main)
-                        .filter { $0.id == self.requestId }
-                        .prefix(1)
-                        .sink { [weak self] message in
-                            guard let self else { return }
-                            if message.success == true {
-                                self.isWaitingForResponse = false
-                            } else {
-                                self.isWaitingForResponse = false
-                                self.toggleValue = !self.toggleValue
-                            }
-                            self.requestId = 0
-                        }.store(in: &subscriptions)
-                }
+                await self.toggleLight()
             }
         }
     }
+    
+    @MainActor
+    func toggleLight() async {
+        if requestId == 0 {
+            requestId = try! await homeAssistant.turnLight(
+                on: toggleValue,
+                entityID: entity.entityID
+            )
+            isWaitingForResponse = true
+            homeAssistant.responsePublisher
+                .receive(on: DispatchQueue.main)
+                .filter { $0.id == self.requestId }
+                .prefix(1)
+                .sink { [weak self] message in
+                    guard let self else { return }
+                    self.isWaitingForResponse = false
+                    self.requestId = 0
+                }.store(in: &subscriptions)
+        }
+    }
 
-    init(entityId: String, toggleValue: Bool = false) {
-        self.entityId = entityId
-        self.toggleValue = toggleValue
+    init(entity: EntityModelObject) {
+        self.entity = entity
+        self.toggleValue = Self.computeToggleStatus(state: entity.state)
     }
 
     static func computeToggleStatus(state: String) -> Bool {
@@ -48,13 +52,15 @@ class ToggleObserver: ObservableObject {
 
 struct HABasicToggleView: View {
     @ObservedObject var viewModel: ToggleObserver
+    @ObservedRealmObject var entity: EntityModelObject
+
     private let haptic = UINotificationFeedbackGenerator()
 
-    init(_ state: String, _ entityId: String) {
+    init(entity: EntityModelObject) {
         viewModel = .init(
-            entityId: entityId,
-            toggleValue: ToggleObserver.computeToggleStatus(state: state)
+            entity: entity
         )
+        self.entity = entity
     }
 
     var body: some View {
@@ -80,11 +86,6 @@ struct HABasicToggleView: View {
     }
 }
 
-struct HABasicToggleView_Previews: PreviewProvider {
-    static var previews: some View {
-        HABasicToggleView("on", "dummy_id")
-    }
-}
 
 struct PowerToggleStyle: ToggleStyle {
     func makeBody(configuration: Self.Configuration) -> some View {

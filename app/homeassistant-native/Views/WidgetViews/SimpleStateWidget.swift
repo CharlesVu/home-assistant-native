@@ -1,60 +1,26 @@
 import Combine
 import Factory
-import HomeAssistant
+import ApplicationConfiguration
 import SwiftUI
-
-class SimpleStateWidgetViewModel: ObservableObject {
-    @Injected(\.websocket) private var websocket
-
-    @Published var icon: String = ""
-    @Published var name: String?
-    @Published var type: String? = ""
-    @Published var state: String = ""
-    @Published var iconColor: Color = ColorManager.haDefaultDark
-
-    private var subscriptions = Set<AnyCancellable>()
-
-    init(
-        initialState: EntityState
-    ) {
-        updateViewModel(entity: initialState)
-
-        websocket.entityPublisher
-            .filter { $0.entityId == initialState.entityId }
-            .receive(on: DispatchQueue.main)
-            .sink {
-                self.updateViewModel(entity: $0)
-            }
-            .store(in: &subscriptions)
-    }
-
-    func updateViewModel(entity: EntityState) {
-        name = entity.attributes.name
-        state = StateTransformer.transform(entity)
-        if let icon = entity.attributes.icon {
-            self.icon = IconMapper.map(haIcon: icon, state: entity.state)
-        }
-        iconColor = IconColorTransformer.transform(entity)
-    }
-}
+import RealmSwift
 
 struct SimpleStateWidget: View {
-    @ObservedObject var viewModel: SimpleStateWidgetViewModel
+    @ObservedRealmObject var entity: EntityModelObject
 
-    init(initialState: EntityState) {
-        viewModel = .init(initialState: initialState)
+    init(entity: EntityModelObject) {
+        self.entity = entity
     }
 
     var body: some View {
         HStack {
             HAWidgetImageView(
-                imageName: viewModel.icon,
-                color: viewModel.iconColor
+                imageName: entity.attributes!.icon!,
+                color: IconColorTransformer.transform(entity)
             )
             VStack(alignment: .leading) {
-                HAMainTextView(text: viewModel.name ?? "nil")
+                HAMainTextView(text: entity.displayName())
             }
-            HADetailTextView(text: viewModel.state)
+            HADetailTextView(text: entity.state)
         }
     }
 }

@@ -1,9 +1,19 @@
 import Combine
+import ApplicationConfiguration
 import Factory
 import SwiftUI
+import RealmSwift
+
+enum StaticEntityKeys: String {
+    case electricityPrice = "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
+    case electricityConsumption = "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
+    case gasPrice = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
+    case gasConsumption = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
+    case weather = "weather.forecast_home"
+}
 
 class TemperatureHumidityWidgetViewModel: ObservableObject {
-    @Injected(\.websocket) private var websocket
+    @Injected(\.databaseManager) private var databaseManager
 
     @Published var temperature: Double = 0
     @Published var humidity: Int = 0
@@ -14,55 +24,74 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
     @Published var gasUsage: Double = 0
     @Published var gasTotalPrice: Double = 0
 
+    var tokens: [NotificationToken] = []
     private var subscriptions = Set<AnyCancellable>()
 
     init() {
-        websocket.entityPublisher
-            .filter { $0.entityId == "weather.forecast_home" }
-            .receive(on: DispatchQueue.main)
-            .sink {
-                self.temperature = $0.attributes.temperature!
-                self.humidity = $0.attributes.humidity!
-                self.windSpeed = $0.attributes.windSpeed!
-            }
-            .store(in: &subscriptions)
-
-        websocket.entityPublisher
-            .filter {
-                $0.entityId
-                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
-                    || $0.entityId
-                        == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
-                    || $0.entityId
-                        == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
-                    || $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
-            }
-            .receive(on: DispatchQueue.main)
-            .sink {
-                if $0.entityId
-                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
-                {
-                    self.electricityUsage = Double($0.state)!.truncate(places: 2)
-                } else if $0.entityId
-                    == "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
-                {
-                    self.electricityTotalPrice = Double($0.state)!.truncate(places: 2)
-                } else if $0.entityId
-                    == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
-                {
-                    self.gasUsage = Double($0.state)!.truncate(places: 2)
-                } else if $0.entityId == "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
-                {
-                    self.gasTotalPrice = Double($0.state)!.truncate(places: 2)
+        if let token = databaseManager
+            .listenForEntityChange(
+                id: StaticEntityKeys.weather.rawValue,
+                callback: { [weak self] entity in
+                    self?.temperature = entity.attributes!.temperature!
+                    self?.humidity = entity.attributes!.humidity!
+                    self?.windSpeed = entity.attributes!.windSpeed!
                 }
-            }
-            .store(in: &subscriptions)
-
+            ) {
+            tokens.append(token)
+        }
+        
+        if let token = databaseManager
+            .listenForEntityChange(
+                id: StaticEntityKeys.electricityPrice.rawValue,
+                callback: { [weak self] entity in
+                    if let value = Double(entity.state) {
+                        self?.electricityTotalPrice = value.truncate(places: 2)
+                    }
+                }
+            ) {
+            tokens.append(token)
+        }
+        
+        if let token = databaseManager
+            .listenForEntityChange(
+                id: StaticEntityKeys.electricityConsumption.rawValue,
+                callback: { [weak self] entity in
+                    if let value = Double(entity.state) {
+                        self?.electricityUsage = value.truncate(places: 2)
+                    }
+                }
+            ) {
+            tokens.append(token)
+        }
+        
+        if let token = databaseManager
+            .listenForEntityChange(
+                id: StaticEntityKeys.gasConsumption.rawValue,
+                callback: { [weak self] entity in
+                    if let value = Double(entity.state) {
+                        self?.gasUsage = value.truncate(places: 2)
+                    }
+                }
+            ) {
+            tokens.append(token)
+        }
+        
+        if let token = databaseManager
+            .listenForEntityChange(
+                id: StaticEntityKeys.gasPrice.rawValue,
+                callback: { [weak self] entity in
+                    if let value = Double(entity.state) {
+                        self?.gasTotalPrice = value.truncate(places: 2)
+                    }
+                }
+            ) {
+            tokens.append(token)
+        }
     }
 }
 
 struct TemperatureHumidityWidgetView: View {
-    @StateObject var viewModel: TemperatureHumidityWidgetViewModel
+    @StateObject var viewModel: TemperatureHumidityWidgetViewModel = .init()
 
     var body: some View {
         ZStack {
@@ -111,11 +140,5 @@ struct TemperatureHumidityWidgetView: View {
             }
             .padding()
         }
-    }
-}
-
-struct TemperatureHumidityWidgetView_Previews: PreviewProvider {
-    static var previews: some View {
-        TemperatureHumidityWidgetView(viewModel: .init())
     }
 }

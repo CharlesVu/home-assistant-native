@@ -1,66 +1,24 @@
 import Combine
 import Factory
-import HomeAssistant
+import ApplicationConfiguration
 import SwiftUI
-
-class SwitchWidgetViewModel: ObservableObject {
-    @Injected(\.websocket) private var websocket
-
-    @Published var icon: String = ""
-    @Published var name: String?
-    @Published var iconColor: Color = ColorManager.haDefaultDark
-    @Published var state: String = "off"
-
-    let entityID: String
-    private var subscriptions = Set<AnyCancellable>()
-
-    init(
-        initialState: EntityState
-    ) {
-        self.entityID = initialState.entityId
-        updateViewModel(entity: initialState)
-
-        websocket.entityPublisher
-            .filter { $0.entityId == initialState.entityId }
-            .receive(on: DispatchQueue.main)
-            .sink {
-                self.updateViewModel(entity: $0)
-            }
-            .store(in: &subscriptions)
-    }
-
-    func updateViewModel(entity: EntityState) {
-        name = entity.attributes.name
-        state = entity.state
-        if let icon = entity.attributes.icon {
-            self.icon = IconMapper.map(haIcon: icon, state: entity.state)
-        } else {
-            self.icon = "lightbulb.led.wide.fill"
-        }
-        iconColor = IconColorTransformer.transform(entity)
-    }
-}
+import RealmSwift
 
 struct SwitchWidgetListView: View {
-    @ObservedObject var viewModel: SwitchWidgetViewModel
+    @ObservedRealmObject var entity: EntityModelObject
 
-    init(initialState: EntityState) {
-        viewModel = .init(initialState: initialState)
+    init(entity: EntityModelObject) {
+        self.entity = entity
     }
 
     var body: some View {
         HStack {
-            HAWidgetImageView(imageName: viewModel.icon, color: viewModel.iconColor)
+            HAWidgetImageView(imageName: IconMapper.map(entity: entity),
+                              color: IconColorTransformer.transform(entity))
             VStack(alignment: .leading) {
-                HAMainTextView(text: viewModel.name ?? "nil")
+                HAMainTextView(text: entity.displayName())
             }
-            HABasicToggleView(viewModel.state, viewModel.entityID)
+            HABasicToggleView(entity: entity)
         }
-    }
-}
-
-struct SwitchWidgetListView_Previews: PreviewProvider {
-    static var previews: some View {
-        SwitchWidgetListView(initialState: .zero)
     }
 }

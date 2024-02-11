@@ -37,7 +37,7 @@ struct HeaderView: View {
                 )
             }
             .padding()
-            TemperatureHumidityWidgetView(viewModel: viewModel.temperatureHumidityWidgetViewModel)
+            TemperatureHumidityWidgetView()
         }
     }
 }

@@ -3,9 +3,9 @@ import SwiftUI
 
 enum NavigationDestination: Hashable {
     case sectionsSettingsView
-    case sectionDetailSettingsView(sectionInformation: SectionInformation)
-    case entityConfigurationSettingsView
-    case entityConfigurationDetailSettingsView(entityConfiguration: EntityConfiguration, sections: [SectionInformation])
+    case sectionDetailSettingsView(sectionInformation: SectionModelObject)
+//    case entityConfigurationSettingsView
+//    case entityConfigurationDetailSettingsView(entityConfiguration: EntityModelObject, sections: [SectionModelObject])
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -13,11 +13,12 @@ enum NavigationDestination: Hashable {
                 SectionsSettingsView(path: path)
             case .sectionDetailSettingsView(let sectionInformation):
                 SectionDetailSettingsView(path: path, sectionInformation: sectionInformation)
-            case .entityConfigurationSettingsView:
-                EntityConfigurationSettingsView(path: path)
-            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
-                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
+//            case .entityConfigurationSettingsView:
+//                EntityConfigurationSettingsView(path: path)
+//            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
+//                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
         }
+        EmptyView()
     }
 }
 
@@ -45,14 +46,14 @@ struct ModalSettingsView: View {
                             option.view($path)
                         }
 
-                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
-                            HASettingItemView(
-                                text: "Entities",
-                                icon: "list.dash.header.rectangle",
-                                foregroundColor: .accentColor,
-                                backgroundColor: .white
-                            )
-                        }
+//                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
+//                            HASettingItemView(
+//                                text: "Entities",
+//                                icon: "list.dash.header.rectangle",
+//                                foregroundColor: .accentColor,
+//                                backgroundColor: .white
+//                            )
+//                        }
 
                     }
                     Section {
@@ -66,24 +67,6 @@ struct ModalSettingsView: View {
                                 backgroundColor: .white
                             )
                         }
-                        HASettingItemView(
-                            text: "Appearance",
-                            icon: "textformat.size",
-                            foregroundColor: .white,
-                            backgroundColor: .blue
-                        )
-                        HASettingItemView(
-                            text: "Networking",
-                            icon: "globe",
-                            foregroundColor: .white,
-                            backgroundColor: .green
-                        )
-                        HASettingItemView(
-                            text: "Rate me",
-                            icon: "heart.fill",
-                            foregroundColor: .white,
-                            backgroundColor: .red
-                        )
                     }
                 }
             }

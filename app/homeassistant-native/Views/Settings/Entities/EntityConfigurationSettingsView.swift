@@ -4,10 +4,8 @@ import Factory
 import SwiftUI
 
 class EntityConfigurationSettingsViewModel: ObservableObject {
-    @Injected(\.sectionManager) private var sectionManager
     @Injected(\.config) private var configurationPublisher
     @Injected(\.websocket) private var homeAssistant
-    @Injected(\.entityConfigurationManager) private var entityConfigurationManager
 
     @Published var configurations: [SectionInformation: [EntityConfiguration]] = [:]
     @Published var unmappedEntityConfigurations: [EntityConfiguration] = []
@@ -92,13 +90,6 @@ class EntityConfigurationSettingsViewModel: ObservableObject {
     func getConfigurationByID(_ entityID: String) -> EntityConfiguration {
         configurationList.first(where: { $0.entityID == entityID })!
     }
-}
-
-extension SectionInformation: Comparable {
-    public static func < (lhs: SectionInformation, rhs: SectionInformation) -> Bool {
-        return lhs.name < rhs.name
-    }
-
 }
 
 struct EntityConfigurationSettingsView: View {

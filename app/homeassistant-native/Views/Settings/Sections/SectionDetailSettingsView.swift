@@ -4,9 +4,8 @@ import Factory
 import SwiftUI
 
 class SectionDetailSettingsViewModel: ObservableObject {
-    @Injected(\.sectionManager) private var sectionManager
-
-    @Published var sectionInformation: SectionInformation
+    @Injected(\.databaseManager) var databaseManager
+    @Published var sectionInformation: SectionModelObject
 
     @Published var name: String {
         didSet {
@@ -23,11 +22,12 @@ class SectionDetailSettingsViewModel: ObservableObject {
     @Published var isValid = false
     var path: Binding<NavigationPath>
 
-    init(sectionInformation: SectionInformation?, path: Binding<NavigationPath>) {
+    init(sectionInformation: SectionModelObject?, path: Binding<NavigationPath>) {
         if let sectionInformation {
-            self.sectionInformation = sectionInformation
+            self.sectionInformation = sectionInformation.thaw()!
             self.name = sectionInformation.name
             self.parentSection = sectionInformation.parentSection
+            
         } else {
             self.sectionInformation = .init()
             self.name = ""
@@ -43,9 +43,11 @@ class SectionDetailSettingsViewModel: ObservableObject {
     @MainActor
     func save() async {
         do {
-            sectionInformation.name = name
-            sectionInformation.parentSection = parentSection
-            try await sectionManager.addSection(sectionInformation)
+            try databaseManager.database().write {
+                sectionInformation.name = name
+                sectionInformation.parentSection = parentSection
+                databaseManager.database().add(sectionInformation, update: .modified)
+            }
             path.wrappedValue.removeLast()
         } catch {
             buttonTitle = "The Dev fucked up"
@@ -56,7 +58,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
 struct SectionDetailSettingsView: View {
     @ObservedObject var viewModel: SectionDetailSettingsViewModel
 
-    init(path: Binding<NavigationPath>, sectionInformation: SectionInformation?) {
+    init(path: Binding<NavigationPath>, sectionInformation: SectionModelObject?) {
         viewModel = .init(sectionInformation: sectionInformation, path: path)
     }
 

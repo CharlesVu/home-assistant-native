@@ -1,12 +1,15 @@
 import Foundation
+import ApplicationConfiguration
 
 struct IconMapper {
-    static func map(haIcon: String, state: String?) -> String {
+    static func map(entity: EntityModelObject) -> String {
+        let haIcon = entity.attributes.icon
+        let state = entity.state
         switch haIcon {
             case "mdi:lightning-bolt":
                 return "bolt.fill"
             case "mdi:car-battery":
-                if let state, let stateValue = Int(state) {
+                if let stateValue = Int(state) {
                     if stateValue < 25 {
                         return "battery.25percent"
                     } else if stateValue < 50 {
@@ -29,7 +32,6 @@ struct IconMapper {
             case "mdi:lightbulb-group":
                 return "lightbulb.led.wide.fill"
             default:
-                print("!!! \(haIcon)")
                 return "questionmark.diamond.fill"
         }
     }

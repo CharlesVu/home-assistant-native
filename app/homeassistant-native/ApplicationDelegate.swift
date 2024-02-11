@@ -1,0 +1,72 @@
+import Combine
+import Foundation
+import Factory
+import HomeAssistant
+import ApplicationConfiguration
+import UIKit
+import RealmSwift
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    @Injected(\.homeAssistant) private var homeAssistant
+    @Injected(\.databaseManager) private var databaseManager
+    
+    var subscriptions = Set<AnyCancellable>()
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
+        homeAssistant
+            .entityPublisher
+            .sink { [weak self] entityState in
+                self?.updateEntity(newState: entityState)
+            }
+            .store(in: &subscriptions)
+
+
+        return true
+    }
+    
+    func updateEntity(newState: EntityState) {
+        let db = databaseManager.database()
+        var model: EntityModelObject
+        if let existingModel = db.object(
+            ofType: EntityModelObject.self,
+            forPrimaryKey: newState.entityId
+        ) {
+            model = existingModel
+        } else {
+            model = .init()
+            model.entityID = newState.entityId
+        }
+        
+        try? db.write {
+            model.state = newState.state
+            model.attributes.update(newState.attributes)
+            db.add(model, update: .modified)
+        }
+    }
+}
+
+extension EntityAttributeModelObject {
+    func update(_ model: EntityAttribute) {
+        self.unit = model.unit
+        self.name = model.name
+        self.deviceClass = model.deviceClass
+        self.stateClass = model.stateClass
+        self.temperature = model.temperature
+        self.humidity = model.humidity
+        self.windSpeed = model.windSpeed
+        self.icon = model.icon
+        if let rgb = model.rgb {
+            self.rgb = List()
+            rgb.forEach { self.rgb.append($0)}
+        }
+        if let hs = model.hs {
+            self.hs = List()
+            hs.forEach { self.hs.append($0)}
+        }
+        self.brightness = model.brightness
+        self.hueType = model.hueType
+    }
+}
