@@ -1,20 +1,20 @@
-import Combine
-import Foundation
-import Factory
-import HomeAssistant
 import ApplicationConfiguration
-import UIKit
+import Combine
+import Factory
+import Foundation
+import HomeAssistant
 import RealmSwift
+import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     @Injected(\.homeAssistant) private var homeAssistant
     @Injected(\.databaseManager) private var databaseManager
-    
+
     var subscriptions = Set<AnyCancellable>()
 
     func application(
         _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         homeAssistant
             .entityPublisher
@@ -23,10 +23,31 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             }
             .store(in: &subscriptions)
 
+        homeAssistant
+            .octopusPublisher
+            .sink { [weak self] rates in
+                self?.updateRates(newRates: rates)
+            }
+            .store(in: &subscriptions)
 
         return true
     }
-    
+
+    func updateRates(newRates: [OctopusRate]) {
+        print("Updated Octupus Rates")
+        let db = databaseManager.database()
+        try? db.write {
+            db.delete(db.objects(OctopusRateModelObject.self))
+            newRates.forEach {
+                let rate = OctopusRateModelObject()
+                rate.start = $0.start
+                rate.end = $0.end
+                rate.price = $0.value
+                db.add(rate)
+            }
+        }
+    }
+
     func updateEntity(newState: EntityState) {
         let db = databaseManager.database()
         var model: EntityModelObject
@@ -39,7 +60,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             model = .init()
             model.entityID = newState.entityId
         }
-        
+
         try? db.write {
             model.state = newState.state
             model.attributes.update(newState.attributes)
@@ -60,11 +81,11 @@ extension EntityAttributeModelObject {
         self.icon = model.icon
         if let rgb = model.rgb {
             self.rgb = List()
-            rgb.forEach { self.rgb.append($0)}
+            rgb.forEach { self.rgb.append($0) }
         }
         if let hs = model.hs {
             self.hs = List()
-            hs.forEach { self.hs.append($0)}
+            hs.forEach { self.hs.append($0) }
         }
         self.brightness = model.brightness
         self.hueType = model.hueType

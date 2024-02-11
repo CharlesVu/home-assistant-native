@@ -1,14 +1,15 @@
-import Combine
 import ApplicationConfiguration
+import Combine
 import Factory
-import SwiftUI
 import RealmSwift
+import SwiftUI
 
 enum StaticEntityKeys: String {
     case electricityPrice = "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
-    case electricityConsumption = "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
+    case electricityConsumption =
+        "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
     case gasPrice = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
-    case gasConsumption = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption"
+    case gasConsumption = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption_kwh"
     case weather = "weather.forecast_home"
 }
 
@@ -28,7 +29,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
     private var subscriptions = Set<AnyCancellable>()
 
     init() {
-        if let token = databaseManager
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: StaticEntityKeys.weather.rawValue,
                 callback: { [weak self] entity in
@@ -36,11 +38,13 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                     self?.humidity = entity.attributes!.humidity!
                     self?.windSpeed = entity.attributes!.windSpeed!
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
-        
-        if let token = databaseManager
+
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityPrice.rawValue,
                 callback: { [weak self] entity in
@@ -48,11 +52,13 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityTotalPrice = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
-        
-        if let token = databaseManager
+
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityConsumption.rawValue,
                 callback: { [weak self] entity in
@@ -60,11 +66,13 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityUsage = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
-        
-        if let token = databaseManager
+
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: StaticEntityKeys.gasConsumption.rawValue,
                 callback: { [weak self] entity in
@@ -72,11 +80,13 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasUsage = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
-        
-        if let token = databaseManager
+
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: StaticEntityKeys.gasPrice.rawValue,
                 callback: { [weak self] entity in
@@ -84,7 +94,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasTotalPrice = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
     }

@@ -9,6 +9,7 @@ public struct HAEvent: Codable {
         case serviceRemoved = "service_removed"
         case serviceRegistered = "service_registered"
         case callService = "call_service"
+        case octopusCurrentDayRate = "octopus_energy_electricity_current_day_rates"
         case click
     }
 
@@ -19,13 +20,15 @@ public struct HAEvent: Codable {
 }
 
 public struct EventData: Codable {
-    public let entityId: String
-    public let oldState: EntityState
-    public let newState: EntityState
+    public let entityId: String?
+    public let oldState: EntityState?
+    public let newState: EntityState?
+    public let rates: [OctopusRate]?
 
     enum CodingKeys: String, CodingKey {
         case entityId = "entity_id"
         case oldState = "old_state"
         case newState = "new_state"
+        case rates
     }
 }

@@ -7,6 +7,7 @@ import OSLog
 public protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
     var entityPublisher: PassthroughSubject<EntityState, Never> { get }
+    var octopusPublisher: PassthroughSubject<[OctopusRate], Never> { get }
     var responsePublisher: PassthroughSubject<HAMessage, Never> { get }
 }
 
@@ -22,18 +23,17 @@ public final class HomeAssistantBridge: NSObject {
 
     public let entityPublisher = PassthroughSubject<EntityState, Never>()
     public let responsePublisher = PassthroughSubject<HAMessage, Never>()
+    public let octopusPublisher = PassthroughSubject<[OctopusRate], Never>()
+
     private var subscriptions = Set<AnyCancellable>()
 
     override public init() {
         super.init()
 
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-
-        decoder.dateDecodingStrategy = .formatted(formatter)
+        decoder.dateDecodingStrategyFormatters = [
+            .hassTime,
+            .octopusTime,
+        ]
 
         configurationPublisher
             .homeAssistantConfigurationPublisher
@@ -90,13 +90,23 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
             try? await sendGetStates()
             try? await sendSubscribe()
         } else if message.type == .event {
-            if let newState = message.event?.data.newState {
-                entityPublisher.send(newState)
-            }
-        } else if message.type == .result, case .entities(let results) = message.result {
+            publishMessage(message: message)
+        } else if message.type == .result,
+            case .entities(let results) = message.result
+        {
             results.forEach { entityPublisher.send($0) }
         } else if message.type == .result {
             responsePublisher.send(message)
+        }
+    }
+
+    func publishMessage(message: HAMessage) {
+        if message.event?.eventType == .octopusCurrentDayRate,
+            let rates = message.event?.data.rates
+        {
+            octopusPublisher.send(rates)
+        } else if let newState = message.event?.data.newState {
+            entityPublisher.send(newState)
         }
     }
 }
@@ -128,4 +138,24 @@ extension HomeAssistantBridge: HomeAssistantBridging {
         try await send(message: message)
         return message.id!
     }
+}
+
+extension DateFormatter {
+    static let hassTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        return formatter
+    }()
+
+    static let octopusTime: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+        return formatter
+    }()
 }

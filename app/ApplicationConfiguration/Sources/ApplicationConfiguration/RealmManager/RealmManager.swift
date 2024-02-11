@@ -1,6 +1,6 @@
 import Foundation
-import RealmSwift
 import OSLog
+import RealmSwift
 
 public class RealmManager {
     private let realm: Realm
@@ -17,19 +17,22 @@ public class RealmManager {
     public func database() -> Realm {
         return realm
     }
-    
-    public func listenForEntityChange(id: String, callback: @escaping (EntityModelObject) -> Void) -> NotificationToken? {
+
+    public func listenForEntityChange(
+        id: String,
+        callback: @escaping (EntityModelObject) -> Void
+    ) -> NotificationToken? {
         return database()
-        .object(ofType: EntityModelObject.self, forPrimaryKey: id)?
-        .observe({ changes in
-            switch changes {
-            case .change(let object, _):
-                if let obj = object as? EntityModelObject {
-                    callback(obj)
+            .object(ofType: EntityModelObject.self, forPrimaryKey: id)?
+            .observe({ changes in
+                switch changes {
+                    case .change(let object, _):
+                        if let obj = object as? EntityModelObject {
+                            callback(obj)
+                        }
+                    default:
+                        ()
                 }
-            default:
-                ()
-            }
-        })
+            })
     }
 }

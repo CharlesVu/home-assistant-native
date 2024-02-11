@@ -8,11 +8,11 @@ public class EntityModelObject: Object, ObjectKeyIdentifiable {
     @Persisted public var position: Int = 0
     @Persisted public var state: String = ""
     @Persisted public var attributes: EntityAttributeModelObject! = .init()
-    
+
     public override class func primaryKey() -> String? {
         return "entityID"
     }
-    
+
     public func displayName() -> String {
         if let name = attributes?.name {
             return name
