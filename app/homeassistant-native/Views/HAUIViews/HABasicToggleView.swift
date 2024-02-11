@@ -1,8 +1,8 @@
+import ApplicationConfiguration
 import Combine
 import Factory
-import SwiftUI
 import RealmSwift
-import ApplicationConfiguration
+import SwiftUI
 
 class ToggleObserver: ObservableObject {
     @Injected(\.homeAssistant) private var homeAssistant
@@ -19,7 +19,7 @@ class ToggleObserver: ObservableObject {
             }
         }
     }
-    
+
     @MainActor
     func toggleLight() async {
         if requestId == 0 {
@@ -32,7 +32,7 @@ class ToggleObserver: ObservableObject {
                 .receive(on: DispatchQueue.main)
                 .filter { $0.id == self.requestId }
                 .prefix(1)
-                .sink { [weak self] message in
+                .sink { [weak self] _ in
                     guard let self else { return }
                     self.isWaitingForResponse = false
                     self.requestId = 0
@@ -85,7 +85,6 @@ struct HABasicToggleView: View {
         }
     }
 }
-
 
 struct PowerToggleStyle: ToggleStyle {
     func makeBody(configuration: Self.Configuration) -> some View {

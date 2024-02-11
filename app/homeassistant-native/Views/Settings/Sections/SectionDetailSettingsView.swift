@@ -27,7 +27,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
             self.sectionInformation = sectionInformation.thaw()!
             self.name = sectionInformation.name
             self.parentSection = sectionInformation.parentSection
-            
+
         } else {
             self.sectionInformation = .init()
             self.name = ""

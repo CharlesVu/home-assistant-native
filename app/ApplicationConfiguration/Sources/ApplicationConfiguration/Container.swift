@@ -10,7 +10,7 @@ public extension Container {
         Factory(self) { HomeAssistantConfigurationManager() }
             .singleton
     }
-    
+
     var databaseManager: Factory<RealmManager> {
         Factory(self) { RealmManager() }
             .singleton

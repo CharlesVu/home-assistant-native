@@ -1,12 +1,14 @@
+import ApplicationConfiguration
 import Combine
 import Factory
-import ApplicationConfiguration
-import SwiftUI
 import RealmSwift
-
+import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @ObservedResults(EntityModelObject.self, filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")) var lights
+    @ObservedResults(
+        EntityModelObject.self,
+        filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")
+    ) var lights
 
     let headerViewModel: HeaderViewModel
     var subscriptions = Set<AnyCancellable>()
@@ -49,5 +51,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-

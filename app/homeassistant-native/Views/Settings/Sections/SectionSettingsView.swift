@@ -1,12 +1,12 @@
 import ApplicationConfiguration
 import Combine
 import Factory
-import SwiftUI
 import RealmSwift
+import SwiftUI
 
 struct SectionsSettingsView: View {
     @ObservedResults(SectionModelObject.self) var sections
-    
+
     var path: Binding<NavigationPath>
 
     var body: some View {

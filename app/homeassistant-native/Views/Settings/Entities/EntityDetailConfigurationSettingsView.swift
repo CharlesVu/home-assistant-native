@@ -38,7 +38,7 @@ class EntityDetailConfigurationSettingsViewModel: ObservableObject {
 
 struct EntityDetailConfigurationSettingsView: View {
     @ObservedObject var viewModel: EntityDetailConfigurationSettingsViewModel
-    
+
     init(
         path: Binding<NavigationPath>,
         entityConfiguration: EntityConfiguration,
