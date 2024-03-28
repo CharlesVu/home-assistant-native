@@ -37,3 +37,20 @@ struct OctopusPricingVIew: View {
         return "bolt.horizontal.circle.fill"
     }
 }
+
+private extension DateFormatter {
+    static var octopusDsiplayDateFormatter: DateFormatter {
+        let dateFomatter = DateFormatter()
+        dateFomatter.calendar = Calendar(identifier: .iso8601)
+        dateFomatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFomatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFomatter.dateFormat = "E HH:mm"
+        return dateFomatter
+    }
+}
+
+private extension Date {
+    var octopusFormatted: String {
+        DateFormatter.octopusDsiplayDateFormatter.string(from: self)
+    }
+}
