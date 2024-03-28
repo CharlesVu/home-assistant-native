@@ -14,7 +14,7 @@ struct MediaPlayerView: View {
                     .frame(width: 50, height: 50)
                     .cornerRadius(15)
                 VStack {
-                    HAMainTextView(text: "Easy On Me", darkColorScheme: darkColorScheme)
+                    HAMainTextView(text: "Easy On Me")
                     HAFootNoteView(text: "Adele")
                 }
                 HABasicIconView(icon: "backward.end", darkColorScheme: darkColorScheme)

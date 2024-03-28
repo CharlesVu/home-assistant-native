@@ -1,17 +1,8 @@
 import Combine
 import SwiftUI
 
-class HeaderViewModel: ObservableObject {
-    let temperatureHumidityWidgetViewModel: TemperatureHumidityWidgetViewModel
-
-    init() {
-        temperatureHumidityWidgetViewModel = .init()
-    }
-}
-
 struct HeaderView: View {
     @State var showSettings = false
-    @ObservedObject var viewModel: HeaderViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -44,6 +35,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(viewModel: .init())
+        HeaderView()
     }
 }

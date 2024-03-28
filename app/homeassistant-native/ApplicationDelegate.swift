@@ -37,13 +37,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         print("Updated Octupus Rates")
         let db = databaseManager.database()
         try? db.write {
-            db.delete(db.objects(OctopusRateModelObject.self))
+            // db.delete(db.objects(OctopusRateModelObject.self))
             newRates.forEach {
-                let rate = OctopusRateModelObject()
-                rate.start = $0.start
-                rate.end = $0.end
-                rate.price = $0.value
-                db.add(rate)
+                let rate = OctopusRateModelObject(
+                    start: $0.start,
+                    end: $0.end,
+                    price: $0.value
+                )
+                db.add(rate, update: .modified)
             }
         }
     }

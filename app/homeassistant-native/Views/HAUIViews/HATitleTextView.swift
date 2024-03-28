@@ -14,7 +14,6 @@ struct HATitleTextView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.largeTitle)
         .foregroundColor(ColorManager.haDefaultDark)
-
     }
 }
 

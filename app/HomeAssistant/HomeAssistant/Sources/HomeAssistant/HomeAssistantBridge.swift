@@ -68,13 +68,13 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
                                         await self.handleMessage(message: message)
                                     }
                                 } catch {
-                                    self.messageLogger.error("----->\n\n\(error)\n\n\(str)\n\n<-----")
+                                    self.messageLogger.debug("Received unhandled message")
                                 }
                             default:
                                 break
                         }
                     case .failure(let error):
-                        print("[SOCKET] Error Receiving \(error)")
+                        self.messageLogger.debug("\(error)")
                 }
                 self.receive()
             })

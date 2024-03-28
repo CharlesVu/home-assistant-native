@@ -11,8 +11,15 @@ struct ColorManager {
     static let haDefaultSecondary = Color("haDefaultSecondary")
     static let haDefaultTertiary = Color("haDefaultTertiary")
 
-    static let error = Color.red
-    static let warning = Color.orange
+    static let error = Color("haRed")
+    static let warning = Color("haOrange")
     static let neutral = Color("HaSystemColor")
-    static let positive = Color.green
+    static let positive = Color("haGreen")
+
+    static let blue = Color("haBlue")
+    static let green = Color("haGreen")
+    static let yellow = Color("haYellow")
+    static let orange = Color("haOrange")
+    static let red = Color("haRed")
+
 }

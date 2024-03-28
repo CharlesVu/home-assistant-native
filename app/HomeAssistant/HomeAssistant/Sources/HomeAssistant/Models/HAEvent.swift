@@ -10,6 +10,7 @@ public struct HAEvent: Codable {
         case serviceRegistered = "service_registered"
         case callService = "call_service"
         case octopusCurrentDayRate = "octopus_energy_electricity_current_day_rates"
+        case octopusNextDayRate = "octopus_energy_electricity_next_day_rates"
         case click
     }
 

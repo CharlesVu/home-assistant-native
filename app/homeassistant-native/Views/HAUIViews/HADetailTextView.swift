@@ -2,13 +2,10 @@ import SwiftUI
 
 struct HADetailTextView: View {
     var text: String
-    var darkColorScheme: Bool = true
     var body: some View {
-        let color: Color = darkColorScheme ? ColorManager.haDefaultDark : ColorManager.haDefaultLighter
-
         Text(text)
             .fontWeight(.medium)
-            .foregroundColor(color)
+            .foregroundColor(ColorManager.haDefaultDark)
             .frame(maxWidth: .infinity, alignment: .trailing)
     }
 }
