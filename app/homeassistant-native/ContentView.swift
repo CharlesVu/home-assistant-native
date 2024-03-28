@@ -12,9 +12,10 @@ class ContentViewModel: ObservableObject {
         filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")
     ) var lights
 
-    var tariffs: [OctopusRateModelObject] = []
+    @Published var tariffs: [OctopusRateModelObject] = []
+    @Published var meanPrice: Double = 0
+
     var timer: Timer?
-    var meanPrice: Double = 0
 
     init() {
         timer = Timer.scheduledTimer(withTimeInterval: 5.minutes, repeats: true) { [weak self] _ in
