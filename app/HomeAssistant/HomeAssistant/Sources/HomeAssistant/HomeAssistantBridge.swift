@@ -40,15 +40,19 @@ public final class HomeAssistantBridge: NSObject {
             .sink { [weak self] configuration in
                 guard let self, let configuration else { return }
                 self.configuration = configuration
-                if self.socket != nil {
-                    socket.cancel()
-                }
-                self.socket = URLSession.shared.webSocketTask(with: configuration.websocketEndpoint)
-                self.socket.resume()
-                receive()
+                self.connectWebsocket()
             }
             .store(in: &subscriptions)
         _ = HomeAssistantConfigurationManager()
+    }
+
+    func connectWebsocket() {
+        if self.socket != nil {
+            socket.cancel()
+        }
+        self.socket = URLSession.shared.webSocketTask(with: configuration.websocketEndpoint)
+        self.socket.resume()
+        receive()
     }
 }
 
@@ -57,7 +61,7 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
     private func receive() {
         let workItem = DispatchWorkItem { [weak self] in
             guard let self, let socket = self.socket else { return }
-            socket.receive(completionHandler: { result in
+            socket.receive { result in
                 switch result {
                     case .success(let message):
                         switch message {
@@ -73,11 +77,11 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
                             default:
                                 break
                         }
-                    case .failure(let error):
-                        self.messageLogger.debug("\(error)")
+                    case .failure(_):
+                        self.connectWebsocket()
                 }
                 self.receive()
-            })
+            }
         }
         DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: workItem)
     }
