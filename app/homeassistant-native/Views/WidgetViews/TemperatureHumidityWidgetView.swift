@@ -38,8 +38,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                     self?.humidity = entity.attributes!.humidity!
                     self?.windSpeed = entity.attributes!.windSpeed!
                 }
-            )
-        {
+            ) {
             tokens.append(token)
         }
 
@@ -52,8 +51,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityTotalPrice = value.truncate(places: 2)
                     }
                 }
-            )
-        {
+            ) {
             tokens.append(token)
         }
 
@@ -66,8 +64,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityUsage = value.truncate(places: 2)
                     }
                 }
-            )
-        {
+            ) {
             tokens.append(token)
         }
 
@@ -80,8 +77,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasUsage = value.truncate(places: 2)
                     }
                 }
-            )
-        {
+            ) {
             tokens.append(token)
         }
 
@@ -94,8 +90,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasTotalPrice = value.truncate(places: 2)
                     }
                 }
-            )
-        {
+            ) {
             tokens.append(token)
         }
     }
@@ -108,7 +103,7 @@ struct TemperatureHumidityWidgetView: View {
         ZStack {
             HStack(alignment: .top, spacing: 0) {
                 HStack {
-                    HAWidgetImageView(imageName: "thermometer")
+                    HAWidgetImageView(imageName: "thermometer.medium")
                     VStack {
                         HAMainTextView(text: "\(viewModel.temperature) °C")
                         HAFootNoteView(text: "Temperature")

@@ -102,8 +102,7 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
 
     func publishMessage(message: HAMessage) {
         if message.event?.eventType == .octopusCurrentDayRate,
-            let rates = message.event?.data.rates
-        {
+            let rates = message.event?.data.rates {
             octopusPublisher.send(rates)
         } else if let newState = message.event?.data.newState {
             entityPublisher.send(newState)

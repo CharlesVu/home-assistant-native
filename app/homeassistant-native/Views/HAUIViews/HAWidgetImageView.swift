@@ -5,7 +5,7 @@ struct HAWidgetImageView: View {
     var color: Color = ColorManager.haDefaultDark
     var body: some View {
         Image(systemName: imageName)
-            .renderingMode(.original)
+            .renderingMode(.template)
             .frame(width: 42, height: 42)
             .font(.system(size: 24.0).bold())
             .foregroundColor(color)

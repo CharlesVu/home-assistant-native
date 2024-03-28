@@ -7,10 +7,10 @@ public class RealmManager {
     let messageLogger = Logger(subsystem: "Realm", category: "Realm")
 
     init() {
-        let configuration = Realm.Configuration(schemaVersion: 4)
+        let configuration = Realm.Configuration(schemaVersion: 5)
         realm = try! Realm(configuration: configuration)
         if let path = realm.configuration.fileURL?.absoluteString {
-            messageLogger.debug("\(path)")
+            messageLogger.debug("Realm Path \(path)")
         }
     }
 
