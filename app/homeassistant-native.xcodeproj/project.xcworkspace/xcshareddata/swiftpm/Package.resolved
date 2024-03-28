@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hmlongco/Factory",
       "state" : {
-        "revision" : "8ca11a7bd1ede031e8e6d7a912bb116e2e43961b",
-        "version" : "2.3.1"
+        "revision" : "587995f7d5cc667951d635fbf6b4252324ba0439",
+        "version" : "2.3.2"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "a5e87a39cffdcc591f3203c11cfca68100d0b9a6",
-        "version" : "13.26.0"
+        "revision" : "374dd672af357732dccc135fecc905406fec3223",
+        "version" : "14.4.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "revision" : "eafdd3720a8cc750bdd38bf776082d2c8cf743fc",
-        "version" : "10.46.0"
+        "revision" : "e0c2fbb442979fbf1e4be80e01d142f310a9c762",
+        "version" : "10.49.1"
       }
     }
   ],

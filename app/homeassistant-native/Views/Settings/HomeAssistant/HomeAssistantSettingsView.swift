@@ -7,7 +7,7 @@ class HomeAssistantSettingsViewModel: ObservableObject {
     @Injected(\.config) private var configurationPublisher
     @Injected(\.homeAssistantConfigurationManager) private var homeAssistantConfigurationManager
 
-    @Published var websocketEndpoint: String = "https://homeassistant.local/api/websocket" {
+    @Published var websocketEndpoint: String = "wss://homeassistant.local/api/websocket" {
         didSet {
             validate()
         }
