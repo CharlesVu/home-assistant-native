@@ -5,11 +5,13 @@ import RealmSwift
 import SwiftUI
 
 enum StaticEntityKeys: String {
-    case electricityPrice = "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
+    case electricityPrice =
+        "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_cost"
     case electricityConsumption =
         "sensor.octopus_energy_electricity_22m0089910_1300053095531_current_accumulative_consumption"
     case gasPrice = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_cost"
-    case gasConsumption = "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption_kwh"
+    case gasConsumption =
+        "sensor.octopus_energy_gas_e6f20446412200_9097627310_current_accumulative_consumption_kwh"
     case weather = "weather.forecast_home"
 }
 
@@ -38,7 +40,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                     self?.humidity = entity.humidity!
                     self?.windSpeed = entity.windSpeed!
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
 
@@ -51,7 +54,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityTotalPrice = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
 
@@ -64,7 +68,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.electricityUsage = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
 
@@ -77,7 +82,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasUsage = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
 
@@ -90,7 +96,8 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
                         self?.gasTotalPrice = value.truncate(places: 2)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
     }

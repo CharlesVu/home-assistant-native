@@ -38,8 +38,8 @@ struct OctopusPricingVIew: View {
     }
 }
 
-private extension DateFormatter {
-    static var octopusDsiplayDateFormatter: DateFormatter {
+extension DateFormatter {
+    fileprivate static var octopusDsiplayDateFormatter: DateFormatter {
         let dateFomatter = DateFormatter()
         dateFomatter.calendar = Calendar(identifier: .iso8601)
         dateFomatter.locale = Locale(identifier: "en_US_POSIX")
@@ -49,8 +49,8 @@ private extension DateFormatter {
     }
 }
 
-private extension Date {
-    var octopusFormatted: String {
+extension Date {
+    fileprivate var octopusFormatted: String {
         DateFormatter.octopusDsiplayDateFormatter.string(from: self)
     }
 }

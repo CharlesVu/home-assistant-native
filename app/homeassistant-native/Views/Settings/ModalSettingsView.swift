@@ -4,8 +4,8 @@ import SwiftUI
 enum NavigationDestination: Hashable {
     case sectionsSettingsView
     case sectionDetailSettingsView(sectionInformation: SectionModelObject)
-//    case entityConfigurationSettingsView
-//    case entityConfigurationDetailSettingsView(entityConfiguration: EntityModelObject, sections: [SectionModelObject])
+    //    case entityConfigurationSettingsView
+    //    case entityConfigurationDetailSettingsView(entityConfiguration: EntityModelObject, sections: [SectionModelObject])
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -13,10 +13,10 @@ enum NavigationDestination: Hashable {
                 SectionsSettingsView(path: path)
             case .sectionDetailSettingsView(let sectionInformation):
                 SectionDetailSettingsView(path: path, sectionInformation: sectionInformation)
-//            case .entityConfigurationSettingsView:
-//                EntityConfigurationSettingsView(path: path)
-//            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
-//                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
+        //            case .entityConfigurationSettingsView:
+        //                EntityConfigurationSettingsView(path: path)
+        //            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
+        //                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
         }
         EmptyView()
     }
@@ -31,7 +31,7 @@ struct ModalSettingsView: View {
         NavigationStack(path: $path) {
             VStack(alignment: .leading, spacing: 0) {
                 HATitleTextView(text: "Settings", icon: "gear")
-                .padding()
+                    .padding()
                 List {
                     Section("Display") {
                         NavigationLink(value: NavigationDestination.sectionsSettingsView) {
@@ -46,14 +46,14 @@ struct ModalSettingsView: View {
                             option.view($path)
                         }
 
-//                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
-//                            HASettingItemView(
-//                                text: "Entities",
-//                                icon: "list.dash.header.rectangle",
-//                                foregroundColor: .accentColor,
-//                                backgroundColor: .white
-//                            )
-//                        }
+                        //                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
+                        //                            HASettingItemView(
+                        //                                text: "Entities",
+                        //                                icon: "list.dash.header.rectangle",
+                        //                                foregroundColor: .accentColor,
+                        //                                backgroundColor: .white
+                        //                            )
+                        //                        }
 
                     }
                     Section {

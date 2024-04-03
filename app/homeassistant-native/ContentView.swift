@@ -11,7 +11,6 @@ class ContentViewModel: ObservableObject {
     ) var lights
 }
 
-
 struct ContentView: View {
     @State var show = false
     @ObservedObject var viewModel: ContentViewModel = .init()
@@ -20,7 +19,7 @@ struct ContentView: View {
         VStack(spacing: 0) {
             HeaderView()
             HStack {
-//                OctopusPriceListView()
+                //                OctopusPriceListView()
                 List {
                     Section("Test") {
                         HStack {

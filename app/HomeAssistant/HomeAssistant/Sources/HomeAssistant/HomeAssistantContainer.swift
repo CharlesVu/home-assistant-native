@@ -1,7 +1,7 @@
 import Factory
 
-public extension Container {
-    var homeAssistant: Factory<HomeAssistantBridging> {
+extension Container {
+    public var homeAssistant: Factory<HomeAssistantBridging> {
         Factory(self) { HomeAssistantBridge() }
             .singleton
     }

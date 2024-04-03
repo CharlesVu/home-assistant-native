@@ -13,7 +13,12 @@ public struct EntityState: Codable, Hashable, Identifiable {
         case attributes
     }
 
-    public static var zero = EntityState(entityId: "", lastChanged: .init(), state: "", attributes: .zero)
+    public static var zero = EntityState(
+        entityId: "",
+        lastChanged: .init(),
+        state: "",
+        attributes: .zero
+    )
 
     // MARK: Identifiable
     public var id: String {

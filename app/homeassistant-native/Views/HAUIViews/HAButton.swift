@@ -1,8 +1,8 @@
 import ApplicationConfiguration
-import SwiftUI
-import RealmSwift
-import Factory
 import Combine
+import Factory
+import RealmSwift
+import SwiftUI
 
 enum ButtonMode {
     case toggle
@@ -33,15 +33,17 @@ class HAButtonViewModel: ObservableObject {
 
     init(entityID: String) {
         self.entityID = entityID
-        if let token = databaseManager
+        if let token =
+            databaseManager
             .listenForEntityChange(
                 id: entityID,
-                callback: { [weak self] entity in
+                callback: { entity in
                     Task { [weak self] in
                         await self?.updateModel(from: entity)
                     }
                 }
-            ) {
+            )
+        {
             tokens.append(token)
         }
     }
@@ -106,13 +108,18 @@ struct HAButton: View {
                     .frame(width: 42, height: 42)
                     .padding(.trailing)
             } else {
-                HAWidgetImageView(imageName: viewModel.iconName,
-                                  color: viewModel.color)
+                HAWidgetImageView(
+                    imageName: viewModel.iconName,
+                    color: viewModel.color
+                )
             }
             Text(viewModel.title)
                 .fontWeight(.medium)
                 .foregroundColor(ColorManager.haDefaultDark)
-                .frame(maxWidth: .infinity, alignment: viewModel.alignment == .hotizontal ? .leading: .center)
+                .frame(
+                    maxWidth: .infinity,
+                    alignment: viewModel.alignment == .hotizontal ? .leading : .center
+                )
         }
         .onTapGesture {
             Task {

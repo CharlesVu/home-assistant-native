@@ -81,7 +81,8 @@ class EntityConfigurationSettingsViewModel: ObservableObject {
                         )
                     }
                 }
-                self?.configurationList.first(where: { $0.entityID == entityState.entityId })?.friendlyName =
+                self?.configurationList.first(where: { $0.entityID == entityState.entityId })?
+                    .friendlyName =
                     entityState.attributes.name
             }
             .store(in: &subscriptions)

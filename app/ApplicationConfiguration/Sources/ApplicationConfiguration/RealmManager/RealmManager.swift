@@ -1,7 +1,7 @@
+import Combine
 import Foundation
 import OSLog
 import RealmSwift
-import Combine
 
 public class RealmManager {
     private let realm: Realm
@@ -25,7 +25,7 @@ public class RealmManager {
     ) -> NotificationToken? {
         let entityObject = database()
             .object(ofType: EntityModelObject.self, forPrimaryKey: id)
-        
+
         if let entityObject {
             callback(Entity(projecting: entityObject))
         }

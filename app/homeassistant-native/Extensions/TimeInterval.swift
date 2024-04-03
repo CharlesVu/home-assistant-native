@@ -10,4 +10,3 @@ extension TimeInterval {
     var hour: TimeInterval { return self * 3600 }
     var hours: TimeInterval { return self * 3600 }
 }
-

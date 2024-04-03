@@ -1,5 +1,5 @@
-import Foundation
 import ApplicationConfiguration
+import Foundation
 
 struct IconMapper {
     func map(entity: Entity) -> String {
@@ -39,18 +39,18 @@ struct IconMapper {
         }
     }
 
-    func defaultIcon(deviceClass: String, state: String) -> String{
+    func defaultIcon(deviceClass: String, state: String) -> String {
         switch deviceClass {
-        case "light":
-            if state == "on" {
-                return "lightbulb.max.fill"
-            } else {
-                return "lightbulb"
-            }
+            case "light":
+                if state == "on" {
+                    return "lightbulb.max.fill"
+                } else {
+                    return "lightbulb"
+                }
 
-        default:
-            print(deviceClass)
-            return "questionmark"
+            default:
+                print(deviceClass)
+                return "questionmark"
         }
     }
 

@@ -14,8 +14,11 @@ public class HomeAssistantConfigurationManager {
     var authToken: String!
 
     public init() {
-        if let savedEnpoint = UserDefaults.standard.string(forKey: "HomeAssistantConfiguration.websocketEndpoint"),
-           let url = URL(string: savedEnpoint) {
+        if let savedEnpoint = UserDefaults.standard.string(
+            forKey: "HomeAssistantConfiguration.websocketEndpoint"
+        ),
+            let url = URL(string: savedEnpoint)
+        {
             websocketEndpoint = url
         }
 

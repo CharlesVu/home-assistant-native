@@ -68,7 +68,9 @@ struct EntityDetailConfigurationSettingsView: View {
             .transition(.opacity)
             .accentColor(ColorManager.haDefaultDark)
         }
-        .navigationTitle(viewModel.entityConfiguration.friendlyName ?? viewModel.entityConfiguration.entityID)
+        .navigationTitle(
+            viewModel.entityConfiguration.friendlyName ?? viewModel.entityConfiguration.entityID
+        )
         .accentColor(ColorManager.haDefaultDark)
     }
 }

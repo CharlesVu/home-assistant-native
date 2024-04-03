@@ -54,7 +54,10 @@ class HomeAssistantSettingsViewModel: ObservableObject {
     }
 
     func save() {
-        homeAssistantConfigurationManager.set(websocketEndpoint: URL(string: websocketEndpoint)!, authToken: authToken)
+        homeAssistantConfigurationManager.set(
+            websocketEndpoint: URL(string: websocketEndpoint)!,
+            authToken: authToken
+        )
         buttonTitle = "Saved"
     }
 }

@@ -6,4 +6,3 @@ extension Container {
             .singleton
     }
 }
-

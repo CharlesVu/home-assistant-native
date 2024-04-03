@@ -1,6 +1,6 @@
 import ApplicationConfiguration
-import RealmSwift
 import Factory
+import RealmSwift
 import SwiftUI
 
 class OctopusPriceListViewModel: ObservableObject {
@@ -14,9 +14,11 @@ class OctopusPriceListViewModel: ObservableObject {
     init() {
         timer = Timer.scheduledTimer(withTimeInterval: 5.minutes, repeats: true) { [weak self] _ in
             guard let self else { return }
-            let tariffs = Array(self.databaseManager.database()
-                .objects(OctopusRateModelObject.self)
-                .filter { $0.end > Date.now })
+            let tariffs = Array(
+                self.databaseManager.database()
+                    .objects(OctopusRateModelObject.self)
+                    .filter { $0.end > Date.now }
+            )
             var total: Double = 0
             tariffs.forEach { total += $0.price }
             meanPrice = total / Double(tariffs.count)
@@ -35,11 +37,19 @@ struct OctopusPriceListView: View {
                 ForEach(Array(stride(from: 0, to: $viewModel.tariffs.count, by: 2)), id: \.self) { index in
                     let leftItem = viewModel.tariffs[index]
                     HStack {
-                        OctopusPricingVIew(date: leftItem.start, price: leftItem.price, meanPrice: viewModel.meanPrice)
+                        OctopusPricingVIew(
+                            date: leftItem.start,
+                            price: leftItem.price,
+                            meanPrice: viewModel.meanPrice
+                        )
 
                         if index + 1 < viewModel.tariffs.count {
                             let rightItem = viewModel.tariffs[index + 1]
-                            OctopusPricingVIew(date: rightItem.start, price: rightItem.price, meanPrice: viewModel.meanPrice)
+                            OctopusPricingVIew(
+                                date: rightItem.start,
+                                price: rightItem.price,
+                                meanPrice: viewModel.meanPrice
+                            )
                         }
                     }
                 }

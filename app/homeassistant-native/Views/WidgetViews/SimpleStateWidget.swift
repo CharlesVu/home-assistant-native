@@ -1,8 +1,8 @@
+import ApplicationConfiguration
 import Combine
 import Factory
-import ApplicationConfiguration
-import SwiftUI
 import RealmSwift
+import SwiftUI
 
 struct SimpleStateWidget: View {
     @ObservedRealmObject var entity: Entity

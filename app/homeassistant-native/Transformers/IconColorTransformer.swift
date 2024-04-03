@@ -27,8 +27,7 @@ struct IconColorTransformer {
             } else {
                 return ColorManager.warning
             }
-        } else if
-            let brightness = entity.brightness,
+        } else if let brightness = entity.brightness,
             entity.hs.count == 2
         {
             let hs = entity.hs
