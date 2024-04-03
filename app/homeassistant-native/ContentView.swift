@@ -23,7 +23,10 @@ struct ContentView: View {
 //                OctopusPriceListView()
                 List {
                     Section("Test") {
-                        HAButton(entityID: "light.charles_key_light")
+                        HStack {
+                            HAButton(entityID: "light.charles_key_light")
+                            HAButton(entityID: "light.charles_key_light")
+                        }
                     }
                 }
 

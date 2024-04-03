@@ -6,7 +6,7 @@ struct IconMapper {
         let haIcon = entity.icon
         let state = entity.state
         if haIcon == nil, let deviceClass = entity.id.split(separator: ".").first {
-            return defaultIcon(deviceClass: String(deviceClass))
+            return defaultIcon(deviceClass: String(deviceClass), state: state)
         }
         switch haIcon {
             case "mdi:lightning-bolt":
@@ -39,10 +39,15 @@ struct IconMapper {
         }
     }
 
-    func defaultIcon(deviceClass: String) -> String{
+    func defaultIcon(deviceClass: String, state: String) -> String{
         switch deviceClass {
         case "light":
-            return "lightbulb.circle"
+            if state == "on" {
+                return "lightbulb.max.fill"
+            } else {
+                return "lightbulb"
+            }
+
         default:
             print(deviceClass)
             return "questionmark"
