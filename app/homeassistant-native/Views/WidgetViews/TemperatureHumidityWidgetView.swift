@@ -34,9 +34,9 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             .listenForEntityChange(
                 id: StaticEntityKeys.weather.rawValue,
                 callback: { [weak self] entity in
-                    self?.temperature = entity.attributes!.temperature!
-                    self?.humidity = entity.attributes!.humidity!
-                    self?.windSpeed = entity.attributes!.windSpeed!
+                    self?.temperature = entity.temperature!
+                    self?.humidity = entity.humidity!
+                    self?.windSpeed = entity.windSpeed!
                 }
             ) {
             tokens.append(token)

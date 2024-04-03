@@ -6,7 +6,7 @@ import SwiftUI
 
 class ContentViewModel: ObservableObject {
     @ObservedResults(
-        EntityModelObject.self,
+        Entity.self,
         filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")
     ) var lights
 }
@@ -20,7 +20,12 @@ struct ContentView: View {
         VStack(spacing: 0) {
             HeaderView()
             HStack {
-                OctopusPriceListView()
+//                OctopusPriceListView()
+                List {
+                    Section("Test") {
+                        HAButton(entityID: "light.charles_key_light")
+                    }
+                }
 
                 List {
                     Section("Lights") {

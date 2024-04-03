@@ -10,6 +10,8 @@
 		5601731B2B77087600093D55 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601731A2B77087600093D55 /* ApplicationDelegate.swift */; };
 		5601731D2B7851B900093D55 /* SectionSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */; };
 		560FA2432B2E26A4004ED11D /* HomeAssistant in Frameworks */ = {isa = PBXBuildFile; productRef = 560FA2422B2E26A4004ED11D /* HomeAssistant */; };
+		5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F2882BBD4EFC000CC23D /* HAButton.swift */; };
+		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
 		565D614D2B2B56C100B9B051 /* SimpleStateWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614C2B2B56C100B9B051 /* SimpleStateWidget.swift */; };
 		565D614F2B2B612D00B9B051 /* IconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614E2B2B612D00B9B051 /* IconMapper.swift */; };
 		565D61512B2BA05C00B9B051 /* HADetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61502B2BA05C00B9B051 /* HADetailTextView.swift */; };
@@ -48,6 +50,8 @@
 		5601731A2B77087600093D55 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		560FA2402B2E240B004ED11D /* HomeAssistant */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = HomeAssistant; path = HomeAssistant/HomeAssistant; sourceTree = "<group>"; };
 		560FA2442B2E27D8004ED11D /* ApplicationConfiguration */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ApplicationConfiguration; sourceTree = "<group>"; };
+		5635F2882BBD4EFC000CC23D /* HAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButton.swift; sourceTree = "<group>"; };
+		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
 		565D614C2B2B56C100B9B051 /* SimpleStateWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStateWidget.swift; sourceTree = "<group>"; };
 		565D614E2B2B612D00B9B051 /* IconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconMapper.swift; sourceTree = "<group>"; };
 		565D61502B2BA05C00B9B051 /* HADetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HADetailTextView.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				56AD26F22B2C72410076CAF2 /* Transformers */,
 				68C81E352777969100A99F04 /* Views */,
 				5601731A2B77087600093D55 /* ApplicationDelegate.swift */,
+				5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */,
 			);
 			path = "homeassistant-native";
 			sourceTree = "<group>";
@@ -241,6 +246,7 @@
 				68A3D5DA2778D8F800BFDE39 /* HABrightnessSliderView.swift */,
 				685FA1F027791EDD0061DF86 /* HASettingItemView.swift */,
 				680AE9902779C96200FC62A8 /* HABasicIconView.swift */,
+				5635F2882BBD4EFC000CC23D /* HAButton.swift */,
 			);
 			path = HAUIViews;
 			sourceTree = "<group>";
@@ -347,6 +353,8 @@
 				68C81E3C277799B200A99F04 /* HAFootNoteView.swift in Sources */,
 				68C81E3E27779B5A00A99F04 /* HAMainTextView.swift in Sources */,
 				68A3D5D92778D01400BFDE39 /* HAColorTileView.swift in Sources */,
+				5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */,
+				5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */,
 				680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */,
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,

@@ -7,7 +7,7 @@ import SwiftUI
 class ToggleObserver: ObservableObject {
     @Injected(\.homeAssistant) private var homeAssistant
 
-    private var entity: EntityModelObject
+    private var entity: Entity
     private var requestId: Int = 0
     private var subscriptions = Set<AnyCancellable>()
 
@@ -25,7 +25,7 @@ class ToggleObserver: ObservableObject {
         if requestId == 0 {
             requestId = try! await homeAssistant.turnLight(
                 on: toggleValue,
-                entityID: entity.entityID
+                entityID: entity.id
             )
             isWaitingForResponse = true
             homeAssistant.responsePublisher
@@ -40,7 +40,7 @@ class ToggleObserver: ObservableObject {
         }
     }
 
-    init(entity: EntityModelObject) {
+    init(entity: Entity) {
         self.entity = entity
         self.toggleValue = Self.computeToggleStatus(state: entity.state)
     }
@@ -52,11 +52,11 @@ class ToggleObserver: ObservableObject {
 
 struct HABasicToggleView: View {
     @ObservedObject var viewModel: ToggleObserver
-    @ObservedRealmObject var entity: EntityModelObject
+    @ObservedRealmObject var entity: Entity
 
     private let haptic = UINotificationFeedbackGenerator()
 
-    init(entity: EntityModelObject) {
+    init(entity: Entity) {
         viewModel = .init(
             entity: entity
         )

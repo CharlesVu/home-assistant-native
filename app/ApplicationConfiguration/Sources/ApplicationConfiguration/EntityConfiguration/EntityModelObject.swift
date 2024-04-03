@@ -12,16 +12,9 @@ public class EntityModelObject: Object, ObjectKeyIdentifiable {
     public override class func primaryKey() -> String? {
         return "entityID"
     }
-
-    public func displayName() -> String {
-        if let name = attributes?.name {
-            return name
-        }
-        return entityID
-    }
 }
 
-public class EntityAttributeModelObject: Object {
+public class EntityAttributeModelObject: EmbeddedObject {
     @Persisted public var unit: String?
     @Persisted public var name: String?
     @Persisted public var deviceClass: String?
@@ -34,4 +27,28 @@ public class EntityAttributeModelObject: Object {
     @Persisted public var hs: List<Double>
     @Persisted public var brightness: Double?
     @Persisted public var hueType: String?
+}
+
+public class Entity: Projection<EntityModelObject>, Identifiable {
+    @Projected(\EntityModelObject.entityID) public var id
+    @Projected(\EntityModelObject.enabled) public var enabled
+    @Projected(\EntityModelObject.state) public var state
+    @Projected(\EntityModelObject.attributes.unit) public var unit
+    @Projected(\EntityModelObject.attributes.name) public var name
+    @Projected(\EntityModelObject.attributes.deviceClass) public var deviceClass
+    @Projected(\EntityModelObject.attributes.stateClass) public var stateClass
+    @Projected(\EntityModelObject.attributes.temperature) public var temperature
+    @Projected(\EntityModelObject.attributes.humidity) public var humidity
+    @Projected(\EntityModelObject.attributes.windSpeed) public var windSpeed
+    @Projected(\EntityModelObject.attributes.icon) public var icon
+    @Projected(\EntityModelObject.attributes.hueType) public var hueType
+    @Projected(\EntityModelObject.attributes.brightness) public var brightness
+    @Projected(\EntityModelObject.attributes.hs) public var hs
+
+    public func displayName() -> String {
+        if let name = name {
+            return name
+        }
+        return id
+    }
 }

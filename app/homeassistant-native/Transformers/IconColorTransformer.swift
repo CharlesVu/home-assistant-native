@@ -2,8 +2,8 @@ import ApplicationConfiguration
 import SwiftUI
 
 struct IconColorTransformer {
-    static func transform(_ entity: EntityModelObject) -> Color {
-        if entity.attributes?.deviceClass == "battery" {
+    static func transform(_ entity: Entity) -> Color {
+        if entity.deviceClass == "battery" {
             if let stateValue = Int(entity.state) {
                 if stateValue < 25 {
                     return ColorManager.error
@@ -15,23 +15,23 @@ struct IconColorTransformer {
                     return ColorManager.positive
                 }
             }
-        } else if entity.attributes?.deviceClass == "door" {
+        } else if entity.deviceClass == "door" {
             if entity.state == "off" {
                 return ColorManager.neutral
             } else {
                 return ColorManager.warning
             }
-        } else if entity.entityID.hasPrefix("lock") {
+        } else if entity.id.hasPrefix("lock") {
             if entity.state == "locked" {
                 return ColorManager.neutral
             } else {
                 return ColorManager.warning
             }
         } else if
-            let brightness = entity.attributes?.brightness,
-            entity.attributes?.hs.count == 2
+            let brightness = entity.brightness,
+            entity.hs.count == 2
         {
-            let hs = entity.attributes!.hs
+            let hs = entity.hs
             return Color(hue: hs[0] / 255, saturation: hs[1] / 255, brightness: brightness / 255)
         }
 

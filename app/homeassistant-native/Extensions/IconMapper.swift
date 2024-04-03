@@ -2,9 +2,12 @@ import Foundation
 import ApplicationConfiguration
 
 struct IconMapper {
-    static func map(entity: EntityModelObject) -> String {
-        let haIcon = entity.attributes.icon
+    func map(entity: Entity) -> String {
+        let haIcon = entity.icon
         let state = entity.state
+        if haIcon == nil, let deviceClass = entity.id.split(separator: ".").first {
+            return defaultIcon(deviceClass: String(deviceClass))
+        }
         switch haIcon {
             case "mdi:lightning-bolt":
                 return "bolt.fill"
@@ -35,4 +38,15 @@ struct IconMapper {
                 return "questionmark.diamond.fill"
         }
     }
+
+    func defaultIcon(deviceClass: String) -> String{
+        switch deviceClass {
+        case "light":
+            return "lightbulb.circle"
+        default:
+            print(deviceClass)
+            return "questionmark"
+        }
+    }
+
 }

@@ -5,16 +5,16 @@ import SwiftUI
 import RealmSwift
 
 struct SimpleStateWidget: View {
-    @ObservedRealmObject var entity: EntityModelObject
+    @ObservedRealmObject var entity: Entity
 
-    init(entity: EntityModelObject) {
+    init(entity: Entity) {
         self.entity = entity
     }
 
     var body: some View {
         HStack {
             HAWidgetImageView(
-                imageName: entity.attributes!.icon!,
+                imageName: entity.icon!,
                 color: IconColorTransformer.transform(entity)
             )
             VStack(alignment: .leading) {
