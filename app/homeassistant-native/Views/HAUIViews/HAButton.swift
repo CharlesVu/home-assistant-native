@@ -29,7 +29,7 @@ class HAButtonViewModel: ObservableObject {
     var entityID: String
     var buttonMode: ButtonMode = .toggle
 
-    private var state: Bool = true
+    private var state: Bool?
 
     init(entityID: String) {
         self.entityID = entityID
@@ -51,14 +51,22 @@ class HAButtonViewModel: ObservableObject {
     @MainActor
     func updateModel(from entity: Entity) {
         iconName = iconMapper.map(entity: entity)
-        color = IconColorTransformer.transform(entity)
+        color = ColorManager.haDefaultDark
         title = entity.displayName()
-        state = entity.state == "on" ? true : false
+        if entity.state == "on" {
+            state = true
+        } else if entity.state == "unavailable" {
+            state = nil
+        } else {
+            state = false
+        }
+
         isWaitingForResponse = false
     }
 
     @MainActor
     func handleTap() async {
+        guard let state else { return }
         let desiredState: Bool
 
         switch buttonMode {
@@ -106,7 +114,7 @@ struct HAButton: View {
             if viewModel.isWaitingForResponse {
                 ProgressView()
                     .frame(width: 42, height: 42)
-                    .padding(.trailing)
+                    .tint(viewModel.color)
             } else {
                 HAWidgetImageView(
                     imageName: viewModel.iconName,

@@ -44,10 +44,11 @@ struct IconMapper {
             case "light":
                 if state == "on" {
                     return "lightbulb.max.fill"
+                } else if state == "off" {
+                    return "lightbulb.slash"
                 } else {
-                    return "lightbulb"
+                    return "wifi.exclamationmark"
                 }
-
             default:
                 print(deviceClass)
                 return "questionmark"

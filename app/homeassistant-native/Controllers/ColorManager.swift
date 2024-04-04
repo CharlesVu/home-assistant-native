@@ -21,5 +21,4 @@ struct ColorManager {
     static let yellow = Color("haYellow")
     static let orange = Color("haOrange")
     static let red = Color("haRed")
-
 }
