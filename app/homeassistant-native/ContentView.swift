@@ -24,7 +24,7 @@ struct ContentView: View {
                     Section("Test") {
                         HStack {
                             HAButton(entityID: "light.charles_key_light")
-                            HAButton(entityID: "light.charles_key_light")
+                            HAButton(entityID: "sensor.bathroom_sensor_humidity")
                         }
                     }
                 }

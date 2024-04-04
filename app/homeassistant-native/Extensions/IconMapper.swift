@@ -5,8 +5,10 @@ struct IconMapper {
     func map(entity: Entity) -> String {
         let haIcon = entity.icon
         let state = entity.state
-        if haIcon == nil, let deviceClass = entity.id.split(separator: ".").first {
-            return defaultIcon(deviceClass: String(deviceClass), state: state)
+        let deviceClass = entity.deviceClass
+        let derivedDeviceClass = entity.id.components(separatedBy: ".").first
+        if haIcon == nil, let deviceClass = deviceClass ?? derivedDeviceClass {
+            return defaultIcon(deviceClass: deviceClass, state: state)
         }
         switch haIcon {
             case "mdi:lightning-bolt":
@@ -49,8 +51,9 @@ struct IconMapper {
                 } else {
                     return "wifi.exclamationmark"
                 }
+            case "humidity":
+                return "humidity.fill"
             default:
-                print(deviceClass)
                 return "questionmark"
         }
     }
