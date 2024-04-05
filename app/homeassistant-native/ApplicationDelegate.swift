@@ -74,7 +74,9 @@ extension EntityAttributeModelObject {
     func update(_ model: EntityAttribute) {
         self.unit = model.unit
         self.name = model.name
-        self.deviceClass = model.deviceClass
+        if let deviceClass = model.deviceClass {
+            self.deviceClass = .init(rawValue: deviceClass)
+        }
         self.stateClass = model.stateClass
         self.temperature = model.temperature
         self.humidity = model.humidity

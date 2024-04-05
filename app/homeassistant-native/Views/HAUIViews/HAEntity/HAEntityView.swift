@@ -4,7 +4,7 @@ import Factory
 import RealmSwift
 import SwiftUI
 
-class HAButtonViewModel: ObservableObject {
+class HAEntityViewModel: ObservableObject {
     enum Alignment {
         case hotizontal
         case vertical
@@ -17,20 +17,18 @@ class HAButtonViewModel: ObservableObject {
     }
 
     @Injected(\.iconMapper) private var iconMapper
+    @Injected(\.stateFormatter) private var stateFormatter
     @Injected(\.databaseManager) private var databaseManager
-    @Injected(\.homeAssistant) private var homeAssistant
 
     @Published var iconName: String = "circle"
     @Published var color: Color = .white
     @Published var title: String = ""
+    @Published var state: String = ""
     @Published var alignment: Alignment = .vertical
-    @Published var isWaitingForResponse = false
 
     var tokens: [NotificationToken] = []
     var entityID: String
     var buttonMode: ButtonMode = .toggle
-
-    private var state: Bool?
 
     init(entityID: String) {
         self.entityID = entityID
@@ -54,39 +52,25 @@ class HAButtonViewModel: ObservableObject {
         iconName = iconMapper.map(entity: entity)
         color = ColorManager.haDefaultDark
         title = entity.displayName()
-        if entity.state == "on" {
-            state = true
-        } else if entity.state == "unavailable" {
-            state = nil
-        } else {
-            state = false
-        }
+        state = stateFormatter.displayableState(for: entity)
+    }
+}
 
-        isWaitingForResponse = false
+struct HAEntityView: View {
+    @ObservedObject var viewModel: HAEntityViewModel
+
+    init(entityID: String) {
+        viewModel = .init(entityID: entityID)
     }
 
-    @MainActor
-    func handleTap() async {
-        guard let state else { return }
-        let desiredState: Bool
-
-        switch buttonMode {
-            case .toggle:
-                desiredState = !state
-            case .turnOff:
-                desiredState = false
-            case .turnOn:
-                desiredState = true
-        }
-
-        if !isWaitingForResponse {
-            isWaitingForResponse = true
-
-            _ = try! await homeAssistant.turnLight(
-                on: desiredState,
-                entityID: entityID
+    var body: some View {
+        HStack {
+            HAWidgetImageView(
+                imageName: viewModel.iconName,
+                color: viewModel.color
             )
+            HAMainTextView(text: viewModel.title)
+            HADetailTextView(text: viewModel.state)
         }
-
     }
 }

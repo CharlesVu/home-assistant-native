@@ -17,7 +17,7 @@ public class EntityModelObject: Object, ObjectKeyIdentifiable {
 public class EntityAttributeModelObject: EmbeddedObject {
     @Persisted public var unit: String?
     @Persisted public var name: String?
-    @Persisted public var deviceClass: String?
+    @Persisted public var deviceClass: DeviceClass?
     @Persisted public var stateClass: String?
     @Persisted public var temperature: Double?
     @Persisted public var humidity: Int?

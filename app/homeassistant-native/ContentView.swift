@@ -9,6 +9,11 @@ class ContentViewModel: ObservableObject {
         Entity.self,
         filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")
     ) var lights
+
+    @ObservedResults(
+        Entity.self
+    ) var allEntities
+
 }
 
 struct ContentView: View {
@@ -26,6 +31,10 @@ struct ContentView: View {
                             HAButton(entityID: "light.charles_key_light")
                             HAButton(entityID: "sensor.bathroom_sensor_humidity")
                         }
+                        ForEach(Array(viewModel.allEntities)) {
+                            HAEntityView(entityID: $0.id)
+                        }
+
                     }
                 }
 

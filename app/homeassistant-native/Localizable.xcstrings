@@ -1,0 +1,130 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    "%@p" : {
+
+    },
+    "%lld" : {
+
+    },
+    "1" : {
+
+    },
+    "above_horizon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Above Horizon"
+          }
+        }
+      }
+    },
+    "Add" : {
+
+    },
+    "Auth Token" : {
+
+    },
+    "Column" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Display" : {
+
+    },
+    "Home Assistant" : {
+
+    },
+    "Lights" : {
+
+    },
+    "My API Key" : {
+
+    },
+    "Name" : {
+
+    },
+    "Octopus" : {
+
+    },
+    "off" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off"
+          }
+        }
+      }
+    },
+    "on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On"
+          }
+        }
+      }
+    },
+    "Section" : {
+
+    },
+    "Section Name" : {
+
+    },
+    "Test" : {
+
+    },
+    "unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unavailable"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Test"
+          }
+        }
+      }
+    },
+    "unknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TEst"
+          }
+        }
+      }
+    },
+    "Websocket URL" : {
+
+    },
+    "wss://homeassistant.local/api/websocket" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -1,24 +1,28 @@
+import ApplicationConfiguration
 import Foundation
 import HomeAssistant
 
 struct StateTransformer {
-    static func transform(_ entity: EntityState) -> String {
-        if entity.attributes.deviceClass == "door" {
-            if entity.state == "off" {
-                return "Closed"
-            } else {
-                return "Open"
-            }
-        } else if let unit = entity.attributes.unit {
-            return "\(entity.state)\(unit)"
-        } else if entity.attributes.deviceClass == "battery_charging" {
-            if entity.state == "off" {
-                return "Not Charging"
-            } else {
-                return "Charging"
-            }
-        }
+    func displayableState(`for` entity: Entity) -> String {
+        let state = entity.state
+        let unit = (entity.unit != nil ? " \(entity.unit!)" : "")
+        let deviceClass = entity.deviceClass
 
-        return entity.state.capitalized
+        switch deviceClass {
+            case .humidity, .battery:
+                return "\(entity.state )\(unit)"
+            case .timestamp:
+                return formattedDate(from: state)
+            default:
+                let localizedKey = String.LocalizationValue(stringLiteral: state)
+                return String(localized: localizedKey)
+        }
+    }
+
+    func formattedDate(from state: String) -> String {
+        guard let date = DateFormatter.octopusTime.date(from: state) else {
+            return state
+        }
+        return DateFormatter.localizedString(from: date, dateStyle: .long, timeStyle: .short)
     }
 }

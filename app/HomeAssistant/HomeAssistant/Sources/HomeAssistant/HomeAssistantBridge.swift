@@ -145,7 +145,7 @@ extension HomeAssistantBridge: HomeAssistantBridging {
 }
 
 extension DateFormatter {
-    static let hassTime: DateFormatter = {
+    public static let hassTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")
@@ -154,7 +154,7 @@ extension DateFormatter {
         return formatter
     }()
 
-    static let octopusTime: DateFormatter = {
+    public static let octopusTime: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
         formatter.locale = Locale(identifier: "en_US_POSIX")

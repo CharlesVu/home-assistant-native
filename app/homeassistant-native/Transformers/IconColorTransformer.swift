@@ -3,7 +3,7 @@ import SwiftUI
 
 struct IconColorTransformer {
     static func transform(_ entity: Entity) -> Color {
-        if entity.deviceClass == "battery" {
+        if entity.deviceClass == .battery {
             if let stateValue = Int(entity.state) {
                 if stateValue < 25 {
                     return ColorManager.error
@@ -15,7 +15,7 @@ struct IconColorTransformer {
                     return ColorManager.positive
                 }
             }
-        } else if entity.deviceClass == "door" {
+        } else if entity.deviceClass == .door {
             if entity.state == "off" {
                 return ColorManager.neutral
             } else {

@@ -18,6 +18,8 @@
 		565D61552B2BC4A800B9B051 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61542B2BC4A800B9B051 /* Double.swift */; };
 		565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565F8A102B2A661300AFBB1E /* JSONDescription.swift */; };
 		566574D72BBFE58900F7B69B /* HAButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566574D62BBFE58900F7B69B /* HAButtonViewModel.swift */; };
+		566574DA2BBFE74E00F7B69B /* HAEntityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566574D92BBFE74E00F7B69B /* HAEntityView.swift */; };
+		566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */; };
 		566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */; };
 		568D546A2BB5BA0700E11B6D /* OctopusPricingVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D54692BB5BA0700E11B6D /* OctopusPricingVIew.swift */; };
 		568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */; };
@@ -59,6 +61,8 @@
 		565D61542B2BC4A800B9B051 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		565F8A102B2A661300AFBB1E /* JSONDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDescription.swift; sourceTree = "<group>"; };
 		566574D62BBFE58900F7B69B /* HAButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButtonViewModel.swift; sourceTree = "<group>"; };
+		566574D92BBFE74E00F7B69B /* HAEntityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAEntityView.swift; sourceTree = "<group>"; };
+		566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPriceList.swift; sourceTree = "<group>"; };
 		56770B242B292FD500D151F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		568D54692BB5BA0700E11B6D /* OctopusPricingVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPricingVIew.swift; sourceTree = "<group>"; };
@@ -121,9 +125,18 @@
 			path = HAButton;
 			sourceTree = "<group>";
 		};
+		566574D82BBFE72200F7B69B /* HAEntity */ = {
+			isa = PBXGroup;
+			children = (
+				566574D92BBFE74E00F7B69B /* HAEntityView.swift */,
+			);
+			path = HAEntity;
+			sourceTree = "<group>";
+		};
 		56AD26F22B2C72410076CAF2 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
+				565D614E2B2B612D00B9B051 /* IconMapper.swift */,
 				56AD26F32B2C72520076CAF2 /* StateTransformer.swift */,
 				56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */,
 			);
@@ -190,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				56770B242B292FD500D151F7 /* Info.plist */,
+				566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */,
 				6839796627766E420033DFBA /* ContentView.swift */,
 				6839796427766E420033DFBA /* homeassistant_nativeApp.swift */,
 				6839796827766E440033DFBA /* Assets.xcassets */,
@@ -247,6 +261,7 @@
 		68C81E3A2777997200A99F04 /* HAUIViews */ = {
 			isa = PBXGroup;
 			children = (
+				566574D82BBFE72200F7B69B /* HAEntity */,
 				566574D52BBFE57B00F7B69B /* HAButton */,
 				68C81E3B277799B200A99F04 /* HAFootNoteView.swift */,
 				68C81E472777A58100A99F04 /* HAWidgetImageView.swift */,
@@ -266,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				565F8A102B2A661300AFBB1E /* JSONDescription.swift */,
-				565D614E2B2B612D00B9B051 /* IconMapper.swift */,
 				565D61542B2BC4A800B9B051 /* Double.swift */,
 				568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */,
 			);
@@ -319,6 +333,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
 			);
 			mainGroup = 6839795827766E420033DFBA;
 			packageReferences = (
@@ -340,6 +355,7 @@
 			files = (
 				6839796927766E440033DFBA /* Assets.xcassets in Resources */,
 				68C81E38277797BF00A99F04 /* DefaultTheme.xcassets in Resources */,
+				566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +393,7 @@
 				68C81E4E2777BC5900A99F04 /* HATitleTextView.swift in Sources */,
 				68357E89277688B4004B2879 /* TemperatureHumidityWidgetView.swift in Sources */,
 				5601731D2B7851B900093D55 /* SectionSettingsView.swift in Sources */,
+				566574DA2BBFE74E00F7B69B /* HAEntityView.swift in Sources */,
 				566574D72BBFE58900F7B69B /* HAButtonViewModel.swift in Sources */,
 				683259542776811900222A76 /* HeaderView.swift in Sources */,
 				68A3D5DB2778D8F800BFDE39 /* HABrightnessSliderView.swift in Sources */,
@@ -531,6 +548,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bitcutter.homeassistant-native";
 				PRODUCT_NAME = "Home Assistant";
@@ -564,6 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.bitcutter.homeassistant-native";
 				PRODUCT_NAME = "Home Assistant";
