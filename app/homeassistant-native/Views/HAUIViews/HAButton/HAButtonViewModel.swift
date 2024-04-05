@@ -4,17 +4,18 @@ import Factory
 import RealmSwift
 import SwiftUI
 
-enum ButtonMode {
-    case toggle
-    case turnOn
-    case turnOff
-}
-
 class HAButtonViewModel: ObservableObject {
     enum Alignment {
         case hotizontal
         case vertical
     }
+
+    enum ButtonMode {
+        case toggle
+        case turnOn
+        case turnOff
+    }
+
     @Injected(\.iconMapper) private var iconMapper
     @Injected(\.databaseManager) private var databaseManager
     @Injected(\.homeAssistant) private var homeAssistant
@@ -85,54 +86,6 @@ class HAButtonViewModel: ObservableObject {
                 on: desiredState,
                 entityID: entityID
             )
-        }
-
-    }
-}
-
-struct HAButton: View {
-    @ObservedObject var viewModel: HAButtonViewModel
-
-    init(entityID: String) {
-        viewModel = .init(entityID: entityID)
-    }
-
-    var body: some View {
-        if viewModel.alignment == .hotizontal {
-            HStack {
-                content
-            }
-        } else {
-            VStack {
-                content
-            }
-        }
-    }
-
-    var content: some View {
-        Group {
-            if viewModel.isWaitingForResponse {
-                ProgressView()
-                    .frame(width: 42, height: 42)
-                    .tint(viewModel.color)
-            } else {
-                HAWidgetImageView(
-                    imageName: viewModel.iconName,
-                    color: viewModel.color
-                )
-            }
-            Text(viewModel.title)
-                .fontWeight(.medium)
-                .foregroundColor(ColorManager.haDefaultDark)
-                .frame(
-                    maxWidth: .infinity,
-                    alignment: viewModel.alignment == .hotizontal ? .leading : .center
-                )
-        }
-        .onTapGesture {
-            Task {
-                await viewModel.handleTap()
-            }
         }
 
     }
