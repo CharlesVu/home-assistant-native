@@ -111,6 +111,8 @@ struct IconMapper {
                 return "thermometer.low"
             case .atmosphericPressure:
                 return "thermometer.and.liquid.waves"
+            case .button:
+                return "lightswitch.on"
             case .door:
                 if state == "on" {
                     return "door.left.hand.closed"

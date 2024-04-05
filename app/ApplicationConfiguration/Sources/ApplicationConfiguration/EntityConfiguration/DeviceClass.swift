@@ -10,6 +10,7 @@ public enum DeviceClass: String, PersistableEnum {
     case atmosphericPressure = "atmospheric_pressure"
     case battery = "battery"
     case batteryCharging = "battery_charging"
+    case button
     case carbonMonoxide = "carbon_monoxide"
     case carbonDioxide = "carbon_dioxide"
     case connectivity
