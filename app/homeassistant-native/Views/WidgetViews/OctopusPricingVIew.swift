@@ -13,7 +13,7 @@ struct OctopusPricingVIew: View {
             )
 
             VStack {
-                HAFootNoteView(text: "\(date.octopusFormatted)")
+                HAFootNoteView(text: "\(date.octopusFormatted)", alignement: .leading)
 
                 Text("\((price * 100).priceFormatted())p")
                     .fontWeight(.medium)

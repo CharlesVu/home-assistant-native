@@ -34,7 +34,7 @@ struct HAEntityView: View {
 
     var title: some View {
         if viewModel.alignment == .vertical {
-            AnyView(HAFootNoteView(text: viewModel.title))
+            AnyView(HAFootNoteView(text: viewModel.title, alignement: .leading))
         } else {
             AnyView(HAMainTextView(text: viewModel.title))
         }

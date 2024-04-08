@@ -17,13 +17,20 @@ struct StateTransformer {
             return formattedState
         }
         if let unit = entity.unit {
-            return "\(entity.state) \(unit)"
+            return formatStateWithUnit(unit: unit, entity: entity)
         }
         if let date = formattedDate(from: entity.state) {
             return date
         }
         let localizedKey = String.LocalizationValue(stringLiteral: entity.state)
         return String(localized: localizedKey)
+    }
+
+    func formatStateWithUnit(unit: String, entity: Entity) -> String {
+        if unit == "%", let value = Double(entity.state) {
+            return "\(Int(value))\(unit)"
+        }
+        return "\(entity.state) \(unit)"
     }
 
     func defaultState(deviceClass: DeviceClass, entity: Entity) -> String? {

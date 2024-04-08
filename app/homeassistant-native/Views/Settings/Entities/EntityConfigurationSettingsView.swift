@@ -130,7 +130,7 @@ struct EntityConfigurationSettingsView: View {
                         VStack(alignment: .leading) {
                             HAMainTextView(text: entity.wrappedValue.friendlyName ?? entity.wrappedValue.entityID)
                             if entity.wrappedValue.friendlyName != nil {
-                                HAFootNoteView(text: entity.wrappedValue.entityID)
+                                HAFootNoteView(text: entity.wrappedValue.entityID, alignement: .leading)
                             }
                         }
                     }

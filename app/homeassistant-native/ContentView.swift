@@ -31,6 +31,9 @@ struct ContentView: View {
                             HAButton(entityID: "light.charles_key_light")
                             HAButton(entityID: "sensor.bathroom_sensor_humidity")
                         }
+                        HStack {
+                            HAGauge(entityID: "sensor.bathroom_sensor_humidity")
+                        }
                         ForEach(Array(viewModel.allEntities)) {
                             HAEntityView(entityID: $0.id)
                         }
