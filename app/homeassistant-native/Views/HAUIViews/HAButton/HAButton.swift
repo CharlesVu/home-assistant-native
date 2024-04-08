@@ -35,13 +35,10 @@ struct HAButton: View {
                     color: viewModel.color
                 )
             }
-            Text(viewModel.title)
-                .fontWeight(.medium)
-                .foregroundColor(ColorManager.haDefaultDark)
-                .frame(
-                    maxWidth: .infinity,
-                    alignment: viewModel.alignment == .hotizontal ? .leading : .center
-                )
+            HADetailTextView(
+                text: viewModel.title,
+                textAlignment: viewModel.alignment == .hotizontal ? .leading : .center
+            )
         }
         .onTapGesture {
             Task {

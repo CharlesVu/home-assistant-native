@@ -12,7 +12,6 @@
 		560FA2432B2E26A4004ED11D /* HomeAssistant in Frameworks */ = {isa = PBXBuildFile; productRef = 560FA2422B2E26A4004ED11D /* HomeAssistant */; };
 		5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F2882BBD4EFC000CC23D /* HAButton.swift */; };
 		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
-		565D614D2B2B56C100B9B051 /* SimpleStateWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614C2B2B56C100B9B051 /* SimpleStateWidget.swift */; };
 		565D614F2B2B612D00B9B051 /* IconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614E2B2B612D00B9B051 /* IconMapper.swift */; };
 		565D61512B2BA05C00B9B051 /* HADetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61502B2BA05C00B9B051 /* HADetailTextView.swift */; };
 		565D61552B2BC4A800B9B051 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61542B2BC4A800B9B051 /* Double.swift */; };
@@ -55,7 +54,6 @@
 		560FA2442B2E27D8004ED11D /* ApplicationConfiguration */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ApplicationConfiguration; sourceTree = "<group>"; };
 		5635F2882BBD4EFC000CC23D /* HAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButton.swift; sourceTree = "<group>"; };
 		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
-		565D614C2B2B56C100B9B051 /* SimpleStateWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleStateWidget.swift; sourceTree = "<group>"; };
 		565D614E2B2B612D00B9B051 /* IconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconMapper.swift; sourceTree = "<group>"; };
 		565D61502B2BA05C00B9B051 /* HADetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HADetailTextView.swift; sourceTree = "<group>"; };
 		565D61542B2BC4A800B9B051 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
@@ -231,7 +229,6 @@
 			children = (
 				68A3D5EC2779111900BFDE39 /* SwitchWidgetListView.swift */,
 				68357E88277688B4004B2879 /* TemperatureHumidityWidgetView.swift */,
-				565D614C2B2B56C100B9B051 /* SimpleStateWidget.swift */,
 				568D54692BB5BA0700E11B6D /* OctopusPricingVIew.swift */,
 				566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */,
 			);
@@ -368,7 +365,6 @@
 			files = (
 				68C81E4C2777B7AE00A99F04 /* ModalSettingsView.swift in Sources */,
 				568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */,
-				565D614D2B2B56C100B9B051 /* SimpleStateWidget.swift in Sources */,
 				566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */,
 				56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */,
 				680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */,

@@ -5,7 +5,7 @@ struct HAFootNoteView: View {
     var body: some View {
         Text(text)
             .font(.footnote)
-            .fontWeight(.medium)
+            .fontWeight(.light)
             .foregroundColor(ColorManager.haDefaultLight)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
