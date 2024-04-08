@@ -16,6 +16,7 @@
 		565D61512B2BA05C00B9B051 /* HADetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61502B2BA05C00B9B051 /* HADetailTextView.swift */; };
 		565D61552B2BC4A800B9B051 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61542B2BC4A800B9B051 /* Double.swift */; };
 		565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565F8A102B2A661300AFBB1E /* JSONDescription.swift */; };
+		56613BA02BC3E41C001668A9 /* HAEntityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56613B9F2BC3E41C001668A9 /* HAEntityViewModel.swift */; };
 		566574D72BBFE58900F7B69B /* HAButtonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566574D62BBFE58900F7B69B /* HAButtonViewModel.swift */; };
 		566574DA2BBFE74E00F7B69B /* HAEntityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566574D92BBFE74E00F7B69B /* HAEntityView.swift */; };
 		566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */; };
@@ -58,6 +59,7 @@
 		565D61502B2BA05C00B9B051 /* HADetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HADetailTextView.swift; sourceTree = "<group>"; };
 		565D61542B2BC4A800B9B051 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		565F8A102B2A661300AFBB1E /* JSONDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDescription.swift; sourceTree = "<group>"; };
+		56613B9F2BC3E41C001668A9 /* HAEntityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAEntityViewModel.swift; sourceTree = "<group>"; };
 		566574D62BBFE58900F7B69B /* HAButtonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButtonViewModel.swift; sourceTree = "<group>"; };
 		566574D92BBFE74E00F7B69B /* HAEntityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAEntityView.swift; sourceTree = "<group>"; };
 		566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				566574D92BBFE74E00F7B69B /* HAEntityView.swift */,
+				56613B9F2BC3E41C001668A9 /* HAEntityViewModel.swift */,
 			);
 			path = HAEntity;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */,
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,
+				56613BA02BC3E41C001668A9 /* HAEntityViewModel.swift in Sources */,
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
 				56C513302B2F6DC000AC0340 /* SectionDetailSettingsView.swift in Sources */,
