@@ -8,7 +8,7 @@ public class RealmManager {
     let messageLogger = Logger(subsystem: "Realm", category: "Realm")
 
     init() {
-        let configuration = Realm.Configuration(schemaVersion: 11)
+        let configuration = Realm.Configuration(schemaVersion: 12)
         realm = try! Realm(configuration: configuration)
         if let path = realm.configuration.fileURL?.absoluteString {
             messageLogger.debug("Realm Path \(path)")
@@ -43,6 +43,7 @@ public class RealmManager {
             })
     }
 
+    @MainActor
     public func entity(id: String) async -> Entity? {
         guard
             let entityObject = database()

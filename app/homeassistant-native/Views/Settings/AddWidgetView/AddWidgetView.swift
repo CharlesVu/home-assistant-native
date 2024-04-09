@@ -15,7 +15,6 @@ class AddWidgetViewModel: ObservableObject {
         self.path = path
     }
 
-    @MainActor
     func addButton() async {
         guard
             let parentConfiguration = databaseManager.database().object(
@@ -25,15 +24,16 @@ class AddWidgetViewModel: ObservableObject {
         else { return }
 
         do {
-            try databaseManager.database().write {
+            let db = databaseManager.database()
+            try await db.asyncWrite {
                 let configuration = ButtonConfiguration()
-                databaseManager.database().add(configuration)
+                db.add(configuration)
 
                 let newButtonObject = DisplayableModelObject()
                 newButtonObject.parentSection = parent.id
                 newButtonObject.type = .button
                 newButtonObject.configurationID = configuration.id
-                databaseManager.database().add(newButtonObject)
+                db.add(newButtonObject)
 
                 parentConfiguration.children.append(newButtonObject)
             }
@@ -45,23 +45,25 @@ class AddWidgetViewModel: ObservableObject {
 
     @MainActor
     func addVstack() async {
+        let db = databaseManager.database()
+
         guard
-            let parentConfiguration = databaseManager.database().object(
+            let parentConfiguration = db.object(
                 ofType: VStackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
 
         do {
-            try databaseManager.database().write {
+            try await db.asyncWrite {
                 let configuration = VStackConfiguration()
-                databaseManager.database().add(configuration)
+                db.add(configuration)
 
                 let newvStackObject = DisplayableModelObject()
                 newvStackObject.parentSection = parent.id
                 newvStackObject.type = .vStack
                 newvStackObject.configurationID = configuration.id
-                databaseManager.database().add(newvStackObject)
+                db.add(newvStackObject)
 
                 parentConfiguration.children.append(newvStackObject)
             }

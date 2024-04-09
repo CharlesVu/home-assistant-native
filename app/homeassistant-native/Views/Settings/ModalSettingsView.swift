@@ -2,9 +2,42 @@ import ApplicationConfiguration
 import SwiftUI
 
 enum NavigationDestination: Hashable {
+    static func == (lhs: NavigationDestination, rhs: NavigationDestination) -> Bool {
+        switch (lhs, rhs) {
+            case (.sectionsSettingsView, .sectionsSettingsView):
+                return true
+            case (.vStackConfiguration(let lhsConfiguration), .vStackConfiguration(let rhsConfiguration)):
+                return lhsConfiguration == rhsConfiguration
+            case (.addWidget(let lhsParent), .addWidget(let rhsParent)):
+                return lhsParent == rhsParent
+            case (.selectEntity(let lhsOwner), .selectEntity(let rhsOwner)):
+                return lhsOwner.entityID == rhsOwner.entityID
+            default:
+                return false
+        }
+    }
+
+    func hash(into hasher: inout Hasher) {
+        switch self {
+            case .sectionsSettingsView:
+                hasher.combine("sectionsSettingsView")
+            case .vStackConfiguration(let configuration):
+                hasher.combine("vStackConfiguration")
+                hasher.combine(configuration)
+            case .addWidget(let parent):
+                hasher.combine("addWidget")
+                hasher.combine(parent)
+            case .selectEntity(let owner):
+                hasher.combine("selectEntity")
+                hasher.combine(owner)
+
+        }
+    }
+
     case sectionsSettingsView
     case vStackConfiguration(sectionInformation: DisplayableModelObject)
     case addWidget(parent: DisplayableModelObject)
+    case selectEntity(owner: any EntityAttachable)
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -14,6 +47,8 @@ enum NavigationDestination: Hashable {
                 VStackConfigurationView(path: path, sectionInformation: sectionInformation)
             case .addWidget(let parent):
                 AddWidgetView(path: path, parent: parent)
+            case .selectEntity(let owner):
+                EntitySelectionView(path: path, entityAttachable: owner)
         }
         EmptyView()
     }
@@ -39,9 +74,7 @@ struct ModalSettingsView: View {
                                 backgroundColor: .white
                             )
                         }
-                        .navigationDestination(for: NavigationDestination.self) { option in
-                            option.view($path)
-                        }
+
                     }
                     Section {
                         NavigationLink {
@@ -56,6 +89,8 @@ struct ModalSettingsView: View {
                         }
                     }
                 }
+            }.navigationDestination(for: NavigationDestination.self) { option in
+                option.view($path)
             }
             #if !os(macOS)
             .navigationBarTitleDisplayMode(.inline)

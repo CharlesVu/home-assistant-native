@@ -33,6 +33,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
 
+    @MainActor
     func updateRates(newRates: [OctopusRate]) {
         print("Updated Octupus Rates")
         let db = databaseManager.database()
@@ -49,6 +50,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
 
+    @MainActor
     func updateEntity(newState: EntityState) {
         let db = databaseManager.database()
         var model: EntityModelObject

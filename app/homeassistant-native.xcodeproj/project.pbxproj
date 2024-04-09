@@ -12,7 +12,7 @@
 		560FA2432B2E26A4004ED11D /* HomeAssistant in Frameworks */ = {isa = PBXBuildFile; productRef = 560FA2422B2E26A4004ED11D /* HomeAssistant */; };
 		5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F2882BBD4EFC000CC23D /* HAButton.swift */; };
 		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
-		5658214A2BC5351900A6D014 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565821492BC5351900A6D014 /* Sequence.swift */; };
+		56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56509F662BC57D5C0047A63D /* EntitySelectionView.swift */; };
 		565D614F2B2B612D00B9B051 /* IconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614E2B2B612D00B9B051 /* IconMapper.swift */; };
 		565D61512B2BA05C00B9B051 /* HADetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61502B2BA05C00B9B051 /* HADetailTextView.swift */; };
 		565D61552B2BC4A800B9B051 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61542B2BC4A800B9B051 /* Double.swift */; };
@@ -59,7 +59,7 @@
 		560FA2442B2E27D8004ED11D /* ApplicationConfiguration */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ApplicationConfiguration; sourceTree = "<group>"; };
 		5635F2882BBD4EFC000CC23D /* HAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButton.swift; sourceTree = "<group>"; };
 		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
-		565821492BC5351900A6D014 /* Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		56509F662BC57D5C0047A63D /* EntitySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionView.swift; sourceTree = "<group>"; };
 		565D614E2B2B612D00B9B051 /* IconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconMapper.swift; sourceTree = "<group>"; };
 		565D61502B2BA05C00B9B051 /* HADetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HADetailTextView.swift; sourceTree = "<group>"; };
 		565D61542B2BC4A800B9B051 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
@@ -122,6 +122,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		56509F652BC57D470047A63D /* Entity Selection */ = {
+			isa = PBXGroup;
+			children = (
+				56509F662BC57D5C0047A63D /* EntitySelectionView.swift */,
+			);
+			path = "Entity Selection";
+			sourceTree = "<group>";
+		};
 		56613BA12BC3E497001668A9 /* HAGauge */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +178,7 @@
 		56C5132B2B2F6B1400AC0340 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				56509F652BC57D470047A63D /* Entity Selection */,
 				56613BA62BC402BE001668A9 /* AddWidgetView */,
 				56C5132C2B2F6B2800AC0340 /* Sections */,
 				56D7B0962B2EFC780005E627 /* HomeAssistant */,
@@ -298,7 +307,6 @@
 				565F8A102B2A661300AFBB1E /* JSONDescription.swift */,
 				565D61542B2BC4A800B9B051 /* Double.swift */,
 				568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */,
-				565821492BC5351900A6D014 /* Sequence.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -384,6 +392,7 @@
 			files = (
 				68C81E4C2777B7AE00A99F04 /* ModalSettingsView.swift in Sources */,
 				568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */,
+				56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */,
 				566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */,
 				56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */,
 				680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */,
@@ -414,7 +423,6 @@
 				566574DA2BBFE74E00F7B69B /* HAEntityView.swift in Sources */,
 				566574D72BBFE58900F7B69B /* HAButtonViewModel.swift in Sources */,
 				683259542776811900222A76 /* HeaderView.swift in Sources */,
-				5658214A2BC5351900A6D014 /* Sequence.swift in Sources */,
 				68A3D5DB2778D8F800BFDE39 /* HABrightnessSliderView.swift in Sources */,
 				685FA1F127791EDD0061DF86 /* HASettingItemView.swift in Sources */,
 				56613BA82BC402CC001668A9 /* AddWidgetView.swift in Sources */,

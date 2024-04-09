@@ -8,7 +8,7 @@ class ContentViewModel: ObservableObject {
     init() {}
 
     func buildView() -> some View {
-        EmptyView()
+        Spacer()
     }
 }
 
@@ -19,11 +19,12 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
-            viewModel.buildView()
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarHidden(true)
+            HStack {
+                viewModel.buildView()
+                    .navigationBarTitleDisplayMode(.inline)
+                    .navigationBarHidden(true)
+            }
         }
-
     }
 }
 

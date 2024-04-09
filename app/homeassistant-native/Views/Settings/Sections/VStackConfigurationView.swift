@@ -12,8 +12,9 @@ enum Destination: Identifiable {
                 return model.id
         }
     }
+
     case vStackConfiguration(name: String, model: DisplayableModelObject)
-    case buttonCongiguration(name: String, model: DisplayableModelObject)
+    case buttonCongiguration(name: String, configuration: ButtonConfiguration)
 }
 
 class SectionDetailSettingsViewModel: ObservableObject {
@@ -53,10 +54,11 @@ class SectionDetailSettingsViewModel: ObservableObject {
 
     @MainActor
     func save() async {
+        let db = databaseManager.database()
         do {
-            try databaseManager.database().write {
+            try await db.asyncWrite {
                 sectionInformation.name = name
-                databaseManager.database().add(sectionInformation, update: .modified)
+                db.add(sectionInformation, update: .modified)
             }
             path.wrappedValue.removeLast()
         } catch {
@@ -66,8 +68,10 @@ class SectionDetailSettingsViewModel: ObservableObject {
 
     @MainActor
     func getChildren() async {
+        let db = databaseManager.database()
+
         guard
-            let configuration = databaseManager.database().object(
+            let configuration = db.object(
                 ofType: VStackConfiguration.self,
                 forPrimaryKey: sectionInformation.configurationID
             )
@@ -87,8 +91,10 @@ class SectionDetailSettingsViewModel: ObservableObject {
             case .vStack:
                 return .vStackConfiguration(name: model.name, model: model)
             case .button:
+                let db = databaseManager.database()
+
                 guard
-                    let configuration = databaseManager.database().object(
+                    let configuration = db.object(
                         ofType: ButtonConfiguration.self,
                         forPrimaryKey: model.configurationID
                     )
@@ -100,7 +106,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
                 if let id = configuration.entityID, let entity = await databaseManager.entity(id: id) {
                     displayName = entity.displayName()
                 }
-                return .buttonCongiguration(name: displayName, model: model)
+                return .buttonCongiguration(name: displayName, configuration: configuration)
         }
     }
 
@@ -144,9 +150,13 @@ struct VStackConfigurationView: View {
             Section("Children") {
                 ForEach(viewModel.destinations) { child in
                     switch child {
-                        case .buttonCongiguration(let name, let model):
-                            Text("Button")
-                            Text(name)
+                        case .buttonCongiguration(let name, let configuration):
+                            NavigationLink(
+                                value: NavigationDestination.selectEntity(owner: configuration),
+                                label: {
+                                    Text(name)
+                                }
+                            )
                         case .vStackConfiguration(let name, let model):
                             NavigationLink(
                                 value: NavigationDestination.vStackConfiguration(sectionInformation: model),
