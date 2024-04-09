@@ -10,9 +10,6 @@
     "%lld" : {
 
     },
-    "1" : {
-
-    },
     "above_horizon" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -27,10 +24,16 @@
     "Add" : {
 
     },
+    "Add Button" : {
+
+    },
     "Auth Token" : {
 
     },
-    "Column" : {
+    "Button" : {
+
+    },
+    "Children" : {
 
     },
     "Dismiss" : {
@@ -40,9 +43,6 @@
 
     },
     "Home Assistant" : {
-
-    },
-    "Lights" : {
 
     },
     "My API Key" : {
@@ -80,9 +80,6 @@
 
     },
     "Section Name" : {
-
-    },
-    "Test" : {
 
     },
     "unavailable" : {

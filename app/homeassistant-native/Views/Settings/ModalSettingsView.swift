@@ -4,19 +4,16 @@ import SwiftUI
 enum NavigationDestination: Hashable {
     case sectionsSettingsView
     case sectionDetailSettingsView(sectionInformation: SectionModelObject)
-    //    case entityConfigurationSettingsView
-    //    case entityConfigurationDetailSettingsView(entityConfiguration: EntityModelObject, sections: [SectionModelObject])
+    case addWidget(parent: SectionModelObject)
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
             case .sectionsSettingsView:
                 SectionsSettingsView(path: path)
             case .sectionDetailSettingsView(let sectionInformation):
-                SectionDetailSettingsView(path: path, sectionInformation: sectionInformation)
-        //            case .entityConfigurationSettingsView:
-        //                EntityConfigurationSettingsView(path: path)
-        //            case .entityConfigurationDetailSettingsView(let entityConfiguration, let sections):
-        //                EntityDetailConfigurationSettingsView(path: path, entityConfiguration: entityConfiguration, sections: sections)
+                VStackConfigurationView(path: path, sectionInformation: sectionInformation)
+            case .addWidget(let parent):
+                AddWidgetView(path: path, parent: parent)
         }
         EmptyView()
     }
@@ -45,16 +42,6 @@ struct ModalSettingsView: View {
                         .navigationDestination(for: NavigationDestination.self) { option in
                             option.view($path)
                         }
-
-                        //                        NavigationLink(value: NavigationDestination.entityConfigurationSettingsView) {
-                        //                            HASettingItemView(
-                        //                                text: "Entities",
-                        //                                icon: "list.dash.header.rectangle",
-                        //                                foregroundColor: .accentColor,
-                        //                                backgroundColor: .white
-                        //                            )
-                        //                        }
-
                     }
                     Section {
                         NavigationLink {

@@ -5,15 +5,11 @@ import RealmSwift
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @ObservedResults(
-        Entity.self,
-        filter: .init(format: "entityID BEGINSWITH %@ AND attributes.hueType = 'room'", "light")
-    ) var lights
+    init() {}
 
-    @ObservedResults(
-        Entity.self
-    ) var allEntities
-
+    func buildView() -> some View {
+        EmptyView()
+    }
 }
 
 struct ContentView: View {
@@ -23,36 +19,9 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
-            HStack {
-                //                OctopusPriceListView()
-                List {
-                    Section("Test") {
-                        HStack {
-                            HAButton(entityID: "light.charles_key_light")
-                            HAButton(entityID: "sensor.bathroom_sensor_humidity")
-                        }
-                        HStack {
-                            HAGauge(entityID: "sensor.bathroom_sensor_humidity")
-                        }
-                        ForEach(Array(viewModel.allEntities)) {
-                            HAEntityView(entityID: $0.id)
-                        }
-
-                    }
-                }
-
-                List {
-                    Section("Lights") {
-                        ForEach(Array(viewModel.lights)) { item in
-                            SwitchWidgetListView(
-                                entity: item
-                            )
-                        }
-                    }
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarHidden(true)
+            viewModel.buildView()
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationBarHidden(true)
         }
 
     }

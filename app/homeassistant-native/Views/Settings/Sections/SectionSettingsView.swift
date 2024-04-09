@@ -25,7 +25,7 @@ struct SectionsSettingsView: View {
         .navigationBarItems(
             trailing:
                 NavigationLink {
-                    SectionDetailSettingsView(path: path, sectionInformation: nil)
+                    VStackConfigurationView(path: path, sectionInformation: nil)
                 } label: {
                     Text("Add")
                 }
