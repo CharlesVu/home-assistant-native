@@ -1,6 +1,7 @@
 import ApplicationConfiguration
 import Combine
 import Factory
+import RealmSwift
 import SwiftUI
 
 enum Destination: Identifiable {
@@ -32,6 +33,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
     @Published var destinations = [Destination]()
 
     var path: Binding<NavigationPath>
+    var tokens: [NotificationToken] = []
 
     init(sectionInformation: DisplayableModelObject?, path: Binding<NavigationPath>) {
         if let sectionInformation {
@@ -77,12 +79,31 @@ class SectionDetailSettingsViewModel: ObservableObject {
             )
         else { return }
 
+        let token = configuration.observe(keyPaths: ["children"]) { change in
+            switch change {
+                case .change(let object, _):
+                    if let object = object as? VStackConfiguration {
+                        Task { [weak self] in
+                            await self?.updateDestinations(configuration: object)
+                        }
+                    }
+                default:
+                    ()
+            }
+        }
+        tokens.append(token)
+        await updateDestinations(configuration: configuration)
+    }
+
+    @MainActor
+    func updateDestinations(configuration: VStackConfiguration) async {
         destinations = []
         for element in configuration.children {
             if let destination = await build(model: element) {
                 destinations.append(destination)
             }
         }
+
     }
 
     @MainActor
