@@ -3,14 +3,14 @@ import SwiftUI
 
 enum NavigationDestination: Hashable {
     case sectionsSettingsView
-    case sectionDetailSettingsView(sectionInformation: SectionModelObject)
-    case addWidget(parent: SectionModelObject)
+    case vStackConfiguration(sectionInformation: DisplayableModelObject)
+    case addWidget(parent: DisplayableModelObject)
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
             case .sectionsSettingsView:
                 SectionsSettingsView(path: path)
-            case .sectionDetailSettingsView(let sectionInformation):
+            case .vStackConfiguration(let sectionInformation):
                 VStackConfigurationView(path: path, sectionInformation: sectionInformation)
             case .addWidget(let parent):
                 AddWidgetView(path: path, parent: parent)

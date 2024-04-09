@@ -12,13 +12,13 @@ enum Destination: Identifiable {
                 return model.id
         }
     }
-    case vStackConfiguration(name: String, model: SectionModelObject)
-    case buttonCongiguration(name: String, model: SectionModelObject)
+    case vStackConfiguration(name: String, model: DisplayableModelObject)
+    case buttonCongiguration(name: String, model: DisplayableModelObject)
 }
 
 class SectionDetailSettingsViewModel: ObservableObject {
     @Injected(\.databaseManager) var databaseManager
-    @Published var sectionInformation: SectionModelObject
+    @Published var sectionInformation: DisplayableModelObject
 
     @Published var name: String {
         didSet {
@@ -32,7 +32,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
 
     var path: Binding<NavigationPath>
 
-    init(sectionInformation: SectionModelObject?, path: Binding<NavigationPath>) {
+    init(sectionInformation: DisplayableModelObject?, path: Binding<NavigationPath>) {
         if let sectionInformation {
             self.sectionInformation = sectionInformation.thaw()!
             self.name = sectionInformation.name
@@ -82,7 +82,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
     }
 
     @MainActor
-    func build(model: SectionModelObject) async -> Destination? {
+    func build(model: DisplayableModelObject) async -> Destination? {
         switch model.type {
             case .vStack:
                 return .vStackConfiguration(name: model.name, model: model)
@@ -109,7 +109,7 @@ class SectionDetailSettingsViewModel: ObservableObject {
 struct VStackConfigurationView: View {
     @ObservedObject var viewModel: SectionDetailSettingsViewModel
 
-    init(path: Binding<NavigationPath>, sectionInformation: SectionModelObject?) {
+    init(path: Binding<NavigationPath>, sectionInformation: DisplayableModelObject?) {
         viewModel = .init(sectionInformation: sectionInformation, path: path)
     }
 
@@ -149,7 +149,7 @@ struct VStackConfigurationView: View {
                             Text(name)
                         case .vStackConfiguration(let name, let model):
                             NavigationLink(
-                                value: NavigationDestination.sectionDetailSettingsView(sectionInformation: model),
+                                value: NavigationDestination.vStackConfiguration(sectionInformation: model),
                                 label: {
                                     Text(model.name)
                                 }

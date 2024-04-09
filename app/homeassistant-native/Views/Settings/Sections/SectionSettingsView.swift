@@ -5,7 +5,7 @@ import RealmSwift
 import SwiftUI
 
 struct SectionsSettingsView: View {
-    @ObservedResults(SectionModelObject.self) var sections
+    @ObservedResults(DisplayableModelObject.self) var sections
 
     var path: Binding<NavigationPath>
 
@@ -13,7 +13,7 @@ struct SectionsSettingsView: View {
         List {
             ForEach(sections) { section in
                 NavigationLink(
-                    value: NavigationDestination.sectionDetailSettingsView(sectionInformation: section),
+                    value: NavigationDestination.vStackConfiguration(sectionInformation: section),
                     label: {
                         Text(section.name)
                     }

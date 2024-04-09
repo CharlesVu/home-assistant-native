@@ -9,7 +9,7 @@ public enum ViewType: String, PersistableEnum {
     //    case gauge
 }
 
-public class SectionModelObject: Object, ObjectKeyIdentifiable {
+public class DisplayableModelObject: Object, ObjectKeyIdentifiable {
     @Persisted public var id: String = UUID().uuidString
     @Persisted public var parentSection: String?
     @Persisted public var type: ViewType
