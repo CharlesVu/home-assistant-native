@@ -12,7 +12,9 @@ class VStackConfigurationViewModel: ObservableObject {
 
     @Published var name: String {
         didSet {
-            validateInput()
+            Task {
+                await saveName()
+            }
         }
     }
 
@@ -33,21 +35,9 @@ class VStackConfigurationViewModel: ObservableObject {
         }
     }
 
-    func validateInput() {
-        isValid = name != ""
-    }
-
-    @MainActor
-    func save() async {
-        let db = databaseManager.database()
-        do {
-            try await db.asyncWrite {
-                sectionInformation.name = name
-                db.add(sectionInformation, update: .modified)
-            }
-            path.wrappedValue.removeLast()
-        } catch {
-            buttonTitle = "The Dev fucked up"
+    func saveName() async {
+        await displayableStore.write {
+            sectionInformation.name = name
         }
     }
 

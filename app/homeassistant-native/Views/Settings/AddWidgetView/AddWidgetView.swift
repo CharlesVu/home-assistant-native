@@ -15,6 +15,7 @@ class AddWidgetViewModel: ObservableObject {
         self.path = path
     }
 
+    @MainActor
     func addButton() async {
         guard
             let parentConfiguration = databaseManager.database().object(
@@ -86,7 +87,7 @@ struct AddWidgetView: View {
         viewModel = .init(parent: parent, path: path)
     }
     var body: some View {
-        VStack {
+        List {
             Button("Add Button") {
                 Task {
                     await viewModel.addButton()

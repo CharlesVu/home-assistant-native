@@ -46,6 +46,13 @@ struct HAVStack: View {
     var children: some View {
         ForEach(viewModel.subViews) { subview in
             HAViewBuilder().view(viewType: subview)
+                .alignmentGuide(.listRowSeparatorLeading) { _ in
+                    return 8
+                }
+                .alignmentGuide(.listRowSeparatorTrailing) { viewDimensions in
+                    return viewDimensions[.listRowSeparatorTrailing] - 8
+                }
+
         }
     }
 }

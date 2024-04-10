@@ -5,17 +5,6 @@ import RealmSwift
 import SwiftUI
 
 class HAButtonViewModel: ObservableObject {
-    enum Alignment {
-        case hotizontal
-        case vertical
-    }
-
-    enum ButtonMode {
-        case toggle
-        case turnOn
-        case turnOff
-    }
-
     @Injected(\.iconMapper) private var iconMapper
     @Injected(\.displayableStore) private var displayableStore
     @Injected(\.entityStore) private var entityStore
@@ -24,33 +13,53 @@ class HAButtonViewModel: ObservableObject {
     @Published var iconName: String = "circle"
     @Published var color: Color = .white
     @Published var title: String = ""
-    @Published var alignment: Alignment = .vertical
+    @Published var alignment: ButtonAlignment = .vertical
     @Published var isWaitingForResponse = false
 
-    var tokens: [NotificationToken] = []
-    var entityID: String!
-    var buttonMode: ButtonMode = .toggle
-    var configuration: ButtonConfiguration!
+    private var entityObserverToken: NotificationToken?
+    private var configurationObserverToken: NotificationToken?
+    private var entityID: String!
+    private var buttonMode: ButtonMode = .toggle
+    private var configuration: ButtonConfiguration!
 
     private var state: Bool?
 
     init(displayableModelObjectID: String) {
         configuration = displayableStore.buttonConfiguration(displayableModelObjectID: displayableModelObjectID)
+        Task {
+            await observeConfiguration()
+            await observeEntity()
+        }
+    }
+
+    @MainActor
+    func observeConfiguration() {
+        applyConfiguration()
+
+        configurationObserverToken = configuration.observe { [weak self] change in
+            self?.observeEntity()
+            self?.applyConfiguration()
+        }
+    }
+
+    @MainActor
+    func applyConfiguration() {
+        alignment = configuration.alignment
+        buttonMode = configuration.mode
+    }
+
+    @MainActor
+    func observeEntity() {
         if let entityID = configuration.entityID {
             self.entityID = entityID
-            if let token =
+            entityObserverToken =
                 entityStore
                 .listenForEntityChange(
                     id: entityID,
-                    callback: { entity in
-                        Task { [weak self] in
-                            await self?.updateModel(from: entity)
-                        }
+                    callback: { [weak self] entity in
+                        self?.updateModel(from: entity)
                     }
                 )
-            {
-                tokens.append(token)
-            }
         }
     }
 

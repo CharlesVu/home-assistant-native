@@ -12,6 +12,7 @@
 		560FA2432B2E26A4004ED11D /* HomeAssistant in Frameworks */ = {isa = PBXBuildFile; productRef = 560FA2422B2E26A4004ED11D /* HomeAssistant */; };
 		5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F2882BBD4EFC000CC23D /* HAButton.swift */; };
 		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
+		564EDDC72BC71C5700E25C83 /* ButtonConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EDDC62BC71C5700E25C83 /* ButtonConfigurationView.swift */; };
 		56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56509F662BC57D5C0047A63D /* EntitySelectionView.swift */; };
 		565AF3B62BC682D000F1C884 /* VStackConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */; };
 		565AF3B82BC6865200F1C884 /* EntitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */; };
@@ -68,6 +69,7 @@
 		560FA2442B2E27D8004ED11D /* ApplicationConfiguration */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = ApplicationConfiguration; sourceTree = "<group>"; };
 		5635F2882BBD4EFC000CC23D /* HAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButton.swift; sourceTree = "<group>"; };
 		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
+		564EDDC62BC71C5700E25C83 /* ButtonConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigurationView.swift; sourceTree = "<group>"; };
 		56509F662BC57D5C0047A63D /* EntitySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionView.swift; sourceTree = "<group>"; };
 		565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStackConfigurationViewModel.swift; sourceTree = "<group>"; };
 		565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionViewModel.swift; sourceTree = "<group>"; };
@@ -138,6 +140,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		564EDDC52BC71C3D00E25C83 /* ButtonConfiguration */ = {
+			isa = PBXGroup;
+			children = (
+				564EDDC62BC71C5700E25C83 /* ButtonConfigurationView.swift */,
+			);
+			path = ButtonConfiguration;
 			sourceTree = "<group>";
 		};
 		56509F652BC57D470047A63D /* Entity Selection */ = {
@@ -230,6 +240,7 @@
 		56C5132B2B2F6B1400AC0340 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				564EDDC52BC71C3D00E25C83 /* ButtonConfiguration */,
 				565AF3B42BC682AD00F1C884 /* VStackConfigurationView */,
 				56509F652BC57D470047A63D /* Entity Selection */,
 				56613BA62BC402BE001668A9 /* AddWidgetView */,
@@ -477,6 +488,7 @@
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
 				56C513302B2F6DC000AC0340 /* VStackConfigurationView.swift in Sources */,
+				564EDDC72BC71C5700E25C83 /* ButtonConfigurationView.swift in Sources */,
 				56613BA32BC3E4A7001668A9 /* HAGauge.swift in Sources */,
 				565AF3C22BC6993B00F1C884 /* OctopusAgileStore.swift in Sources */,
 				68A3D5ED2779111900BFDE39 /* SwitchWidgetListView.swift in Sources */,

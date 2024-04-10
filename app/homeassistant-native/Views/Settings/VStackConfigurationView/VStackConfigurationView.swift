@@ -12,18 +12,10 @@ struct VStackConfigurationView: View {
     }
 
     var body: some View {
-        Form {
+        List {
             Section("Section Name") {
                 TextField("Name", text: $viewModel.name)
             }
-            Button(viewModel.buttonTitle) {
-                Task {
-                    await viewModel.save()
-                }
-            }
-            .disabled(!viewModel.isValid)
-            .transition(.opacity)
-            .accentColor(ColorManager.haDefaultDark)
             children
             NavigationLink(
                 value: NavigationDestination.addWidget(parent: viewModel.sectionInformation),

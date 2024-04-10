@@ -7,6 +7,8 @@ protocol DisplayableStoring {
 
     func vStackConfiguration(displayableModelObjectID: String) -> VStackConfiguration
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
+
+    func write(_ block: () -> Void) async
 }
 
 struct DisplayableStore: DisplayableStoring {
@@ -43,4 +45,10 @@ struct DisplayableStore: DisplayableStoring {
         )!
     }
 
+    @MainActor
+    func write(_ block: () -> Void) async {
+        try? await databaseManager.database().asyncWrite {
+            block()
+        }
+    }
 }

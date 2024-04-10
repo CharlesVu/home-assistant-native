@@ -25,9 +25,11 @@ struct HAVSettingsViewBuilder {
         switch viewType {
             case .buttonCongiguration(let name, let configuration):
                 NavigationLink(
-                    value: NavigationDestination.selectEntity(owner: configuration),
+                    value: NavigationDestination.buttonConfiguration(configuration: configuration),
                     label: {
-                        Text(name)
+                        Text(
+                            "Button : \(name)"
+                        )
                     }
                 )
             case .vStackConfiguration(let name, let model):

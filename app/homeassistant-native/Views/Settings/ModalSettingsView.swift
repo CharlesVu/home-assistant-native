@@ -12,6 +12,8 @@ enum NavigationDestination: Hashable {
                 return lhsParent == rhsParent
             case (.selectEntity(let lhsOwner), .selectEntity(let rhsOwner)):
                 return lhsOwner.entityID == rhsOwner.entityID
+            case (.buttonConfiguration(let lhs), .buttonConfiguration(let rhs)):
+                return lhs.id == rhs.id
             default:
                 return false
         }
@@ -30,13 +32,16 @@ enum NavigationDestination: Hashable {
             case .selectEntity(let owner):
                 hasher.combine("selectEntity")
                 hasher.combine(owner)
-
+            case .buttonConfiguration(let configuration):
+                hasher.combine("buttonConfiguration")
+                hasher.combine(configuration)
         }
     }
 
     case sectionsSettingsView
     case vStackConfiguration(sectionInformation: DisplayableModelObject)
     case addWidget(parent: DisplayableModelObject)
+    case buttonConfiguration(configuration: ButtonConfiguration)
     case selectEntity(owner: any EntityAttachable)
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
@@ -49,6 +54,8 @@ enum NavigationDestination: Hashable {
                 AddWidgetView(path: path, parent: parent)
             case .selectEntity(let owner):
                 EntitySelectionView(path: path, entityAttachable: owner)
+            case .buttonConfiguration(let configuration):
+                ButtonConfigurationView(path: path, configuration: configuration)
         }
         EmptyView()
     }

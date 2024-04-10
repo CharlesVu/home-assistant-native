@@ -8,7 +8,7 @@ struct HAButton: View {
     }
 
     var body: some View {
-        if viewModel.alignment == .hotizontal {
+        if viewModel.alignment == .horizontal {
             HStack {
                 content
             }
@@ -20,6 +20,7 @@ struct HAButton: View {
     }
 
     var content: some View {
+
         Group {
             if viewModel.isWaitingForResponse {
                 ProgressView()
@@ -33,7 +34,7 @@ struct HAButton: View {
             }
             HADetailTextView(
                 text: viewModel.title,
-                textAlignment: viewModel.alignment == .hotizontal ? .leading : .center
+                textAlignment: viewModel.alignment == .horizontal ? .leading : .center
             )
         }
         .onTapGesture {
