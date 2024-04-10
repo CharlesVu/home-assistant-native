@@ -22,6 +22,7 @@ struct HAViewBuilder {
                 HAVStack(displayableModelObjectID: id)
             case .button(let id):
                 HAButton(displayableModelObjectID: id)
+                Divider()
         }
     }
 

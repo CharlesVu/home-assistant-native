@@ -22,9 +22,13 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
-            if let rootViewType = viewModel.rootViewType {
-                HAViewBuilder().view(viewType: rootViewType)
+            ScrollView {
+                if let rootViewType = viewModel.rootViewType {
+                    HAViewBuilder().view(viewType: rootViewType)
+                }
             }
+            .padding(.leading, 16)
+            .padding(.trailing, 16)
         }
     }
 }
