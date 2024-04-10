@@ -1,10 +1,6 @@
 import Foundation
 import RealmSwift
 
-public protocol EntityAttachable: Hashable {
-    var entityID: String? { get set }
-}
-
 public enum ButtonAlignment: String, PersistableEnum {
     case hotizontal
     case vertical
@@ -26,5 +22,3 @@ public class ButtonConfiguration: Object, ObjectKeyIdentifiable {
         return "id"
     }
 }
-
-extension ButtonConfiguration: EntityAttachable {}

@@ -13,6 +13,10 @@
 		5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F2882BBD4EFC000CC23D /* HAButton.swift */; };
 		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
 		56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56509F662BC57D5C0047A63D /* EntitySelectionView.swift */; };
+		565AF3B62BC682D000F1C884 /* VStackConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */; };
+		565AF3B82BC6865200F1C884 /* EntitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */; };
+		565AF3BB2BC686B500F1C884 /* EntityAttachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */; };
+		565AF3BE2BC6882200F1C884 /* HAVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BD2BC6882200F1C884 /* HAVStack.swift */; };
 		565D614F2B2B612D00B9B051 /* IconMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D614E2B2B612D00B9B051 /* IconMapper.swift */; };
 		565D61512B2BA05C00B9B051 /* HADetailTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61502B2BA05C00B9B051 /* HADetailTextView.swift */; };
 		565D61552B2BC4A800B9B051 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565D61542B2BC4A800B9B051 /* Double.swift */; };
@@ -60,6 +64,10 @@
 		5635F2882BBD4EFC000CC23D /* HAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButton.swift; sourceTree = "<group>"; };
 		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
 		56509F662BC57D5C0047A63D /* EntitySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionView.swift; sourceTree = "<group>"; };
+		565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStackConfigurationViewModel.swift; sourceTree = "<group>"; };
+		565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionViewModel.swift; sourceTree = "<group>"; };
+		565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAttachable.swift; sourceTree = "<group>"; };
+		565AF3BD2BC6882200F1C884 /* HAVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAVStack.swift; sourceTree = "<group>"; };
 		565D614E2B2B612D00B9B051 /* IconMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconMapper.swift; sourceTree = "<group>"; };
 		565D61502B2BA05C00B9B051 /* HADetailTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HADetailTextView.swift; sourceTree = "<group>"; };
 		565D61542B2BC4A800B9B051 /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
@@ -126,8 +134,34 @@
 			isa = PBXGroup;
 			children = (
 				56509F662BC57D5C0047A63D /* EntitySelectionView.swift */,
+				565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */,
 			);
 			path = "Entity Selection";
+			sourceTree = "<group>";
+		};
+		565AF3B42BC682AD00F1C884 /* VStackConfigurationView */ = {
+			isa = PBXGroup;
+			children = (
+				56C5132F2B2F6DC000AC0340 /* VStackConfigurationView.swift */,
+				565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */,
+			);
+			path = VStackConfigurationView;
+			sourceTree = "<group>";
+		};
+		565AF3B92BC686A100F1C884 /* Data Abstraction */ = {
+			isa = PBXGroup;
+			children = (
+				565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */,
+			);
+			path = "Data Abstraction";
+			sourceTree = "<group>";
+		};
+		565AF3BC2BC6881200F1C884 /* HAVStack */ = {
+			isa = PBXGroup;
+			children = (
+				565AF3BD2BC6882200F1C884 /* HAVStack.swift */,
+			);
+			path = HAVStack;
 			sourceTree = "<group>";
 		};
 		56613BA12BC3E497001668A9 /* HAGauge */ = {
@@ -178,6 +212,7 @@
 		56C5132B2B2F6B1400AC0340 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				565AF3B42BC682AD00F1C884 /* VStackConfigurationView */,
 				56509F652BC57D470047A63D /* Entity Selection */,
 				56613BA62BC402BE001668A9 /* AddWidgetView */,
 				56C5132C2B2F6B2800AC0340 /* Sections */,
@@ -191,7 +226,6 @@
 			isa = PBXGroup;
 			children = (
 				56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */,
-				56C5132F2B2F6DC000AC0340 /* VStackConfigurationView.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -226,6 +260,7 @@
 		6839796327766E420033DFBA /* homeassistant-native */ = {
 			isa = PBXGroup;
 			children = (
+				565AF3B92BC686A100F1C884 /* Data Abstraction */,
 				56770B242B292FD500D151F7 /* Info.plist */,
 				566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */,
 				6839796627766E420033DFBA /* ContentView.swift */,
@@ -253,6 +288,7 @@
 		68C81E302777955600A99F04 /* WidgetViews */ = {
 			isa = PBXGroup;
 			children = (
+				565AF3BC2BC6881200F1C884 /* HAVStack */,
 				68A3D5EC2779111900BFDE39 /* SwitchWidgetListView.swift */,
 				68357E88277688B4004B2879 /* TemperatureHumidityWidgetView.swift */,
 				568D54692BB5BA0700E11B6D /* OctopusPricingVIew.swift */,
@@ -343,7 +379,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					6839796027766E420033DFBA = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -391,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68C81E4C2777B7AE00A99F04 /* ModalSettingsView.swift in Sources */,
+				565AF3B62BC682D000F1C884 /* VStackConfigurationViewModel.swift in Sources */,
 				568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */,
 				56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */,
 				566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */,
@@ -409,6 +446,7 @@
 				5635F2892BBD4EFC000CC23D /* HAButton.swift in Sources */,
 				680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */,
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
+				565AF3BE2BC6882200F1C884 /* HAVStack.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,
 				56613BA02BC3E41C001668A9 /* HAEntityViewModel.swift in Sources */,
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
@@ -416,6 +454,7 @@
 				56C513302B2F6DC000AC0340 /* VStackConfigurationView.swift in Sources */,
 				56613BA32BC3E4A7001668A9 /* HAGauge.swift in Sources */,
 				68A3D5ED2779111900BFDE39 /* SwitchWidgetListView.swift in Sources */,
+				565AF3B82BC6865200F1C884 /* EntitySelectionViewModel.swift in Sources */,
 				6839796527766E420033DFBA /* homeassistant_nativeApp.swift in Sources */,
 				68C81E4E2777BC5900A99F04 /* HATitleTextView.swift in Sources */,
 				68357E89277688B4004B2879 /* TemperatureHumidityWidgetView.swift in Sources */,
@@ -429,6 +468,7 @@
 				5601731B2B77087600093D55 /* ApplicationDelegate.swift in Sources */,
 				56AD26F42B2C72520076CAF2 /* StateTransformer.swift in Sources */,
 				68C81E482777A58100A99F04 /* HAWidgetImageView.swift in Sources */,
+				565AF3BB2BC686B500F1C884 /* EntityAttachable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +480,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -503,6 +544,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

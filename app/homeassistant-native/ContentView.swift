@@ -5,11 +5,18 @@ import RealmSwift
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    init() {}
+    @Injected(\.databaseManager) var databaseManager
+    @Published var rootViewType: HAViewType?
 
-    func buildView() -> some View {
-        Spacer()
+    init() {
+        if let rootObject = databaseManager.database().objects(DisplayableModelObject.self).filter({
+            $0.parentSection == nil
+        }).first {
+            rootViewType = HAViewBuilder().map(model: rootObject)
+        }
+
     }
+
 }
 
 struct ContentView: View {
@@ -19,10 +26,8 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             HeaderView()
-            HStack {
-                viewModel.buildView()
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationBarHidden(true)
+            if let rootViewType = viewModel.rootViewType {
+                HAViewBuilder().view(viewType: rootViewType)
             }
         }
     }

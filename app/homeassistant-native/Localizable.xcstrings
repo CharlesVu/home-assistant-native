@@ -24,6 +24,9 @@
     "Add" : {
 
     },
+    "Add a widget" : {
+
+    },
     "Add Button" : {
 
     },
@@ -33,13 +36,13 @@
     "Auth Token" : {
 
     },
-    "Children" : {
-
-    },
     "Dismiss" : {
 
     },
     "Display" : {
+
+    },
+    "Embeded Widgets" : {
 
     },
     "Home Assistant" : {
@@ -75,9 +78,6 @@
           }
         }
       }
-    },
-    "Section" : {
-
     },
     "Section Name" : {
 
@@ -115,6 +115,9 @@
           }
         }
       }
+    },
+    "Vertical Stack" : {
+
     },
     "Websocket URL" : {
 

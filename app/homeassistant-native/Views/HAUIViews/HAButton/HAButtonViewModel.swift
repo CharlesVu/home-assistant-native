@@ -27,25 +27,37 @@ class HAButtonViewModel: ObservableObject {
     @Published var isWaitingForResponse = false
 
     var tokens: [NotificationToken] = []
-    var entityID: String
+    var entityID: String!
     var buttonMode: ButtonMode = .toggle
+    var displayable: DisplayableModelObject!
+    var configuration: ButtonConfiguration!
 
     private var state: Bool?
 
-    init(entityID: String) {
-        self.entityID = entityID
-        if let token =
-            databaseManager
-            .listenForEntityChange(
-                id: entityID,
-                callback: { entity in
-                    Task { [weak self] in
-                        await self?.updateModel(from: entity)
+    init(displayableModelObjectID: String) {
+        displayable = databaseManager.database().object(
+            ofType: DisplayableModelObject.self,
+            forPrimaryKey: displayableModelObjectID
+        )!
+        configuration = databaseManager.database().object(
+            ofType: ButtonConfiguration.self,
+            forPrimaryKey: displayable.configurationID
+        )
+        if let entityID = configuration.entityID {
+            self.entityID = entityID
+            if let token =
+                databaseManager
+                .listenForEntityChange(
+                    id: entityID,
+                    callback: { entity in
+                        Task { [weak self] in
+                            await self?.updateModel(from: entity)
+                        }
                     }
-                }
-            )
-        {
-            tokens.append(token)
+                )
+            {
+                tokens.append(token)
+            }
         }
     }
 
