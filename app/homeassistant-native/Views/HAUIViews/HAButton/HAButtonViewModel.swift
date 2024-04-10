@@ -36,7 +36,7 @@ class HAButtonViewModel: ObservableObject {
     func observeConfiguration() {
         applyConfiguration()
 
-        configurationObserverToken = configuration.observe { [weak self] change in
+        configurationObserverToken = configuration.observe { [weak self] _ in
             self?.observeEntity()
             self?.applyConfiguration()
         }

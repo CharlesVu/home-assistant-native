@@ -9,6 +9,7 @@ class VStackConfigurationViewModel: ObservableObject {
     @Injected(\.displayableStore) var displayableStore
 
     var sectionInformation: DisplayableModelObject
+    var configuration: VStackConfiguration?
 
     @Published var name: String {
         didSet {
@@ -23,7 +24,7 @@ class VStackConfigurationViewModel: ObservableObject {
     @Published var destinations = [SettingDestination]()
 
     var path: Binding<NavigationPath>
-    var tokens: [NotificationToken] = []
+    var token: NotificationToken?
 
     init(sectionInformation: DisplayableModelObject, path: Binding<NavigationPath>) {
         self.sectionInformation = sectionInformation.thaw()!
@@ -43,30 +44,24 @@ class VStackConfigurationViewModel: ObservableObject {
 
     @MainActor
     func getChildren() async {
-        let configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
+        configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
 
-        let token = configuration.observe(keyPaths: ["children"]) { change in
-            switch change {
-                case .change(let object, _):
-                    if let object = object as? VStackConfiguration {
-                        Task { [weak self] in
-                            await self?.updateDestinations(configuration: object)
-                        }
-                    }
-                default:
-                    ()
+        token = configuration?.observe(keyPaths: ["children"]) { [weak self] _ in
+            Task {
+                await self?.updateDestinations()
             }
         }
-        tokens.append(token)
-        await updateDestinations(configuration: configuration)
+        await updateDestinations()
     }
 
     @MainActor
-    func updateDestinations(configuration: VStackConfiguration) async {
+    func updateDestinations() async {
         destinations = []
-        for element in configuration.children {
-            if let destination = await HAVSettingsViewBuilder().map(model: element) {
-                destinations.append(destination)
+        if let children = configuration?.children {
+            for element in children {
+                if let destination = await HAVSettingsViewBuilder().map(model: element) {
+                    destinations.append(destination)
+                }
             }
         }
     }

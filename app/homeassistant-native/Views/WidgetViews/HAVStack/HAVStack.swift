@@ -19,7 +19,7 @@ class HAVStackViewModel: ObservableObject {
 
     @MainActor
     func observeConfiguration() {
-        configurationObserverToken = configuration.observe { [weak self] change in
+        configurationObserverToken = configuration.observe { [weak self] _ in
             self?.mapSubViews()
         }
     }
