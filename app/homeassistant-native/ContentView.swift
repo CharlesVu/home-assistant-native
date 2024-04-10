@@ -5,18 +5,14 @@ import RealmSwift
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.displayableStore) var displayableStore
     @Published var rootViewType: HAViewType?
 
     init() {
-        if let rootObject = databaseManager.database().objects(DisplayableModelObject.self).filter({
-            $0.parentSection == nil
-        }).first {
+        if let rootObject = displayableStore.root() {
             rootViewType = HAViewBuilder().map(model: rootObject)
         }
-
     }
-
 }
 
 struct ContentView: View {

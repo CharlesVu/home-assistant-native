@@ -5,7 +5,7 @@ import RealmSwift
 import SwiftUI
 
 class HAGaugeViewModel: ObservableObject {
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.entityStore) private var entityStore
     @Injected(\.stateFormatter) private var stateFormatter
 
     var entityID: String
@@ -20,7 +20,7 @@ class HAGaugeViewModel: ObservableObject {
     init(entityID: String) {
         self.entityID = entityID
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: entityID,
                 callback: { entity in

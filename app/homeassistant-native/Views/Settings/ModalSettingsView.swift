@@ -42,7 +42,7 @@ enum NavigationDestination: Hashable {
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
             case .sectionsSettingsView:
-                SectionsSettingsView(path: path)
+                RootConfigurationView(path: path)
             case .vStackConfiguration(let sectionInformation):
                 VStackConfigurationView(path: path, sectionInformation: sectionInformation)
             case .addWidget(let parent):

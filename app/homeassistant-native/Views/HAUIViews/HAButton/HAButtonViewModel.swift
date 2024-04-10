@@ -17,7 +17,8 @@ class HAButtonViewModel: ObservableObject {
     }
 
     @Injected(\.iconMapper) private var iconMapper
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.displayableStore) private var displayableStore
+    @Injected(\.entityStore) private var entityStore
     @Injected(\.homeAssistant) private var homeAssistant
 
     @Published var iconName: String = "circle"
@@ -29,24 +30,16 @@ class HAButtonViewModel: ObservableObject {
     var tokens: [NotificationToken] = []
     var entityID: String!
     var buttonMode: ButtonMode = .toggle
-    var displayable: DisplayableModelObject!
     var configuration: ButtonConfiguration!
 
     private var state: Bool?
 
     init(displayableModelObjectID: String) {
-        displayable = databaseManager.database().object(
-            ofType: DisplayableModelObject.self,
-            forPrimaryKey: displayableModelObjectID
-        )!
-        configuration = databaseManager.database().object(
-            ofType: ButtonConfiguration.self,
-            forPrimaryKey: displayable.configurationID
-        )
+        configuration = displayableStore.buttonConfiguration(displayableModelObjectID: displayableModelObjectID)
         if let entityID = configuration.entityID {
             self.entityID = entityID
             if let token =
-                databaseManager
+                entityStore
                 .listenForEntityChange(
                     id: entityID,
                     callback: { entity in

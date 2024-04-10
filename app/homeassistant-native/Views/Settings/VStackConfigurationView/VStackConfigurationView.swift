@@ -6,7 +6,7 @@ struct VStackConfigurationView: View {
 
     init(
         path: Binding<NavigationPath>,
-        sectionInformation: DisplayableModelObject?
+        sectionInformation: DisplayableModelObject
     ) {
         viewModel = .init(sectionInformation: sectionInformation, path: path)
     }
@@ -40,22 +40,7 @@ struct VStackConfigurationView: View {
     var children: some View {
         Section("Embeded Widgets") {
             ForEach(viewModel.destinations) { child in
-                switch child {
-                    case .buttonCongiguration(let name, let configuration):
-                        NavigationLink(
-                            value: NavigationDestination.selectEntity(owner: configuration),
-                            label: {
-                                Text(name)
-                            }
-                        )
-                    case .vStackConfiguration(let name, let model):
-                        NavigationLink(
-                            value: NavigationDestination.vStackConfiguration(sectionInformation: model),
-                            label: {
-                                Text(name)
-                            }
-                        )
-                }
+                HAVSettingsViewBuilder().view(viewType: child)
             }
         }
     }

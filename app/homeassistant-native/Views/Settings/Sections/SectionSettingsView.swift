@@ -4,33 +4,32 @@ import Factory
 import RealmSwift
 import SwiftUI
 
-struct SectionsSettingsView: View {
-    @ObservedResults(DisplayableModelObject.self) var sections
+class RootConfigurationViewModel: ObservableObject {
+    @Injected(\.displayableStore) var displayableStore
 
+    @Published var rootViewType: SettingDestination?
+
+    init() {
+        if let rootObject = displayableStore.root() {
+            Task {
+                let rootViewType = await HAVSettingsViewBuilder().map(model: rootObject)
+                DispatchQueue.main.async {
+                    self.rootViewType = rootViewType
+                }
+            }
+        }
+    }
+}
+
+struct RootConfigurationView: View {
+    @ObservedObject var viewModel: RootConfigurationViewModel = .init()
     var path: Binding<NavigationPath>
 
     var body: some View {
         List {
-            ForEach(sections) { section in
-                NavigationLink(
-                    value: NavigationDestination.vStackConfiguration(sectionInformation: section),
-                    label: {
-                        Text(section.name)
-                    }
-                )
+            if let rootViewType = viewModel.rootViewType {
+                HAVSettingsViewBuilder().view(viewType: rootViewType)
             }
-            .accentColor(ColorManager.haDefaultDark)
-
         }
-        .navigationBarItems(
-            trailing:
-                NavigationLink {
-                    VStackConfigurationView(path: path, sectionInformation: nil)
-                } label: {
-                    Text("Add")
-                }
-                .accentColor(ColorManager.haDefaultDark)
-
-        )
     }
 }

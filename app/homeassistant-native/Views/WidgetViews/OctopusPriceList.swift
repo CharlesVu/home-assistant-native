@@ -4,7 +4,7 @@ import RealmSwift
 import SwiftUI
 
 class OctopusPriceListViewModel: ObservableObject {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.octopusStore) var octopusStore
 
     @Published var tariffs: [OctopusRateModelObject] = []
     @Published var meanPrice: Double = 0
@@ -14,11 +14,7 @@ class OctopusPriceListViewModel: ObservableObject {
     init() {
         timer = Timer.scheduledTimer(withTimeInterval: 5.minutes, repeats: true) { [weak self] _ in
             guard let self else { return }
-            let tariffs = Array(
-                self.databaseManager.database()
-                    .objects(OctopusRateModelObject.self)
-                    .filter { $0.end > Date.now }
-            )
+            let tariffs = octopusStore.futureTariff()
             var total: Double = 0
             tariffs.forEach { total += $0.price }
             meanPrice = total / Double(tariffs.count)

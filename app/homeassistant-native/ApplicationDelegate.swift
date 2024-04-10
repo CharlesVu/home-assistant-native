@@ -8,7 +8,8 @@ import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     @Injected(\.homeAssistant) private var homeAssistant
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.octopusStore) private var octopusStore
+    @Injected(\.entityStore) private var entityStore
 
     var subscriptions = Set<AnyCancellable>()
 
@@ -19,7 +20,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         homeAssistant
             .entityPublisher
             .sink { [weak self] entityState in
-                self?.updateEntity(newState: entityState)
+                Task {
+                    await self?.entityStore.updateEntity(newState: entityState)
+                }
             }
             .store(in: &subscriptions)
 
@@ -36,63 +39,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @MainActor
     func updateRates(newRates: [OctopusRate]) {
         print("Updated Octupus Rates")
-        let db = databaseManager.database()
-        try? db.write {
-            // db.delete(db.objects(OctopusRateModelObject.self))
-            newRates.forEach {
-                let rate = OctopusRateModelObject(
-                    start: $0.start,
-                    end: $0.end,
-                    price: $0.value
-                )
-                db.add(rate, update: .modified)
-            }
-        }
-    }
+        let rates = newRates.map { (start: $0.start, end: $0.end, price: $0.value) }
 
-    @MainActor
-    func updateEntity(newState: EntityState) {
-        let db = databaseManager.database()
-        var model: EntityModelObject
-        if let existingModel = db.object(
-            ofType: EntityModelObject.self,
-            forPrimaryKey: newState.entityId
-        ) {
-            model = existingModel
-        } else {
-            model = .init()
-            model.entityID = newState.entityId
+        Task {
+            await octopusStore.addRates(rates)
         }
-
-        try? db.write {
-            model.state = newState.state
-            model.attributes.update(newState.attributes)
-            db.add(model, update: .modified)
-        }
-    }
-}
-
-extension EntityAttributeModelObject {
-    func update(_ model: EntityAttribute) {
-        self.unit = model.unit
-        self.name = model.name
-        if let deviceClass = model.deviceClass {
-            self.deviceClass = .init(rawValue: deviceClass)
-        }
-        self.stateClass = model.stateClass
-        self.temperature = model.temperature
-        self.humidity = model.humidity
-        self.windSpeed = model.windSpeed
-        self.icon = model.icon
-        if let rgb = model.rgb {
-            self.rgb = List()
-            rgb.forEach { self.rgb.append($0) }
-        }
-        if let hs = model.hs {
-            self.hs = List()
-            hs.forEach { self.hs.append($0) }
-        }
-        self.brightness = model.brightness
-        self.hueType = model.hueType
     }
 }

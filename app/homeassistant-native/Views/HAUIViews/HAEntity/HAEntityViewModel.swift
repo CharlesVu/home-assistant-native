@@ -18,7 +18,7 @@ class HAEntityViewModel: ObservableObject {
 
     @Injected(\.iconMapper) private var iconMapper
     @Injected(\.stateFormatter) private var stateFormatter
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.entityStore) private var entityStore
 
     @Published var iconName: String = "circle"
     @Published var color: Color = .white
@@ -33,7 +33,7 @@ class HAEntityViewModel: ObservableObject {
     init(entityID: String) {
         self.entityID = entityID
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: entityID,
                 callback: { entity in

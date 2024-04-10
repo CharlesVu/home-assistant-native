@@ -16,7 +16,7 @@ enum StaticEntityKeys: String {
 }
 
 class TemperatureHumidityWidgetViewModel: ObservableObject {
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.entityStore) private var entityStore
 
     @Published var temperature: Double = 0
     @Published var humidity: Int = 0
@@ -32,7 +32,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
 
     init() {
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.weather.rawValue,
                 callback: { [weak self] entity in
@@ -46,7 +46,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
         }
 
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityPrice.rawValue,
                 callback: { [weak self] entity in
@@ -60,7 +60,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
         }
 
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityConsumption.rawValue,
                 callback: { [weak self] entity in
@@ -74,7 +74,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
         }
 
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.gasConsumption.rawValue,
                 callback: { [weak self] entity in
@@ -88,7 +88,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
         }
 
         if let token =
-            databaseManager
+            entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.gasPrice.rawValue,
                 callback: { [weak self] entity in
