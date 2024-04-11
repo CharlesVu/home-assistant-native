@@ -1,8 +1,8 @@
 import ApplicationConfiguration
 import SwiftUI
 
-struct VStackConfigurationView: View {
-    @ObservedObject var viewModel: VStackConfigurationViewModel
+struct StackConfigurationView: View {
+    @ObservedObject var viewModel: StackConfigurationViewModel
 
     init(
         path: Binding<NavigationPath>,
@@ -15,6 +15,7 @@ struct VStackConfigurationView: View {
         List {
             Section("Section Name") {
                 TextField("Name", text: $viewModel.name)
+                alignmentModePicker
             }
             children
             NavigationLink(
@@ -36,4 +37,15 @@ struct VStackConfigurationView: View {
             }
         }
     }
+    var alignmentModePicker: some View {
+        Picker("Alignment", selection: $viewModel.alignment) {
+            ForEach(viewModel.alignments, id: \.self) {
+                Text($0.capitalized)
+            }
+        }
+        .pickerStyle(.menu)
+        .tint(ColorManager.haDefaultDark)
+
+    }
+
 }

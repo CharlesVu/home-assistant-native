@@ -4,12 +4,12 @@ import Factory
 import RealmSwift
 import SwiftUI
 
-class VStackConfigurationViewModel: ObservableObject {
+class StackConfigurationViewModel: ObservableObject {
     @Injected(\.databaseManager) var databaseManager
     @Injected(\.displayableStore) var displayableStore
 
     var sectionInformation: DisplayableModelObject
-    var configuration: VStackConfiguration?
+    var configuration: StackConfiguration?
 
     @Published var name: String {
         didSet {
@@ -22,6 +22,14 @@ class VStackConfigurationViewModel: ObservableObject {
     @Published var buttonTitle = "Save"
     @Published var isValid = false
     @Published var destinations = [SettingDestination]()
+    @Published var alignment: String = "horizontal" {
+        didSet {
+            Task {
+                await saveAlignment()
+            }
+        }
+    }
+    @Published var alignments = ButtonAlignment.allCases.map { $0.rawValue }
 
     var path: Binding<NavigationPath>
     var token: NotificationToken?
@@ -45,13 +53,21 @@ class VStackConfigurationViewModel: ObservableObject {
     @MainActor
     func getChildren() async {
         configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
+        updateAlignment()
 
         token = configuration?.observe(keyPaths: ["children"]) { [weak self] _ in
             Task {
                 await self?.updateDestinations()
+                self?.updateAlignment()
             }
         }
         await updateDestinations()
+    }
+
+    @MainActor
+    func updateAlignment() {
+        guard let configuration else { return }
+        alignment = configuration.alignment.rawValue
     }
 
     @MainActor
@@ -63,6 +79,13 @@ class VStackConfigurationViewModel: ObservableObject {
                     destinations.append(destination)
                 }
             }
+        }
+    }
+
+    @MainActor
+    func saveAlignment() async {
+        await displayableStore.write {
+            configuration?.alignment = .init(rawValue: alignment)!
         }
     }
 }

@@ -5,7 +5,7 @@ import Foundation
 protocol DisplayableStoring {
     func root() -> DisplayableModelObject?
 
-    func vStackConfiguration(displayableModelObjectID: String) -> VStackConfiguration
+    func vStackConfiguration(displayableModelObjectID: String) -> StackConfiguration
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
 
     func write(_ block: () -> Void) async
@@ -22,13 +22,13 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
-    func vStackConfiguration(displayableModelObjectID: String) -> VStackConfiguration {
+    func vStackConfiguration(displayableModelObjectID: String) -> StackConfiguration {
         let displayable = databaseManager.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
         )!
         return databaseManager.database().object(
-            ofType: VStackConfiguration.self,
+            ofType: StackConfiguration.self,
             forPrimaryKey: displayable.configurationID
         )!
     }

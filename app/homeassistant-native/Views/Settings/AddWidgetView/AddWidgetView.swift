@@ -19,7 +19,7 @@ class AddWidgetViewModel: ObservableObject {
     func addButton() async {
         guard
             let parentConfiguration = databaseManager.database().object(
-                ofType: VStackConfiguration.self,
+                ofType: StackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
@@ -50,14 +50,14 @@ class AddWidgetViewModel: ObservableObject {
 
         guard
             let parentConfiguration = db.object(
-                ofType: VStackConfiguration.self,
+                ofType: StackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
 
         do {
             try await db.asyncWrite {
-                let configuration = VStackConfiguration()
+                let configuration = StackConfiguration()
                 db.add(configuration)
 
                 let newvStackObject = DisplayableModelObject()

@@ -3,7 +3,6 @@ import RealmSwift
 
 public enum ViewType: String, PersistableEnum {
     case vStack
-    //    case hStack
     case button
     //    case entity
     //    case gauge

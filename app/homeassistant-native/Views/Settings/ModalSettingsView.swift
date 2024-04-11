@@ -49,7 +49,7 @@ enum NavigationDestination: Hashable {
             case .sectionsSettingsView:
                 RootConfigurationView(path: path)
             case .vStackConfiguration(let sectionInformation):
-                VStackConfigurationView(path: path, sectionInformation: sectionInformation)
+                StackConfigurationView(path: path, sectionInformation: sectionInformation)
             case .addWidget(let parent):
                 AddWidgetView(path: path, parent: parent)
             case .selectEntity(let owner):

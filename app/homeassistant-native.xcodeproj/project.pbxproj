@@ -14,7 +14,7 @@
 		5635F28B2BBD670A000CC23D /* ApplicationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */; };
 		564EDDC72BC71C5700E25C83 /* ButtonConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564EDDC62BC71C5700E25C83 /* ButtonConfigurationView.swift */; };
 		56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56509F662BC57D5C0047A63D /* EntitySelectionView.swift */; };
-		565AF3B62BC682D000F1C884 /* VStackConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */; };
+		565AF3B62BC682D000F1C884 /* StackConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B52BC682D000F1C884 /* StackConfigurationViewModel.swift */; };
 		565AF3B82BC6865200F1C884 /* EntitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */; };
 		565AF3BB2BC686B500F1C884 /* EntityAttachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */; };
 		565AF3BE2BC6882200F1C884 /* HAVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BD2BC6882200F1C884 /* HAVStack.swift */; };
@@ -40,7 +40,7 @@
 		56AD26F42B2C72520076CAF2 /* StateTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD26F32B2C72520076CAF2 /* StateTransformer.swift */; };
 		56AD26F62B2C72960076CAF2 /* IconColorTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */; };
 		56AD282C2B2C7BE80076CAF2 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 56AD282B2B2C7BE80076CAF2 /* Factory */; };
-		56C513302B2F6DC000AC0340 /* VStackConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132F2B2F6DC000AC0340 /* VStackConfigurationView.swift */; };
+		56C513302B2F6DC000AC0340 /* StackConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5132F2B2F6DC000AC0340 /* StackConfigurationView.swift */; };
 		56D7B0982B2EFC8E0005E627 /* HomeAssistantSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */; };
 		680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */; };
 		680AE9912779C96200FC62A8 /* HABasicIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 680AE9902779C96200FC62A8 /* HABasicIconView.swift */; };
@@ -71,7 +71,7 @@
 		5635F28A2BBD670A000CC23D /* ApplicationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContainer.swift; sourceTree = "<group>"; };
 		564EDDC62BC71C5700E25C83 /* ButtonConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonConfigurationView.swift; sourceTree = "<group>"; };
 		56509F662BC57D5C0047A63D /* EntitySelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionView.swift; sourceTree = "<group>"; };
-		565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStackConfigurationViewModel.swift; sourceTree = "<group>"; };
+		565AF3B52BC682D000F1C884 /* StackConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackConfigurationViewModel.swift; sourceTree = "<group>"; };
 		565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionViewModel.swift; sourceTree = "<group>"; };
 		565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAttachable.swift; sourceTree = "<group>"; };
 		565AF3BD2BC6882200F1C884 /* HAVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAVStack.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 		56AD26F32B2C72520076CAF2 /* StateTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateTransformer.swift; sourceTree = "<group>"; };
 		56AD26F52B2C72960076CAF2 /* IconColorTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconColorTransformer.swift; sourceTree = "<group>"; };
 		56C5132D2B2F6B3E00AC0340 /* SectionSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSettingsView.swift; sourceTree = "<group>"; };
-		56C5132F2B2F6DC000AC0340 /* VStackConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VStackConfigurationView.swift; sourceTree = "<group>"; };
+		56C5132F2B2F6DC000AC0340 /* StackConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackConfigurationView.swift; sourceTree = "<group>"; };
 		56D7B0972B2EFC8E0005E627 /* HomeAssistantSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAssistantSettingsView.swift; sourceTree = "<group>"; };
 		680AE98E2779C37500FC62A8 /* MediaPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPlayerView.swift; sourceTree = "<group>"; };
 		680AE9902779C96200FC62A8 /* HABasicIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABasicIconView.swift; sourceTree = "<group>"; };
@@ -159,13 +159,13 @@
 			path = "Entity Selection";
 			sourceTree = "<group>";
 		};
-		565AF3B42BC682AD00F1C884 /* VStackConfigurationView */ = {
+		565AF3B42BC682AD00F1C884 /* StackConfigurationView */ = {
 			isa = PBXGroup;
 			children = (
-				56C5132F2B2F6DC000AC0340 /* VStackConfigurationView.swift */,
-				565AF3B52BC682D000F1C884 /* VStackConfigurationViewModel.swift */,
+				56C5132F2B2F6DC000AC0340 /* StackConfigurationView.swift */,
+				565AF3B52BC682D000F1C884 /* StackConfigurationViewModel.swift */,
 			);
-			path = VStackConfigurationView;
+			path = StackConfigurationView;
 			sourceTree = "<group>";
 		};
 		565AF3B92BC686A100F1C884 /* Data Abstraction */ = {
@@ -241,7 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				564EDDC52BC71C3D00E25C83 /* ButtonConfiguration */,
-				565AF3B42BC682AD00F1C884 /* VStackConfigurationView */,
+				565AF3B42BC682AD00F1C884 /* StackConfigurationView */,
 				56509F652BC57D470047A63D /* Entity Selection */,
 				56613BA62BC402BE001668A9 /* AddWidgetView */,
 				56C5132C2B2F6B2800AC0340 /* Sections */,
@@ -461,7 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				68C81E4C2777B7AE00A99F04 /* ModalSettingsView.swift in Sources */,
-				565AF3B62BC682D000F1C884 /* VStackConfigurationViewModel.swift in Sources */,
+				565AF3B62BC682D000F1C884 /* StackConfigurationViewModel.swift in Sources */,
 				568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */,
 				56509F672BC57D5C0047A63D /* EntitySelectionView.swift in Sources */,
 				566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */,
@@ -487,7 +487,7 @@
 				56613BA02BC3E41C001668A9 /* HAEntityViewModel.swift in Sources */,
 				565F8A112B2A661300AFBB1E /* JSONDescription.swift in Sources */,
 				68357E87277687FE004B2879 /* ColorManager.swift in Sources */,
-				56C513302B2F6DC000AC0340 /* VStackConfigurationView.swift in Sources */,
+				56C513302B2F6DC000AC0340 /* StackConfigurationView.swift in Sources */,
 				564EDDC72BC71C5700E25C83 /* ButtonConfigurationView.swift in Sources */,
 				56613BA32BC3E4A7001668A9 /* HAGauge.swift in Sources */,
 				565AF3C22BC6993B00F1C884 /* OctopusAgileStore.swift in Sources */,

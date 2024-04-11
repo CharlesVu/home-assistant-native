@@ -3,15 +3,17 @@ import Factory
 import RealmSwift
 import SwiftUI
 
-class HAVStackViewModel: ObservableObject {
+class HAStackViewModel: ObservableObject {
     @Injected(\.displayableStore) var displayableStore
-    var configuration: VStackConfiguration!
+    var configuration: StackConfiguration!
     var configurationObserverToken: NotificationToken?
     @Published var subViews = [HAViewType]()
+    @Published var alignment: StackAlignment = .horizontal
 
     init(displayableModelObjectID: String) {
         configuration = displayableStore.vStackConfiguration(displayableModelObjectID: displayableModelObjectID)
         Task {
+            await updateAlignment()
             await observeConfiguration()
             await mapSubViews()
         }
@@ -21,7 +23,13 @@ class HAVStackViewModel: ObservableObject {
     func observeConfiguration() {
         configurationObserverToken = configuration.observe { [weak self] _ in
             self?.mapSubViews()
+            self?.updateAlignment()
         }
+    }
+
+    @MainActor
+    func updateAlignment() {
+        alignment = configuration.alignment
     }
 
     @MainActor
@@ -37,15 +45,21 @@ class HAVStackViewModel: ObservableObject {
 }
 
 struct HAVStack: View {
-    @ObservedObject var viewModel: HAVStackViewModel
+    @ObservedObject var viewModel: HAStackViewModel
 
     init(displayableModelObjectID: String) {
         viewModel = .init(displayableModelObjectID: displayableModelObjectID)
     }
 
     var body: some View {
-        VStack {
-            children
+        if viewModel.alignment == .vertical {
+            VStack {
+                children
+            }
+        } else {
+            HStack {
+                children
+            }
         }
     }
 
