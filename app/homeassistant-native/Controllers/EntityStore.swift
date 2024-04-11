@@ -4,10 +4,13 @@ import Foundation
 import HomeAssistant
 import RealmSwift
 
+typealias EmptyCallback = () async -> Void
+
 protocol EntityStoring {
     func listenForEntityChange(
         id: String,
-        callback: @escaping (Entity) -> Void
+        onChange: @escaping (Entity) -> Void,
+        onDelete: EmptyCallback?
     ) -> NotificationToken?
 
     func entity(id: String) async -> Entity?
@@ -16,18 +19,28 @@ protocol EntityStoring {
     func updateEntities(newStates: [EntityState]) async
 }
 
+extension EntityStoring {
+    func listenForEntityChange(
+        id: String,
+        onChange: @escaping (Entity) -> Void
+    ) -> NotificationToken? {
+        listenForEntityChange(id: id, onChange: onChange, onDelete: nil)
+    }
+}
+
 struct EntityStore: EntityStoring {
     @Injected(\.databaseManager) var databaseManager
 
     public func listenForEntityChange(
         id: String,
-        callback: @escaping (Entity) -> Void
+        onChange: @escaping (Entity) -> Void,
+        onDelete: EmptyCallback?
     ) -> NotificationToken? {
         let entityObject = databaseManager.database()
             .object(ofType: EntityModelObject.self, forPrimaryKey: id)
 
         if let entityObject {
-            callback(Entity(projecting: entityObject))
+            onChange(Entity(projecting: entityObject))
         }
 
         return entityObject?
@@ -35,8 +48,10 @@ struct EntityStore: EntityStoring {
                 switch changes {
                     case .change(let object, _):
                         if let obj = object as? EntityModelObject {
-                            callback(Entity(projecting: obj))
+                            onChange(Entity(projecting: obj))
                         }
+                    case .deleted:
+                        Task { await onDelete?() }
                     default:
                         ()
                 }

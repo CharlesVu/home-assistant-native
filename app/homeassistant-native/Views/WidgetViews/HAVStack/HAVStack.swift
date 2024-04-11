@@ -21,10 +21,17 @@ class HAStackViewModel: ObservableObject {
 
     @MainActor
     func observeConfiguration() {
-        configurationObserverToken = configuration.observe { [weak self] _ in
-            self?.mapSubViews()
-            self?.updateAlignment()
-        }
+        configurationObserverToken = displayableStore.observe(
+            configuration,
+            onChange: { [weak self] in
+                self?.mapSubViews()
+                self?.updateAlignment()
+            },
+            onDelete: { [weak self] in
+                self?.configuration = nil
+                self?.configurationObserverToken = nil
+            }
+        )
     }
 
     @MainActor

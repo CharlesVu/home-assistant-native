@@ -1,6 +1,7 @@
 import ApplicationConfiguration
 import Factory
 import Foundation
+import RealmSwift
 
 protocol DisplayableStoring {
     func root() -> DisplayableModelObject?
@@ -9,10 +10,36 @@ protocol DisplayableStoring {
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
 
     func write(_ block: () -> Void) async
+
+    func delete(_ objects: [DisplayableModelObject]) async
+
+    func observe(
+        _ object: Object?,
+        onChange: @escaping () async -> Void,
+        onDelete: EmptyCallback?
+    ) -> NotificationToken?
 }
 
 struct DisplayableStore: DisplayableStoring {
     @Injected(\.databaseManager) private var databaseManager
+
+    public func observe(
+        _ object: Object?,
+        onChange: @escaping () async -> Void,
+        onDelete: EmptyCallback?
+    ) -> NotificationToken? {
+        return object?
+            .observe({ changes in
+                switch changes {
+                    case .change(_, _):
+                        Task { await onChange() }
+                    case .deleted:
+                        Task { await onDelete?() }
+                    default:
+                        ()
+                }
+            })
+    }
 
     @MainActor
     func root() -> DisplayableModelObject? {
@@ -49,6 +76,29 @@ struct DisplayableStore: DisplayableStoring {
     func write(_ block: () -> Void) async {
         try? await databaseManager.database().asyncWrite {
             block()
+        }
+    }
+
+    @MainActor
+    func delete(_ objects: [DisplayableModelObject]) async {
+        let db = databaseManager.database()
+        for object in objects {
+            switch object.type {
+                case .vStack:
+                    let configuration = vStackConfiguration(displayableModelObjectID: object.id)
+                    await delete(Array(configuration.children))
+                    await write {
+                        db.delete(configuration)
+                    }
+                case .button:
+                    let configuration = buttonConfiguration(displayableModelObjectID: object.id)
+                    await write {
+                        db.delete(configuration)
+                    }
+            }
+            await write {
+                db.delete(object)
+            }
         }
     }
 }

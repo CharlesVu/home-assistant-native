@@ -20,7 +20,7 @@ class HAButtonViewModel: ObservableObject {
     private var configurationObserverToken: NotificationToken?
     private var entityID: String!
     private var buttonMode: ButtonMode = .toggle
-    private var configuration: ButtonConfiguration!
+    private var configuration: ButtonConfiguration?
 
     private var state: Bool?
 
@@ -36,28 +36,39 @@ class HAButtonViewModel: ObservableObject {
     func observeConfiguration() {
         applyConfiguration()
 
-        configurationObserverToken = configuration.observe { [weak self] _ in
-            self?.observeEntity()
-            self?.applyConfiguration()
-        }
+        configurationObserverToken = displayableStore.observe(
+            configuration,
+            onChange: { [weak self] in
+                self?.observeEntity()
+                self?.applyConfiguration()
+            },
+            onDelete: { [weak self] in
+                self?.configuration = nil
+                self?.configurationObserverToken = nil
+            }
+        )
     }
 
     @MainActor
     func applyConfiguration() {
+        guard let configuration else { return }
         alignment = configuration.alignment
         buttonMode = configuration.mode
     }
 
     @MainActor
     func observeEntity() {
-        if let entityID = configuration.entityID {
+        if let entityID = configuration?.entityID {
             self.entityID = entityID
             entityObserverToken =
                 entityStore
                 .listenForEntityChange(
                     id: entityID,
-                    callback: { [weak self] entity in
+                    onChange: { [weak self] entity in
                         self?.updateModel(from: entity)
+                    },
+                    onDelete: { [weak self] in
+                        self?.entityObserverToken = nil
                     }
                 )
         }

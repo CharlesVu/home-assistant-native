@@ -26,25 +26,25 @@ class HAEntityViewModel: ObservableObject {
     @Published var state: String = ""
     @Published var alignment: Alignment = .vertical
 
-    var tokens: [NotificationToken] = []
+    var token: NotificationToken?
     var entityID: String
     var buttonMode: ButtonMode = .toggle
 
     init(entityID: String) {
         self.entityID = entityID
-        if let token =
+        token =
             entityStore
             .listenForEntityChange(
                 id: entityID,
-                callback: { entity in
+                onChange: { entity in
                     Task { [weak self] in
                         await self?.updateModel(from: entity)
                     }
+                },
+                onDelete: { [weak self] in
+                    self?.token = nil
                 }
             )
-        {
-            tokens.append(token)
-        }
     }
 
     @MainActor

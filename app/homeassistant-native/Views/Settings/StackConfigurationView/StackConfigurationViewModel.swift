@@ -32,7 +32,7 @@ class StackConfigurationViewModel: ObservableObject {
     @Published var alignments = ButtonAlignment.allCases.map { $0.rawValue }
 
     var path: Binding<NavigationPath>
-    var token: NotificationToken?
+    var configurationObserverToken: NotificationToken?
 
     init(sectionInformation: DisplayableModelObject, path: Binding<NavigationPath>) {
         self.sectionInformation = sectionInformation.thaw()!
@@ -54,11 +54,17 @@ class StackConfigurationViewModel: ObservableObject {
     func getChildren() async {
         configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
         alignment = configuration!.alignment.rawValue
-        token = configuration?.observe(keyPaths: ["children"]) { [weak self] _ in
-            Task {
+        configurationObserverToken = displayableStore.observe(
+            configuration,
+            onChange: { [weak self] in
                 await self?.updateDestinations()
+            },
+            onDelete: { [weak self] in
+                self?.configuration = nil
+                self?.configurationObserverToken = nil
             }
-        }
+        )
+
         await updateDestinations()
     }
 
@@ -79,5 +85,11 @@ class StackConfigurationViewModel: ObservableObject {
         await displayableStore.write {
             configuration?.alignment = .init(rawValue: alignment)!
         }
+    }
+
+    @MainActor
+    func delete(at offsets: IndexSet) async {
+        let itemsToDelete = offsets.compactMap { configuration?.children[$0] }
+        await displayableStore.delete(itemsToDelete)
     }
 }

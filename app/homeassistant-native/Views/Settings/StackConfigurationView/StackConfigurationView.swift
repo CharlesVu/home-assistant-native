@@ -34,6 +34,9 @@ struct StackConfigurationView: View {
         Section("Embeded Widgets") {
             ForEach(viewModel.destinations) { child in
                 HAVSettingsViewBuilder().view(viewType: child)
+
+            }.onDelete { index in
+                Task { await viewModel.delete(at: index) }
             }
         }
     }

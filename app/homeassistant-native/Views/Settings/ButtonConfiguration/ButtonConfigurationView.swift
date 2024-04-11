@@ -8,9 +8,9 @@ class ButtonConfigurationViewModel: ObservableObject {
     @Injected(\.entityStore) var entityStore
     @Injected(\.displayableStore) var displayableStore
 
-    var configuration: ButtonConfiguration
+    var configuration: ButtonConfiguration?
     var path: Binding<NavigationPath>
-    var tokens: [NotificationToken] = []
+    private var configurationObserverToken: NotificationToken?
 
     @Published var alignment: String {
         didSet {
@@ -40,18 +40,22 @@ class ButtonConfigurationViewModel: ObservableObject {
             await getEntityDetails()
         }
 
-        let token =
-            configuration
-            .observe({ changes in
-                Task { [weak self] in
-                    await self?.getEntityDetails()
-                }
-            })
-        tokens.append(token)
+        configurationObserverToken = displayableStore.observe(
+            configuration,
+            onChange: { [weak self] in
+                await self?.getEntityDetails()
+            },
+            onDelete: { [weak self] in
+                self?.configuration = nil
+                self?.configurationObserverToken = nil
+            }
+        )
     }
 
     @MainActor
     func getEntityDetails() async {
+        guard let configuration else { return }
+
         if let entityID = configuration.entityID, let entity = await entityStore.entity(id: entityID) {
             self.name = "Entity: \(entity.displayName())"
         } else {
@@ -61,6 +65,8 @@ class ButtonConfigurationViewModel: ObservableObject {
 
     @MainActor
     func saveAlignment() async {
+        guard let configuration else { return }
+
         await displayableStore.write {
             configuration.alignment = .init(rawValue: alignment)!
         }
@@ -68,6 +74,8 @@ class ButtonConfigurationViewModel: ObservableObject {
 
     @MainActor
     func saveMode() async {
+        guard let configuration else { return }
+
         await displayableStore.write {
             configuration.mode = .init(rawValue: buttonMode)!
         }
@@ -86,12 +94,14 @@ struct ButtonConfigurationView: View {
 
     var body: some View {
         List {
-            NavigationLink(
-                value: NavigationDestination.selectEntity(owner: viewModel.configuration),
-                label: {
-                    Text(viewModel.name)
-                }
-            )
+            if let configuration = viewModel.configuration {
+                NavigationLink(
+                    value: NavigationDestination.selectEntity(owner: configuration),
+                    label: {
+                        Text(viewModel.name)
+                    }
+                )
+            }
 
             alignmentPicker
             buttonModePicker

@@ -9,7 +9,7 @@ class HAGaugeViewModel: ObservableObject {
     @Injected(\.stateFormatter) private var stateFormatter
 
     var entityID: String
-    var tokens: [NotificationToken] = []
+    var token: NotificationToken?
 
     @Published var currentValue: Double = 0
     @Published var displayableValue: String = ""
@@ -19,19 +19,19 @@ class HAGaugeViewModel: ObservableObject {
 
     init(entityID: String) {
         self.entityID = entityID
-        if let token =
+        token =
             entityStore
             .listenForEntityChange(
                 id: entityID,
-                callback: { entity in
+                onChange: { entity in
                     Task { [weak self] in
                         await self?.updateModel(from: entity)
                     }
+                },
+                onDelete: { [weak self] in
+                    self?.token = nil
                 }
             )
-        {
-            tokens.append(token)
-        }
     }
 
     @MainActor

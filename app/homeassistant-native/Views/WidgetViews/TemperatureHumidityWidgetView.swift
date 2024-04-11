@@ -35,7 +35,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.weather.rawValue,
-                callback: { [weak self] entity in
+                onChange: { [weak self] entity in
                     if let t = entity.temperature {
                         self?.temperature = t
                     }
@@ -55,7 +55,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityPrice.rawValue,
-                callback: { [weak self] entity in
+                onChange: { [weak self] entity in
                     if let value = Double(entity.state) {
                         self?.electricityTotalPrice = value.truncate(places: 2)
                     }
@@ -69,7 +69,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.electricityConsumption.rawValue,
-                callback: { [weak self] entity in
+                onChange: { [weak self] entity in
                     if let value = Double(entity.state) {
                         self?.electricityUsage = value.truncate(places: 2)
                     }
@@ -83,7 +83,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.gasConsumption.rawValue,
-                callback: { [weak self] entity in
+                onChange: { [weak self] entity in
                     if let value = Double(entity.state) {
                         self?.gasUsage = value.truncate(places: 2)
                     }
@@ -97,7 +97,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
             entityStore
             .listenForEntityChange(
                 id: StaticEntityKeys.gasPrice.rawValue,
-                callback: { [weak self] entity in
+                onChange: { [weak self] entity in
                     if let value = Double(entity.state) {
                         self?.gasTotalPrice = value.truncate(places: 2)
                     }
