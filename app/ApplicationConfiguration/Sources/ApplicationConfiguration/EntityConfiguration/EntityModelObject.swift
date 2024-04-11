@@ -4,8 +4,6 @@ import RealmSwift
 public class EntityModelObject: Object, ObjectKeyIdentifiable {
     @Persisted public var entityID: String = ""
     @Persisted public var enabled: Bool = false
-    @Persisted public var sectionID: String?
-    @Persisted public var position: Int = 0
     @Persisted public var state: String = ""
     @Persisted public var attributes: EntityAttributeModelObject! = .init()
 
