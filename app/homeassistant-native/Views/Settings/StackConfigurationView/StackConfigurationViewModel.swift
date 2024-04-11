@@ -52,7 +52,7 @@ class StackConfigurationViewModel: ObservableObject {
 
     @MainActor
     func getChildren() async {
-        configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
+        configuration = displayableStore.stackConfiguration(displayableModelObjectID: sectionInformation.id)
         alignment = configuration!.alignment.rawValue
         configurationObserverToken = displayableStore.observe(
             configuration,

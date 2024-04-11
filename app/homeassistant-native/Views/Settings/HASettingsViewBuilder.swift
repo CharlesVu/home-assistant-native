@@ -6,14 +6,14 @@ import SwiftUI
 enum SettingDestination: Identifiable {
     var id: ObjectIdentifier {
         switch self {
-            case .vStackConfiguration(_, let model):
+            case .stackConfiguration(_, let model):
                 return model.id
             case .buttonCongiguration(_, let model):
                 return model.id
         }
     }
 
-    case vStackConfiguration(name: String, model: DisplayableModelObject)
+    case stackConfiguration(name: String, model: DisplayableModelObject)
     case buttonCongiguration(name: String, configuration: ButtonConfiguration)
 }
 
@@ -30,9 +30,9 @@ struct HAVSettingsViewBuilder {
                         Text(name)
                     }
                 )
-            case .vStackConfiguration(let name, let model):
+            case .stackConfiguration(let name, let model):
                 NavigationLink(
-                    value: NavigationDestination.vStackConfiguration(sectionInformation: model),
+                    value: NavigationDestination.stackConfiguration(sectionInformation: model),
                     label: {
                         Text(name)
                     }
@@ -43,10 +43,10 @@ struct HAVSettingsViewBuilder {
     @MainActor
     func map(model: DisplayableModelObject) async -> SettingDestination? {
         switch model.type {
-            case .vStack:
-                let configuration = displayableStore.vStackConfiguration(displayableModelObjectID: model.id)
+            case .stack:
+                let configuration = displayableStore.stackConfiguration(displayableModelObjectID: model.id)
 
-                return .vStackConfiguration(
+                return .stackConfiguration(
                     name: "\(configuration.alignment.rawValue.capitalized) Stack: \(model.name)",
                     model: model
                 )

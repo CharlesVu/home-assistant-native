@@ -6,7 +6,7 @@ enum NavigationDestination: Hashable {
         switch (lhs, rhs) {
             case (.sectionsSettingsView, .sectionsSettingsView):
                 return true
-            case (.vStackConfiguration(let lhsConfiguration), .vStackConfiguration(let rhsConfiguration)):
+            case (.stackConfiguration(let lhsConfiguration), .stackConfiguration(let rhsConfiguration)):
                 return lhsConfiguration == rhsConfiguration
             case (.addWidget(let lhsParent), .addWidget(let rhsParent)):
                 return lhsParent == rhsParent
@@ -23,8 +23,8 @@ enum NavigationDestination: Hashable {
         switch self {
             case .sectionsSettingsView:
                 hasher.combine("sectionsSettingsView")
-            case .vStackConfiguration(let configuration):
-                hasher.combine("vStackConfiguration")
+            case .stackConfiguration(let configuration):
+                hasher.combine("stackConfiguration")
                 hasher.combine(configuration)
             case .addWidget(let parent):
                 hasher.combine("addWidget")
@@ -39,7 +39,7 @@ enum NavigationDestination: Hashable {
     }
 
     case sectionsSettingsView
-    case vStackConfiguration(sectionInformation: DisplayableModelObject)
+    case stackConfiguration(sectionInformation: DisplayableModelObject)
     case addWidget(parent: DisplayableModelObject)
     case buttonConfiguration(configuration: ButtonConfiguration)
     case selectEntity(owner: any EntityAttachable)
@@ -48,7 +48,7 @@ enum NavigationDestination: Hashable {
         switch self {
             case .sectionsSettingsView:
                 RootConfigurationView(path: path)
-            case .vStackConfiguration(let sectionInformation):
+            case .stackConfiguration(let sectionInformation):
                 StackConfigurationView(path: path, sectionInformation: sectionInformation)
             case .addWidget(let parent):
                 AddWidgetView(path: path, parent: parent)

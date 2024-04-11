@@ -6,7 +6,7 @@ import RealmSwift
 protocol DisplayableStoring {
     func root() -> DisplayableModelObject?
 
-    func vStackConfiguration(displayableModelObjectID: String) -> StackConfiguration
+    func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
 
     func write(_ block: () -> Void) async
@@ -49,7 +49,7 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
-    func vStackConfiguration(displayableModelObjectID: String) -> StackConfiguration {
+    func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration {
         let displayable = databaseManager.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
@@ -84,8 +84,8 @@ struct DisplayableStore: DisplayableStoring {
         let db = databaseManager.database()
         for object in objects {
             switch object.type {
-                case .vStack:
-                    let configuration = vStackConfiguration(displayableModelObjectID: object.id)
+                case .stack:
+                    let configuration = stackConfiguration(displayableModelObjectID: object.id)
                     await delete(Array(configuration.children))
                     await write {
                         db.delete(configuration)

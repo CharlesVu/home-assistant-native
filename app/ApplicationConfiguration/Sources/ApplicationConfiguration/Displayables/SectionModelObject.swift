@@ -2,7 +2,7 @@ import Foundation
 import RealmSwift
 
 public enum ViewType: String, PersistableEnum {
-    case vStack
+    case stack
     case button
     //    case entity
     //    case gauge

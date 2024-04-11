@@ -45,7 +45,7 @@ class AddWidgetViewModel: ObservableObject {
     }
 
     @MainActor
-    func addVstack() async {
+    func addStack() async {
         let db = databaseManager.database()
 
         guard
@@ -60,13 +60,13 @@ class AddWidgetViewModel: ObservableObject {
                 let configuration = StackConfiguration()
                 db.add(configuration)
 
-                let newvStackObject = DisplayableModelObject()
-                newvStackObject.parentSection = parent.id
-                newvStackObject.type = .vStack
-                newvStackObject.configurationID = configuration.id
-                db.add(newvStackObject)
+                let newStackObject = DisplayableModelObject()
+                newStackObject.parentSection = parent.id
+                newStackObject.type = .stack
+                newStackObject.configurationID = configuration.id
+                db.add(newStackObject)
 
-                parentConfiguration.children.append(newvStackObject)
+                parentConfiguration.children.append(newStackObject)
             }
             path.wrappedValue.removeLast()
         } catch {
@@ -93,9 +93,9 @@ struct AddWidgetView: View {
                     await viewModel.addButton()
                 }
             }
-            Button("Add vStack") {
+            Button("Add Stack") {
                 Task {
-                    await viewModel.addVstack()
+                    await viewModel.addStack()
                 }
             }
         }

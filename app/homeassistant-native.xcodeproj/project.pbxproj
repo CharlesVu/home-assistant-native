@@ -17,7 +17,7 @@
 		565AF3B62BC682D000F1C884 /* StackConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B52BC682D000F1C884 /* StackConfigurationViewModel.swift */; };
 		565AF3B82BC6865200F1C884 /* EntitySelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */; };
 		565AF3BB2BC686B500F1C884 /* EntityAttachable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */; };
-		565AF3BE2BC6882200F1C884 /* HAVStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BD2BC6882200F1C884 /* HAVStack.swift */; };
+		565AF3BE2BC6882200F1C884 /* HAStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BD2BC6882200F1C884 /* HAStack.swift */; };
 		565AF3C02BC698D700F1C884 /* EntityStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3BF2BC698D700F1C884 /* EntityStore.swift */; };
 		565AF3C22BC6993B00F1C884 /* OctopusAgileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3C12BC6993B00F1C884 /* OctopusAgileStore.swift */; };
 		565AF3C42BC699DD00F1C884 /* DisplayableStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565AF3C32BC699DD00F1C884 /* DisplayableStore.swift */; };
@@ -74,7 +74,7 @@
 		565AF3B52BC682D000F1C884 /* StackConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackConfigurationViewModel.swift; sourceTree = "<group>"; };
 		565AF3B72BC6865200F1C884 /* EntitySelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitySelectionViewModel.swift; sourceTree = "<group>"; };
 		565AF3BA2BC686B500F1C884 /* EntityAttachable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityAttachable.swift; sourceTree = "<group>"; };
-		565AF3BD2BC6882200F1C884 /* HAVStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAVStack.swift; sourceTree = "<group>"; };
+		565AF3BD2BC6882200F1C884 /* HAStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAStack.swift; sourceTree = "<group>"; };
 		565AF3BF2BC698D700F1C884 /* EntityStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityStore.swift; sourceTree = "<group>"; };
 		565AF3C12BC6993B00F1C884 /* OctopusAgileStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusAgileStore.swift; sourceTree = "<group>"; };
 		565AF3C32BC699DD00F1C884 /* DisplayableStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableStore.swift; sourceTree = "<group>"; };
@@ -176,12 +176,12 @@
 			path = "Data Abstraction";
 			sourceTree = "<group>";
 		};
-		565AF3BC2BC6881200F1C884 /* HAVStack */ = {
+		565AF3BC2BC6881200F1C884 /* HAStack */ = {
 			isa = PBXGroup;
 			children = (
-				565AF3BD2BC6882200F1C884 /* HAVStack.swift */,
+				565AF3BD2BC6882200F1C884 /* HAStack.swift */,
 			);
-			path = HAVStack;
+			path = HAStack;
 			sourceTree = "<group>";
 		};
 		565AF3C52BC6A18400F1C884 /* HAViewBuilder */ = {
@@ -319,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				565AF3C52BC6A18400F1C884 /* HAViewBuilder */,
-				565AF3BC2BC6881200F1C884 /* HAVStack */,
+				565AF3BC2BC6881200F1C884 /* HAStack */,
 				68A3D5EC2779111900BFDE39 /* SwitchWidgetListView.swift */,
 				68357E88277688B4004B2879 /* TemperatureHumidityWidgetView.swift */,
 				568D54692BB5BA0700E11B6D /* OctopusPricingVIew.swift */,
@@ -481,7 +481,7 @@
 				565AF3C92BC6A1B700F1C884 /* HASettingsViewBuilder.swift in Sources */,
 				680AE98F2779C37500FC62A8 /* MediaPlayerView.swift in Sources */,
 				6839796727766E420033DFBA /* ContentView.swift in Sources */,
-				565AF3BE2BC6882200F1C884 /* HAVStack.swift in Sources */,
+				565AF3BE2BC6882200F1C884 /* HAStack.swift in Sources */,
 				68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */,
 				565AF3C02BC698D700F1C884 /* EntityStore.swift in Sources */,
 				56613BA02BC3E41C001668A9 /* HAEntityViewModel.swift in Sources */,

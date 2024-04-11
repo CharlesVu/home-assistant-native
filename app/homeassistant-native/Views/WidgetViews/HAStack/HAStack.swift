@@ -11,7 +11,7 @@ class HAStackViewModel: ObservableObject {
     @Published var alignment: StackAlignment = .horizontal
 
     init(displayableModelObjectID: String) {
-        configuration = displayableStore.vStackConfiguration(displayableModelObjectID: displayableModelObjectID)
+        configuration = displayableStore.stackConfiguration(displayableModelObjectID: displayableModelObjectID)
         Task {
             await updateAlignment()
             await observeConfiguration()
@@ -48,10 +48,9 @@ class HAStackViewModel: ObservableObject {
             }
         }
     }
-
 }
 
-struct HAVStack: View {
+struct HAStack: View {
     @ObservedObject var viewModel: HAStackViewModel
 
     init(displayableModelObjectID: String) {
