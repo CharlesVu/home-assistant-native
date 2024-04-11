@@ -10,6 +10,8 @@ enum HAViewType: Identifiable {
                 return id
             case .state(let id):
                 return id
+            case .octopus:
+                return "octopus"
 
         }
     }
@@ -17,6 +19,7 @@ enum HAViewType: Identifiable {
     case state(id: String)
     case stack(id: String)
     case button(id: String)
+    case octopus
 }
 
 struct HAViewBuilder {
@@ -28,6 +31,8 @@ struct HAViewBuilder {
                 HAButton(displayableModelObjectID: id)
             case .state(let id):
                 HAEntityView(displayableModelObjectID: id)
+            case .octopus:
+                OctopusPriceListView()
         }
     }
 
@@ -39,6 +44,8 @@ struct HAViewBuilder {
                 return .button(id: model.id)
             case .stateDisplay:
                 return .state(id: model.id)
+            case .octopus:
+                return .octopus
         }
     }
 }

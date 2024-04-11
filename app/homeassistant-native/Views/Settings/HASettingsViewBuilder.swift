@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 enum SettingDestination: Identifiable {
-    var id: ObjectIdentifier {
+    var id: String {
         switch self {
             case .stackConfiguration(_, let model):
                 return model.id
@@ -12,12 +12,15 @@ enum SettingDestination: Identifiable {
                 return model.id
             case .stateDisplayConfiguration(_, let model):
                 return model.id
+            case .octopus:
+                return "octopus"
         }
     }
 
     case stackConfiguration(name: String, model: DisplayableModelObject)
     case buttonCongiguration(name: String, configuration: ButtonConfiguration)
     case stateDisplayConfiguration(name: String, configuration: StateDisplayConfiguration)
+    case octopus
 
 }
 
@@ -49,6 +52,8 @@ struct HAVSettingsViewBuilder {
                         Text(name)
                     }
                 )
+            case .octopus:
+                HADetailTextView(text: "Octopus", textAlignment: .leading)
         }
     }
 
@@ -78,7 +83,8 @@ struct HAVSettingsViewBuilder {
                     displayName = "State: \(entity.displayName())"
                 }
                 return .stateDisplayConfiguration(name: displayName, configuration: configuration)
-
+            case .octopus:
+                return .octopus
         }
 
     }

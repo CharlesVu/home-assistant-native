@@ -59,11 +59,11 @@ struct HAStack: View {
 
     var body: some View {
         if viewModel.alignment == .vertical {
-            VStack {
+            VStack(alignment: .leading) {
                 children
             }
         } else {
-            HStack {
+            HStack(alignment: .top) {
                 children
             }
         }

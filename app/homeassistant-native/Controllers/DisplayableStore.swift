@@ -113,6 +113,8 @@ struct DisplayableStore: DisplayableStoring {
                     await write {
                         db.delete(configuration)
                     }
+                case .octopus:
+                    ()
 
             }
             await write {

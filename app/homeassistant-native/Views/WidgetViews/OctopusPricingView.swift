@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct OctopusPricingVIew: View {
+struct OctopusPricingView: View {
     var date: Date
     var price: Double
     var meanPrice: Double

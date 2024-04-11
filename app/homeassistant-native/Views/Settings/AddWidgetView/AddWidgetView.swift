@@ -74,6 +74,32 @@ class AddWidgetViewModel: ObservableObject {
     }
 
     @MainActor
+    func addOctopus() async {
+        guard
+            let parentConfiguration = databaseManager.database().object(
+                ofType: StackConfiguration.self,
+                forPrimaryKey: parent.configurationID
+            )
+        else { return }
+
+        do {
+            let db = databaseManager.database()
+            try await db.asyncWrite {
+                let newButtonObject = DisplayableModelObject()
+                newButtonObject.parentSection = parent.id
+                newButtonObject.type = .octopus
+                db.add(newButtonObject)
+
+                parentConfiguration.children.append(newButtonObject)
+            }
+            path.wrappedValue.removeLast()
+        } catch {
+
+        }
+
+    }
+
+    @MainActor
     func addStack() async {
         let db = databaseManager.database()
 
@@ -148,6 +174,18 @@ struct AddWidgetView: View {
                     HADetailTextView(text: "Add Stack", textAlignment: .leading)
                 }
             )
+
+            Button(
+                action: {
+                    Task {
+                        await viewModel.addOctopus()
+                    }
+                },
+                label: {
+                    HADetailTextView(text: "Add Octopus Pricing", textAlignment: .leading)
+                }
+            )
+
         }
     }
 }
