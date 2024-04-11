@@ -27,9 +27,7 @@ struct HAVSettingsViewBuilder {
                 NavigationLink(
                     value: NavigationDestination.buttonConfiguration(configuration: configuration),
                     label: {
-                        Text(
-                            "Button : \(name)"
-                        )
+                        Text(name)
                     }
                 )
             case .vStackConfiguration(let name, let model):
@@ -46,13 +44,18 @@ struct HAVSettingsViewBuilder {
     func map(model: DisplayableModelObject) async -> SettingDestination? {
         switch model.type {
             case .vStack:
-                return .vStackConfiguration(name: model.name, model: model)
+                let configuration = displayableStore.vStackConfiguration(displayableModelObjectID: model.id)
+
+                return .vStackConfiguration(
+                    name: "\(configuration.alignment.rawValue.capitalized) Stack: \(model.name)",
+                    model: model
+                )
             case .button:
                 let configuration = displayableStore.buttonConfiguration(displayableModelObjectID: model.id)
 
                 var displayName = "Not configured"
                 if let id = configuration.entityID, let entity = await entityStore.entity(id: id) {
-                    displayName = entity.displayName()
+                    displayName = "Button: \(entity.displayName())"
                 }
                 return .buttonCongiguration(name: displayName, configuration: configuration)
         }

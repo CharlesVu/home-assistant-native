@@ -53,21 +53,13 @@ class StackConfigurationViewModel: ObservableObject {
     @MainActor
     func getChildren() async {
         configuration = displayableStore.vStackConfiguration(displayableModelObjectID: sectionInformation.id)
-        updateAlignment()
-
+        alignment = configuration!.alignment.rawValue
         token = configuration?.observe(keyPaths: ["children"]) { [weak self] _ in
             Task {
                 await self?.updateDestinations()
-                self?.updateAlignment()
             }
         }
         await updateDestinations()
-    }
-
-    @MainActor
-    func updateAlignment() {
-        guard let configuration else { return }
-        alignment = configuration.alignment.rawValue
     }
 
     @MainActor

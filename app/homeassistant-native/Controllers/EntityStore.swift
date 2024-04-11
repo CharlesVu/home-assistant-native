@@ -13,6 +13,7 @@ protocol EntityStoring {
     func entity(id: String) async -> Entity?
     func allEntitites() async -> [Entity]
     func updateEntity(newState: EntityState) async
+    func updateEntities(newStates: [EntityState]) async
 }
 
 struct EntityStore: EntityStoring {
@@ -61,21 +62,30 @@ struct EntityStore: EntityStoring {
     @MainActor
     func updateEntity(newState: EntityState) async {
         let db = databaseManager.database()
-        var model: EntityModelObject
-        if let existingModel = db.object(
-            ofType: EntityModelObject.self,
-            forPrimaryKey: newState.entityId
-        ) {
-            model = existingModel
-        } else {
-            model = .init()
-            model.entityID = newState.entityId
-        }
 
         try? await db.asyncWrite {
+            let model = EntityModelObject()
+            model.entityID = newState.entityId
             model.state = newState.state
             model.attributes.update(newState.attributes)
             db.add(model, update: .modified)
+        }
+    }
+
+    @MainActor
+    func updateEntities(newStates: [EntityState]) async {
+        let db = databaseManager.database()
+
+        try? await db.asyncWrite {
+            newStates.map {
+                let model = EntityModelObject()
+                model.entityID = $0.entityId
+                model.state = $0.state
+                model.attributes.update($0.attributes)
+                return model
+            }.forEach {
+                db.add($0, update: .modified)
+            }
         }
     }
 }

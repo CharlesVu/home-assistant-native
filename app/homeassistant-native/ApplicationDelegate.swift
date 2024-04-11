@@ -27,6 +27,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             .store(in: &subscriptions)
 
         homeAssistant
+            .entityInitialStatePublisher
+            .sink { [weak self] newStates in
+                Task {
+                    await self?.entityStore.updateEntities(newStates: newStates)
+                }
+            }
+            .store(in: &subscriptions)
+
+        homeAssistant
             .octopusPublisher
             .sink { [weak self] rates in
                 self?.updateRates(newRates: rates)

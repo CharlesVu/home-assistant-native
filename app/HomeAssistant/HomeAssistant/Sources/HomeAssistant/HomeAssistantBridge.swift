@@ -7,6 +7,7 @@ import OSLog
 public protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
     var entityPublisher: PassthroughSubject<EntityState, Never> { get }
+    var entityInitialStatePublisher: PassthroughSubject<[EntityState], Never> { get }
     var octopusPublisher: PassthroughSubject<[OctopusRate], Never> { get }
     var responsePublisher: PassthroughSubject<HAMessage, Never> { get }
 }
@@ -24,6 +25,7 @@ public final class HomeAssistantBridge: NSObject {
     public let entityPublisher = PassthroughSubject<EntityState, Never>()
     public let responsePublisher = PassthroughSubject<HAMessage, Never>()
     public let octopusPublisher = PassthroughSubject<[OctopusRate], Never>()
+    public let entityInitialStatePublisher = PassthroughSubject<[EntityState], Never>()
 
     private var subscriptions = Set<AnyCancellable>()
 
@@ -98,7 +100,7 @@ extension HomeAssistantBridge: URLSessionTaskDelegate {
         } else if message.type == .result,
             case .entities(let results) = message.result
         {
-            results.forEach { entityPublisher.send($0) }
+            entityInitialStatePublisher.send(results)
         } else if message.type == .result {
             responsePublisher.send(message)
         }
