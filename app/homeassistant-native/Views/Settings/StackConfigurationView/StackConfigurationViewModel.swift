@@ -92,4 +92,11 @@ class StackConfigurationViewModel: ObservableObject {
         let itemsToDelete = offsets.compactMap { configuration?.children[$0] }
         await displayableStore.delete(itemsToDelete)
     }
+
+    @MainActor
+    func move(from: IndexSet, to: Int) async {
+        await displayableStore.write {
+            configuration?.children.move(fromOffsets: from, toOffset: to)
+        }
+    }
 }

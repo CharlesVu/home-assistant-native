@@ -31,12 +31,16 @@ struct StackConfigurationView: View {
     }
 
     var children: some View {
-        Section("Embeded Widgets") {
+        Section("Embeded Widgets (drag to reorder)") {
             ForEach(viewModel.destinations) { child in
-                HAVSettingsViewBuilder().view(viewType: child)
-
+                HStack {
+                    Image(systemName: "line.3.horizontal").foregroundColor(Color.haSystemLight)
+                    HAVSettingsViewBuilder().view(viewType: child)
+                }
             }.onDelete { index in
                 Task { await viewModel.delete(at: index) }
+            }.onMove { source, destination in
+                Task { await viewModel.move(from: source, to: destination) }
             }
         }
     }
