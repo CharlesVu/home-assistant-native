@@ -63,6 +63,7 @@ class HomeAssistantSettingsViewModel: ObservableObject {
 }
 
 struct HomeAssistantSettingsView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: HomeAssistantSettingsViewModel = .init()
 
     var body: some View {
@@ -78,10 +79,10 @@ struct HomeAssistantSettingsView: View {
             }
             .disabled(!viewModel.isValid)
             .transition(.opacity)
-            .accentColor(ColorManager.haDefaultDark)
+            .accentColor(themeManager.current.text)
         }
         .navigationTitle("Home Assistant")
-        .accentColor(ColorManager.haDefaultDark)
+        .accentColor(themeManager.current.text)
         .onAppear {
             viewModel.initializeValues()
         }

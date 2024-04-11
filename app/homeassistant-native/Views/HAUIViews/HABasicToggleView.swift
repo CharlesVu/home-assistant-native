@@ -87,6 +87,8 @@ struct HABasicToggleView: View {
 }
 
 struct PowerToggleStyle: ToggleStyle {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     func makeBody(configuration: Self.Configuration) -> some View {
         return HStack {
             configuration.label
@@ -95,7 +97,7 @@ struct PowerToggleStyle: ToggleStyle {
                 .resizable()
                 .frame(width: 24, height: 24)
                 .foregroundColor(
-                    configuration.isOn ? ColorManager.haDefaultDark : ColorManager.haDefaultLighter
+                    configuration.isOn ? themeManager.current.text : themeManager.current.lightText
                 )
                 .font(.system(size: 20, weight: .bold, design: .default))
                 .onTapGesture {

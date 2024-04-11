@@ -72,15 +72,15 @@ enum NavigationDestination: Hashable {
 }
 
 struct ModalSettingsView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @Environment(\.presentationMode)
     var presentationMode: Binding<PresentationMode>
+
     @State private var path: NavigationPath = .init()
 
     var body: some View {
         NavigationStack(path: $path) {
             VStack(alignment: .leading, spacing: 0) {
-                HATitleTextView(text: "Settings", icon: "gear")
-                    .padding()
                 List {
                     Section("Display") {
                         NavigationLink(value: NavigationDestination.sectionsSettingsView) {
@@ -91,8 +91,8 @@ struct ModalSettingsView: View {
                                 backgroundColor: .white
                             )
                         }
-
                     }
+                    .listRowBackground(themeManager.current.lightBackground)
                     Section {
                         NavigationLink {
                             HomeAssistantSettingsView()
@@ -105,12 +105,18 @@ struct ModalSettingsView: View {
                             )
                         }
                     }
+                    .listRowBackground(themeManager.current.lightBackground)
+
                 }
-            }.navigationDestination(for: NavigationDestination.self) { option in
+                .background(themeManager.current.background)
+                .scrollContentBackground(.hidden)
+            }
+            .navigationDestination(for: NavigationDestination.self) { option in
                 option.view($path)
             }
+            .navigationBarTitleDisplayMode(.large)
+            .navigationTitle("Settings")
             #if !os(macOS)
-            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
                 trailing:
                     Button(
@@ -118,11 +124,12 @@ struct ModalSettingsView: View {
                         action: {
                             self.presentationMode.wrappedValue.dismiss()
                         }
-                    ).accentColor(ColorManager.haDefaultDark)
+                    )
+                    .accentColor(themeManager.current.text)
             )
             #endif
         }
-        .background(Color(.systemGray))
+        .tint(themeManager.current.text)
     }
 }
 

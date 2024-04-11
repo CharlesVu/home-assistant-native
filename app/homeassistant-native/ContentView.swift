@@ -18,6 +18,7 @@ class ContentViewModel: ObservableObject {
 struct ContentView: View {
     @State var show = false
     @ObservedObject var viewModel: ContentViewModel = .init()
+    @StateObject var themeManager = Container.shared.themeManager.callAsFunction()
 
     var body: some View {
         VStack(spacing: 0) {
@@ -30,6 +31,8 @@ struct ContentView: View {
             .padding(.leading, 16)
             .padding(.trailing, 16)
         }
+        .environmentObject(themeManager)
+        .background(themeManager.current.background)
     }
 }
 

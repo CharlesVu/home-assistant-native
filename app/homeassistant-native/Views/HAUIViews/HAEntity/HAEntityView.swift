@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HAEntityView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: HAEntityViewModel
 
     init(displayableModelObjectID: String) {
@@ -11,7 +12,7 @@ struct HAEntityView: View {
         HStack {
             HAWidgetImageView(
                 imageName: viewModel.iconName,
-                color: viewModel.color
+                color: themeManager.current.text
             )
             if viewModel.alignment == .vertical {
                 VStack {

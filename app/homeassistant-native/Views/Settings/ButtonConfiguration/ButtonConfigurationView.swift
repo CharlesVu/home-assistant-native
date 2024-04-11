@@ -83,6 +83,7 @@ class ButtonConfigurationViewModel: ObservableObject {
 }
 
 struct ButtonConfigurationView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: ButtonConfigurationViewModel
 
     init(
@@ -101,13 +102,17 @@ struct ButtonConfigurationView: View {
                         Text(viewModel.name)
                     }
                 )
+                .listRowBackground(themeManager.current.lightBackground)
             }
 
             alignmentPicker
             buttonModePicker
         }
+        .background(themeManager.current.background)
+        .scrollContentBackground(.hidden)
         .navigationTitle("Button Configuration")
-        .accentColor(ColorManager.haDefaultDark)
+        .accentColor(themeManager.current.text)
+        .navigationBarTitleDisplayMode(.large)
     }
 
     var alignmentPicker: some View {
@@ -117,7 +122,8 @@ struct ButtonConfigurationView: View {
             }
         }
         .pickerStyle(.menu)
-        .tint(ColorManager.haDefaultDark)
+        .tint(themeManager.current.text)
+        .listRowBackground(themeManager.current.lightBackground)
     }
 
     var buttonModePicker: some View {
@@ -127,7 +133,7 @@ struct ButtonConfigurationView: View {
             }
         }
         .pickerStyle(.menu)
-        .tint(ColorManager.haDefaultDark)
-
+        .tint(themeManager.current.text)
+        .listRowBackground(themeManager.current.lightBackground)
     }
 }

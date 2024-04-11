@@ -21,4 +21,8 @@ extension Container {
     var displayableStore: Factory<DisplayableStoring> {
         Factory(self) { DisplayableStore() }
     }
+
+    var themeManager: Factory<ThemeManager> {
+        Factory(self) { ThemeManager() }.singleton
+    }
 }

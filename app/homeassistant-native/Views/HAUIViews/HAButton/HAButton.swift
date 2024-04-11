@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct HAButton: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: HAButtonViewModel
 
     init(displayableModelObjectID: String) {
@@ -20,16 +21,15 @@ struct HAButton: View {
     }
 
     var content: some View {
-
         Group {
             if viewModel.isWaitingForResponse {
                 ProgressView()
                     .frame(width: 42, height: 42)
-                    .tint(viewModel.color)
+                    .tint(themeManager.current.text)
             } else {
                 HAWidgetImageView(
                     imageName: viewModel.iconName,
-                    color: viewModel.color
+                    color: themeManager.current.text
                 )
             }
             HADetailTextView(

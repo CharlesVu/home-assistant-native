@@ -110,13 +110,17 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
 }
 
 struct TemperatureHumidityWidgetView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @StateObject var viewModel: TemperatureHumidityWidgetViewModel = .init()
 
     var body: some View {
         ZStack {
             HStack(alignment: .top, spacing: 0) {
                 HStack {
-                    HAWidgetImageView(imageName: "thermometer.medium")
+                    HAWidgetImageView(
+                        imageName: "thermometer.medium",
+                        color: themeManager.current.text
+                    )
                     VStack {
                         HAMainTextView(text: "\(viewModel.temperature) °C")
                         HAFootNoteView(text: "Temperature", alignement: .leading)
@@ -124,7 +128,10 @@ struct TemperatureHumidityWidgetView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    HAWidgetImageView(imageName: "humidity.fill")
+                    HAWidgetImageView(
+                        imageName: "humidity.fill",
+                        color: themeManager.current.text
+                    )
                     VStack {
                         HAMainTextView(text: "\(viewModel.humidity)%")
                         HAFootNoteView(text: "Humidity", alignement: .leading)
@@ -132,7 +139,10 @@ struct TemperatureHumidityWidgetView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    HAWidgetImageView(imageName: "wind")
+                    HAWidgetImageView(
+                        imageName: "wind",
+                        color: themeManager.current.text
+                    )
                     VStack {
                         HAMainTextView(text: "\(viewModel.windSpeed) km/h")
                         HAFootNoteView(text: "Wind Speed", alignement: .leading)
@@ -140,7 +150,10 @@ struct TemperatureHumidityWidgetView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    HAWidgetImageView(imageName: "bolt.fill")
+                    HAWidgetImageView(
+                        imageName: "bolt.fill",
+                        color: themeManager.current.text
+                    )
                     VStack {
                         HAMainTextView(text: "\(viewModel.electricityUsage) kW")
                         HAFootNoteView(text: "£\(viewModel.electricityTotalPrice)", alignement: .leading)
@@ -148,7 +161,10 @@ struct TemperatureHumidityWidgetView: View {
                 }
                 .frame(minWidth: 0, maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    HAWidgetImageView(imageName: "heat.waves")
+                    HAWidgetImageView(
+                        imageName: "heat.waves",
+                        color: themeManager.current.text
+                    )
                     VStack {
                         HAMainTextView(text: "\(viewModel.gasUsage) kW")
                         HAFootNoteView(text: "£\(viewModel.gasTotalPrice)", alignement: .leading)

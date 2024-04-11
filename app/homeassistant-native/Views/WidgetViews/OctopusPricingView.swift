@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct OctopusPricingView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var date: Date
     var price: Double
     var meanPrice: Double
@@ -17,7 +19,7 @@ struct OctopusPricingView: View {
 
                 Text("\((price * 100).priceFormatted())p")
                     .fontWeight(.medium)
-                    .foregroundColor(ColorManager.haDefaultDark)
+                    .foregroundColor(themeManager.current.text)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -25,11 +27,11 @@ struct OctopusPricingView: View {
 
     func color(price: Double) -> Color {
         if price <= 0 {
-            return ColorManager.blue
+            return themeManager.current.blue
         } else if price <= meanPrice {
-            return ColorManager.green
+            return themeManager.current.green
         } else {
-            return ColorManager.orange
+            return themeManager.current.orange
         }
     }
 

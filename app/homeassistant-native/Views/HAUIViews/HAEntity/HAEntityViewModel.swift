@@ -11,7 +11,6 @@ class HAEntityViewModel: ObservableObject {
     @Injected(\.entityStore) private var entityStore
 
     @Published var iconName: String = "circle"
-    @Published var color: Color = .white
     @Published var title: String = ""
     @Published var state: String = ""
     @Published var alignment: StateDisplayAlignment = .vertical
@@ -71,7 +70,6 @@ class HAEntityViewModel: ObservableObject {
     @MainActor
     func updateModel(from entity: Entity) {
         iconName = iconMapper.map(entity: entity)
-        color = ColorManager.haDefaultDark
         title = entity.displayName()
         state = stateFormatter.displayableState(for: entity)
     }

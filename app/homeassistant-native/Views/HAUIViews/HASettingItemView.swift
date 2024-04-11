@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HASettingItemView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var text: String
     var icon: String
     var foregroundColor: Color
@@ -14,7 +16,7 @@ struct HASettingItemView: View {
                 .foregroundColor(foregroundColor)
                 .cornerRadius(5)
             Text(text)
-                .foregroundStyle(ColorManager.haDefaultDark)
+                .foregroundStyle(themeManager.current.text)
         }
     }
 }

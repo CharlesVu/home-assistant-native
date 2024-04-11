@@ -16,9 +16,3 @@ struct HAColorTileView: View {
         }
     }
 }
-
-struct HAColorTileView_Previews: PreviewProvider {
-    static var previews: some View {
-        HAColorTileView(color: ColorManager.haDefaultDark)
-    }
-}

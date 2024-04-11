@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HATitleTextView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var text: String
     var icon: String
 
@@ -13,7 +15,7 @@ struct HATitleTextView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .font(.largeTitle)
-        .foregroundColor(ColorManager.haDefaultDark)
+        .foregroundColor(themeManager.current.text)
     }
 }
 

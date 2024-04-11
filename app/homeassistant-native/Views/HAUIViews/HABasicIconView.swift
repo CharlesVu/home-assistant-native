@@ -1,13 +1,14 @@
 import SwiftUI
 
 struct HABasicIconView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var icon: String
     var darkColorScheme: Bool = true
 
     var body: some View {
-        let color: Color = darkColorScheme ? ColorManager.haDefaultDark : ColorManager.haDefaultLighter
         Image(systemName: icon)
-            .foregroundColor(color)
+            .foregroundColor(themeManager.current.text)
     }
 }
 

@@ -1,31 +1,34 @@
 import ApplicationConfiguration
+import Factory
 import SwiftUI
 
 struct IconColorTransformer {
-    static func transform(_ entity: Entity) -> Color {
+    @Injected(\.themeManager) var themeManager
+
+    func transform(_ entity: Entity) -> Color {
         if entity.deviceClass == .battery {
             if let stateValue = Int(entity.state) {
                 if stateValue < 25 {
-                    return ColorManager.error
+                    return themeManager.current.red
                 } else if stateValue < 50 {
-                    return ColorManager.warning
+                    return themeManager.current.orange
                 } else if stateValue < 75 {
-                    return ColorManager.neutral
+                    return themeManager.current.text
                 } else {
-                    return ColorManager.positive
+                    return themeManager.current.green
                 }
             }
         } else if entity.deviceClass == .door {
             if entity.state == "off" {
-                return ColorManager.neutral
+                return themeManager.current.text
             } else {
-                return ColorManager.warning
+                return themeManager.current.orange
             }
         } else if entity.id.hasPrefix("lock") {
             if entity.state == "locked" {
-                return ColorManager.neutral
+                return themeManager.current.text
             } else {
-                return ColorManager.warning
+                return themeManager.current.orange
             }
         } else if let brightness = entity.brightness,
             entity.hs.count == 2
@@ -34,7 +37,7 @@ struct IconColorTransformer {
             return Color(hue: hs[0] / 255, saturation: hs[1] / 255, brightness: brightness / 255)
         }
 
-        return ColorManager.haDefaultDark
+        return themeManager.current.text
     }
 
 }

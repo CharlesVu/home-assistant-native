@@ -11,7 +11,6 @@ class HAButtonViewModel: ObservableObject {
     @Injected(\.homeAssistant) private var homeAssistant
 
     @Published var iconName: String = "circle"
-    @Published var color: Color = .white
     @Published var title: String = ""
     @Published var alignment: ButtonAlignment = .vertical
     @Published var isWaitingForResponse = false
@@ -77,7 +76,6 @@ class HAButtonViewModel: ObservableObject {
     @MainActor
     func updateModel(from entity: Entity) {
         iconName = iconMapper.map(entity: entity)
-        color = ColorManager.haDefaultDark
         title = entity.displayName()
         if entity.state == "on" {
             state = true

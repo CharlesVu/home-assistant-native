@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HAFootNoteView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var text: String
     var alignement: Alignment
 
@@ -8,7 +10,7 @@ struct HAFootNoteView: View {
         Text(text)
             .font(.footnote)
             .fontWeight(.light)
-            .foregroundColor(ColorManager.haDefaultLight)
+            .foregroundColor(themeManager.current.text)
             .frame(maxWidth: .infinity, alignment: alignement)
     }
 }

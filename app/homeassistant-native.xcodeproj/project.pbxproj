@@ -55,7 +55,7 @@
 		68A3D5D92778D01400BFDE39 /* HAColorTileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A3D5D82778D01400BFDE39 /* HAColorTileView.swift */; };
 		68A3D5DB2778D8F800BFDE39 /* HABrightnessSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A3D5DA2778D8F800BFDE39 /* HABrightnessSliderView.swift */; };
 		68A3D5ED2779111900BFDE39 /* SwitchWidgetListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68A3D5EC2779111900BFDE39 /* SwitchWidgetListView.swift */; };
-		68C81E38277797BF00A99F04 /* DefaultTheme.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C81E37277797BF00A99F04 /* DefaultTheme.xcassets */; };
+		68C81E38277797BF00A99F04 /* Themes.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68C81E37277797BF00A99F04 /* Themes.xcassets */; };
 		68C81E3C277799B200A99F04 /* HAFootNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C81E3B277799B200A99F04 /* HAFootNoteView.swift */; };
 		68C81E3E27779B5A00A99F04 /* HAMainTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C81E3D27779B5A00A99F04 /* HAMainTextView.swift */; };
 		68C81E4227779D7800A99F04 /* HABasicToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C81E4127779D7800A99F04 /* HABasicToggleView.swift */; };
@@ -115,7 +115,7 @@
 		68A3D5D82778D01400BFDE39 /* HAColorTileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAColorTileView.swift; sourceTree = "<group>"; };
 		68A3D5DA2778D8F800BFDE39 /* HABrightnessSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABrightnessSliderView.swift; sourceTree = "<group>"; };
 		68A3D5EC2779111900BFDE39 /* SwitchWidgetListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchWidgetListView.swift; sourceTree = "<group>"; };
-		68C81E37277797BF00A99F04 /* DefaultTheme.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = DefaultTheme.xcassets; sourceTree = "<group>"; };
+		68C81E37277797BF00A99F04 /* Themes.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Themes.xcassets; sourceTree = "<group>"; };
 		68C81E3B277799B200A99F04 /* HAFootNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAFootNoteView.swift; sourceTree = "<group>"; };
 		68C81E3D27779B5A00A99F04 /* HAMainTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAMainTextView.swift; sourceTree = "<group>"; };
 		68C81E4127779D7800A99F04 /* HABasicToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HABasicToggleView.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 				6839796627766E420033DFBA /* ContentView.swift */,
 				6839796427766E420033DFBA /* homeassistant_nativeApp.swift */,
 				6839796827766E440033DFBA /* Assets.xcassets */,
-				68C81E37277797BF00A99F04 /* DefaultTheme.xcassets */,
+				68C81E37277797BF00A99F04 /* Themes.xcassets */,
 				68C81E332777968600A99F04 /* Controllers */,
 				68C81E442777A00000A99F04 /* Extensions */,
 				56AD26F22B2C72410076CAF2 /* Transformers */,
@@ -459,7 +459,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6839796927766E440033DFBA /* Assets.xcassets in Resources */,
-				68C81E38277797BF00A99F04 /* DefaultTheme.xcassets in Resources */,
+				68C81E38277797BF00A99F04 /* Themes.xcassets in Resources */,
 				566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

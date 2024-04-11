@@ -14,7 +14,7 @@ struct SwitchWidgetListView: View {
         HStack {
             HAWidgetImageView(
                 imageName: IconMapper().map(entity: entity),
-                color: IconColorTransformer.transform(entity)
+                color: IconColorTransformer().transform(entity)
             )
             VStack(alignment: .leading) {
                 HAMainTextView(text: entity.displayName())

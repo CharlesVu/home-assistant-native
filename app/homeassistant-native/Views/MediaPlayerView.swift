@@ -1,11 +1,14 @@
 import SwiftUI
 
 struct MediaPlayerView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     @State private var volume = 50.0
     @State private var isEditing = false
     private let darkColorScheme: Bool = false
+
     var body: some View {
-        let color: Color = darkColorScheme ? ColorManager.haDefaultDark : ColorManager.haDefaultLighter
+        let color: Color = themeManager.current.text
 
         VStack {
             HStack {

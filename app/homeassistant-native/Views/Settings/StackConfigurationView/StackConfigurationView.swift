@@ -2,6 +2,7 @@ import ApplicationConfiguration
 import SwiftUI
 
 struct StackConfigurationView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: StackConfigurationViewModel
 
     init(
@@ -15,6 +16,7 @@ struct StackConfigurationView: View {
         List {
             Section("Section Name") {
                 TextField("Name", text: $viewModel.name)
+                    .listRowBackground(themeManager.current.lightBackground)
                 alignmentModePicker
             }
             children
@@ -24,17 +26,21 @@ struct StackConfigurationView: View {
                     Text("Add a widget")
                 }
             )
-
+            .listRowBackground(themeManager.current.lightBackground)
         }
+        .background(themeManager.current.background)
+        .scrollContentBackground(.hidden)
         .navigationTitle("Vertical Stack")
-        .accentColor(ColorManager.haDefaultDark)
+        .accentColor(themeManager.current.text)
+        .navigationBarTitleDisplayMode(.large)
     }
 
     var children: some View {
         Section("Embeded Widgets (drag to reorder)") {
             ForEach(viewModel.destinations) { child in
                 HStack {
-                    Image(systemName: "line.3.horizontal").foregroundColor(Color.haSystemLight)
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundColor(themeManager.current.text)
                     HAVSettingsViewBuilder().view(viewType: child)
                 }
             }.onDelete { index in
@@ -42,6 +48,7 @@ struct StackConfigurationView: View {
             }.onMove { source, destination in
                 Task { await viewModel.move(from: source, to: destination) }
             }
+            .listRowBackground(themeManager.current.lightBackground)
         }
     }
     var alignmentModePicker: some View {
@@ -51,8 +58,8 @@ struct StackConfigurationView: View {
             }
         }
         .pickerStyle(.menu)
-        .tint(ColorManager.haDefaultDark)
-
+        .tint(themeManager.current.text)
+        .listRowBackground(themeManager.current.lightBackground)
     }
 
 }

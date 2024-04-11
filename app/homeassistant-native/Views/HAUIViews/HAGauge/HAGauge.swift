@@ -2,12 +2,7 @@ import SwiftUI
 
 struct HAGauge: View {
     @ObservedObject var viewModel: HAGaugeViewModel
-
-    let gradient = Gradient(colors: [
-        ColorManager.green,
-        ColorManager.orange,
-        ColorManager.red,
-    ])
+    @EnvironmentObject private var themeManager: ThemeManager
 
     init(entityID: String) {
         viewModel = .init(entityID: entityID)
@@ -21,11 +16,17 @@ struct HAGauge: View {
                 label: {},
                 currentValueLabel: {
                     Text(viewModel.displayableValue)
-                        .foregroundColor(ColorManager.haDefaultDark)
+                        .foregroundColor(themeManager.current.text)
                 }
             )
             .gaugeStyle(.accessoryCircular)
-            .tint(gradient)
+            .tint(
+                Gradient(colors: [
+                    themeManager.current.green,
+                    themeManager.current.orange,
+                    themeManager.current.red,
+                ])
+            )
             .scaledToFill()
 
             HAFootNoteView(

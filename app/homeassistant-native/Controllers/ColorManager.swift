@@ -1,24 +1,31 @@
 import Foundation
 import SwiftUI
 
-struct ColorManager {
-    static let haSystemColor = Color("HaSystemColor")
-    static let haSystemLight = Color("HaSystemLight")
+class ThemeManager: ObservableObject {
+    @Published var current: Theme = .init(themeName: "Cognac")
+}
 
-    static let haDefaultDark = Color("haDefaultDark")
-    static let haDefaultLight = Color("haDefaultLight")
-    static let haDefaultLighter = Color("haDefaultLighter")
-    static let haDefaultSecondary = Color("haDefaultSecondary")
-    static let haDefaultTertiary = Color("haDefaultTertiary")
+struct Theme {
+    init(themeName: String) {
+        background = Color("\(themeName)/background")
+        lightBackground = Color("\(themeName)/lightBackground")
+        blue = Color("\(themeName)/blue")
+        green = Color("\(themeName)/green")
+        lightText = Color("\(themeName)/lightText")
+        orange = Color("\(themeName)/orange")
+        red = Color("\(themeName)/red")
+        text = Color("\(themeName)/text")
+        yellow = Color("\(themeName)/yellow")
+    }
 
-    static let error = Color("haRed")
-    static let warning = Color("haOrange")
-    static let neutral = Color("HaSystemColor")
-    static let positive = Color("haGreen")
+    let background: Color
+    let lightBackground: Color
+    let blue: Color
+    let green: Color
+    let lightText: Color
+    let orange: Color
 
-    static let blue = Color("haBlue")
-    static let green = Color("haGreen")
-    static let yellow = Color("haYellow")
-    static let orange = Color("haOrange")
-    static let red = Color("haRed")
+    let red: Color
+    let text: Color
+    let yellow: Color
 }

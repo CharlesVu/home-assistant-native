@@ -22,6 +22,8 @@ class RootConfigurationViewModel: ObservableObject {
 }
 
 struct RootConfigurationView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     @ObservedObject var viewModel: RootConfigurationViewModel = .init()
     var path: Binding<NavigationPath>
 
@@ -29,7 +31,10 @@ struct RootConfigurationView: View {
         List {
             if let rootViewType = viewModel.rootViewType {
                 HAVSettingsViewBuilder().view(viewType: rootViewType)
+                    .listRowBackground(themeManager.current.lightBackground)
             }
         }
+        .background(themeManager.current.background)
+        .scrollContentBackground(.hidden)
     }
 }

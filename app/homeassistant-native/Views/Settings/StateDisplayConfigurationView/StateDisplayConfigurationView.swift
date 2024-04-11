@@ -65,6 +65,7 @@ class StateDisplayConfigurationViewModel: ObservableObject {
 }
 
 struct StateDisplayConfigurationView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: StateDisplayConfigurationViewModel
 
     init(
@@ -88,7 +89,7 @@ struct StateDisplayConfigurationView: View {
             alignmentPicker
         }
         .navigationTitle("Button Configuration")
-        .accentColor(ColorManager.haDefaultDark)
+        .accentColor(themeManager.current.text)
     }
 
     var alignmentPicker: some View {
@@ -98,6 +99,6 @@ struct StateDisplayConfigurationView: View {
             }
         }
         .pickerStyle(.menu)
-        .tint(ColorManager.haDefaultDark)
+        .tint(themeManager.current.text)
     }
 }

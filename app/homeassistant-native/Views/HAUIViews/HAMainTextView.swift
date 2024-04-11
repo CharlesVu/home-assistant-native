@@ -1,12 +1,14 @@
 import SwiftUI
 
 struct HAMainTextView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     var text: String
     var body: some View {
 
         Text(text)
             .fontWeight(.medium)
-            .foregroundColor(ColorManager.haDefaultDark)
+            .foregroundColor(themeManager.current.text)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct HABrightnessSliderView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     @State private var isEditing = false
     @State private var brightness = 50.0
 
@@ -15,11 +17,11 @@ struct HABrightnessSliderView: View {
                     onEditingChanged: { editing in
                         isEditing = editing
                     }
-                ).accentColor(ColorManager.haDefaultDark)
+                ).accentColor(themeManager.current.text)
                 HABasicIconView(icon: "light.max")
             }
             Text("\(Int(brightness))")
-                .foregroundColor(isEditing ? ColorManager.haDefaultLight : ColorManager.haDefaultDark)
+                .foregroundColor(isEditing ? themeManager.current.lightText : themeManager.current.text)
                 .padding()
         }
     }

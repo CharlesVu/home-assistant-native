@@ -2,6 +2,8 @@ import Combine
 import SwiftUI
 
 struct HeaderView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
+
     @State var showSettings = false
 
     var body: some View {
@@ -16,7 +18,7 @@ struct HeaderView: View {
                     self.showSettings = true
                 }) {
                     Image(systemName: "gear")
-                        .foregroundColor(ColorManager.haDefaultDark)
+                        .foregroundColor(themeManager.current.text)
                         .font(.title)
                 }
                 .frame(alignment: .trailing)
