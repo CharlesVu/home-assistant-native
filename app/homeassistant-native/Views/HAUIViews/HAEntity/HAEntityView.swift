@@ -3,8 +3,8 @@ import SwiftUI
 struct HAEntityView: View {
     @ObservedObject var viewModel: HAEntityViewModel
 
-    init(entityID: String) {
-        viewModel = .init(entityID: entityID)
+    init(displayableModelObjectID: String) {
+        viewModel = .init(displayableModelObjectID: displayableModelObjectID)
     }
 
     var body: some View {

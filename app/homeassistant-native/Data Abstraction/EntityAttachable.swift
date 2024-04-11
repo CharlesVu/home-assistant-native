@@ -6,3 +6,4 @@ public protocol EntityAttachable: Hashable {
 }
 
 extension ButtonConfiguration: EntityAttachable {}
+extension StateDisplayConfiguration: EntityAttachable {}

@@ -8,9 +8,13 @@ enum HAViewType: Identifiable {
                 return id
             case .button(let id):
                 return id
+            case .state(let id):
+                return id
+
         }
     }
 
+    case state(id: String)
     case stack(id: String)
     case button(id: String)
 }
@@ -22,6 +26,8 @@ struct HAViewBuilder {
                 HAStack(displayableModelObjectID: id)
             case .button(let id):
                 HAButton(displayableModelObjectID: id)
+            case .state(let id):
+                HAEntityView(displayableModelObjectID: id)
         }
     }
 
@@ -31,6 +37,8 @@ struct HAViewBuilder {
                 return .stack(id: model.id)
             case .button:
                 return .button(id: model.id)
+            case .stateDisplay:
+                return .state(id: model.id)
         }
     }
 }

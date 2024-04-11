@@ -10,11 +10,15 @@ enum SettingDestination: Identifiable {
                 return model.id
             case .buttonCongiguration(_, let model):
                 return model.id
+            case .stateDisplayConfiguration(_, let model):
+                return model.id
         }
     }
 
     case stackConfiguration(name: String, model: DisplayableModelObject)
     case buttonCongiguration(name: String, configuration: ButtonConfiguration)
+    case stateDisplayConfiguration(name: String, configuration: StateDisplayConfiguration)
+
 }
 
 struct HAVSettingsViewBuilder {
@@ -30,6 +34,14 @@ struct HAVSettingsViewBuilder {
                         Text(name)
                     }
                 )
+            case .stateDisplayConfiguration(let name, let configuration):
+                NavigationLink(
+                    value: NavigationDestination.stateDisplayConfiguration(configuration: configuration),
+                    label: {
+                        Text(name)
+                    }
+                )
+
             case .stackConfiguration(let name, let model):
                 NavigationLink(
                     value: NavigationDestination.stackConfiguration(sectionInformation: model),
@@ -58,6 +70,15 @@ struct HAVSettingsViewBuilder {
                     displayName = "Button: \(entity.displayName())"
                 }
                 return .buttonCongiguration(name: displayName, configuration: configuration)
+            case .stateDisplay:
+                let configuration = displayableStore.stateDisplayConfiguration(displayableModelObjectID: model.id)
+
+                var displayName = "Not configured"
+                if let id = configuration.entityID, let entity = await entityStore.entity(id: id) {
+                    displayName = "State: \(entity.displayName())"
+                }
+                return .stateDisplayConfiguration(name: displayName, configuration: configuration)
+
         }
 
     }

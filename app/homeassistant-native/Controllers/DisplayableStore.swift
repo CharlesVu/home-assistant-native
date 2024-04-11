@@ -8,6 +8,7 @@ protocol DisplayableStoring {
 
     func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
+    func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration
 
     func write(_ block: () -> Void) async
 
@@ -73,6 +74,18 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
+    func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration {
+        let displayable = databaseManager.database().object(
+            ofType: DisplayableModelObject.self,
+            forPrimaryKey: displayableModelObjectID
+        )!
+        return databaseManager.database().object(
+            ofType: StateDisplayConfiguration.self,
+            forPrimaryKey: displayable.configurationID
+        )!
+    }
+
+    @MainActor
     func write(_ block: () -> Void) async {
         try? await databaseManager.database().asyncWrite {
             block()
@@ -95,6 +108,12 @@ struct DisplayableStore: DisplayableStoring {
                     await write {
                         db.delete(configuration)
                     }
+                case .stateDisplay:
+                    let configuration = stateDisplayConfiguration(displayableModelObjectID: object.id)
+                    await write {
+                        db.delete(configuration)
+                    }
+
             }
             await write {
                 db.delete(object)

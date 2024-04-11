@@ -45,6 +45,35 @@ class AddWidgetViewModel: ObservableObject {
     }
 
     @MainActor
+    func addStateDisplay() async {
+        guard
+            let parentConfiguration = databaseManager.database().object(
+                ofType: StackConfiguration.self,
+                forPrimaryKey: parent.configurationID
+            )
+        else { return }
+
+        do {
+            let db = databaseManager.database()
+            try await db.asyncWrite {
+                let configuration = StateDisplayConfiguration()
+                db.add(configuration)
+
+                let newButtonObject = DisplayableModelObject()
+                newButtonObject.parentSection = parent.id
+                newButtonObject.type = .stateDisplay
+                newButtonObject.configurationID = configuration.id
+                db.add(newButtonObject)
+
+                parentConfiguration.children.append(newButtonObject)
+            }
+            path.wrappedValue.removeLast()
+        } catch {
+
+        }
+    }
+
+    @MainActor
     func addStack() async {
         let db = databaseManager.database()
 
@@ -88,16 +117,37 @@ struct AddWidgetView: View {
     }
     var body: some View {
         List {
-            Button("Add Button") {
-                Task {
-                    await viewModel.addButton()
+            Button(
+                action: {
+                    Task {
+                        await viewModel.addButton()
+                    }
+                },
+                label: {
+                    HADetailTextView(text: "Add Button", textAlignment: .leading)
                 }
-            }
-            Button("Add Stack") {
-                Task {
-                    await viewModel.addStack()
+            )
+            Button(
+                action: {
+                    Task {
+                        await viewModel.addStateDisplay()
+                    }
+                },
+                label: {
+                    HADetailTextView(text: "Add Entity State", textAlignment: .leading)
                 }
-            }
+            )
+
+            Button(
+                action: {
+                    Task {
+                        await viewModel.addStack()
+                    }
+                },
+                label: {
+                    HADetailTextView(text: "Add Stack", textAlignment: .leading)
+                }
+            )
         }
     }
 }

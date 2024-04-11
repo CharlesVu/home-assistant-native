@@ -14,6 +14,9 @@ enum NavigationDestination: Hashable {
                 return lhsOwner.entityID == rhsOwner.entityID
             case (.buttonConfiguration(let lhs), .buttonConfiguration(let rhs)):
                 return lhs.id == rhs.id
+            case (.stateDisplayConfiguration(let lhs), .stateDisplayConfiguration(let rhs)):
+                return lhs.id == rhs.id
+
             default:
                 return false
         }
@@ -35,6 +38,10 @@ enum NavigationDestination: Hashable {
             case .buttonConfiguration(let configuration):
                 hasher.combine("buttonConfiguration")
                 hasher.combine(configuration)
+            case .stateDisplayConfiguration(let configuration):
+                hasher.combine("stateDisplayConfiguration")
+                hasher.combine(configuration)
+
         }
     }
 
@@ -43,6 +50,7 @@ enum NavigationDestination: Hashable {
     case addWidget(parent: DisplayableModelObject)
     case buttonConfiguration(configuration: ButtonConfiguration)
     case selectEntity(owner: any EntityAttachable)
+    case stateDisplayConfiguration(configuration: StateDisplayConfiguration)
 
     @ViewBuilder func view(_ path: Binding<NavigationPath>) -> some View {
         switch self {
@@ -56,6 +64,8 @@ enum NavigationDestination: Hashable {
                 EntitySelectionView(path: path, entityAttachable: owner)
             case .buttonConfiguration(let configuration):
                 ButtonConfigurationView(path: path, configuration: configuration)
+            case .stateDisplayConfiguration(let configuration):
+                StateDisplayConfigurationView(path: path, configuration: configuration)
         }
         EmptyView()
     }

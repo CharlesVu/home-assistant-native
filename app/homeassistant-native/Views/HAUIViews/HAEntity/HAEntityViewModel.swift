@@ -5,17 +5,7 @@ import RealmSwift
 import SwiftUI
 
 class HAEntityViewModel: ObservableObject {
-    enum Alignment {
-        case hotizontal
-        case vertical
-    }
-
-    enum ButtonMode {
-        case toggle
-        case turnOn
-        case turnOff
-    }
-
+    @Injected(\.displayableStore) private var displayableStore
     @Injected(\.iconMapper) private var iconMapper
     @Injected(\.stateFormatter) private var stateFormatter
     @Injected(\.entityStore) private var entityStore
@@ -24,27 +14,58 @@ class HAEntityViewModel: ObservableObject {
     @Published var color: Color = .white
     @Published var title: String = ""
     @Published var state: String = ""
-    @Published var alignment: Alignment = .vertical
+    @Published var alignment: StateDisplayAlignment = .vertical
 
-    var token: NotificationToken?
-    var entityID: String
-    var buttonMode: ButtonMode = .toggle
+    private var entityObserverToken: NotificationToken?
+    private var configurationObserverToken: NotificationToken?
+    private var configuration: StateDisplayConfiguration?
 
-    init(entityID: String) {
-        self.entityID = entityID
-        token =
-            entityStore
-            .listenForEntityChange(
-                id: entityID,
-                onChange: { entity in
-                    Task { [weak self] in
-                        await self?.updateModel(from: entity)
+    init(displayableModelObjectID: String) {
+        configuration = displayableStore.stateDisplayConfiguration(displayableModelObjectID: displayableModelObjectID)
+        Task {
+            await observeConfiguration()
+            await observeEntity()
+        }
+    }
+
+    @MainActor
+    func observeConfiguration() {
+        applyConfiguration()
+
+        configurationObserverToken = displayableStore.observe(
+            configuration,
+            onChange: { [weak self] in
+                self?.observeEntity()
+                self?.applyConfiguration()
+            },
+            onDelete: { [weak self] in
+                self?.configuration = nil
+                self?.configurationObserverToken = nil
+            }
+        )
+    }
+
+    @MainActor
+    func applyConfiguration() {
+        guard let configuration else { return }
+        alignment = configuration.alignment
+    }
+
+    @MainActor
+    func observeEntity() {
+        if let entityID = configuration?.entityID {
+            entityObserverToken =
+                entityStore
+                .listenForEntityChange(
+                    id: entityID,
+                    onChange: { [weak self] entity in
+                        self?.updateModel(from: entity)
+                    },
+                    onDelete: { [weak self] in
+                        self?.entityObserverToken = nil
                     }
-                },
-                onDelete: { [weak self] in
-                    self?.token = nil
-                }
-            )
+                )
+        }
     }
 
     @MainActor
