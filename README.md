@@ -8,11 +8,7 @@
 </p>
 
 ## Disclaimer - Please read
-This application is mostly a **not-working mockup** written in SwiftUI. Most of the components are **not** yet working as they are under development.
-At the moment the only working features are displaying the entities and switching the lights toggle, what you can see from the application are mockup components written in SwiftUI and 'ready' to be integrated.
-
-I am **not** an iOS developer and I started to work on this by myself to have a lightweight and fast application to do just the basics of what Home Assistant is. 
-You're more than welcome to contribute and extend functionalities.
+This application is written in SwiftUI. Most of the components are working but still under development.
 
 ## Description
 The current [Home Assistant](https://github.com/home-assistant/iOS) iOS app provides the same experience of the Home Assistant web interface along with additional features such as the device tracking integration, notifications, actions etc.
@@ -26,27 +22,22 @@ Apart from the personal feeling, the native SwiftUI application has several adva
 The goal of this application is not to implement 1:1 features parity with the original Home Assistant iOS app but to have a minimal, fast and native companion app to be used to quickly monitor the status of the Home and perform basic operations on the devices.
 
 ### Configuration and Authentication
-At the moment the configuration is present inside the following file:
-```
-app/homeassistant-native/Config.swift
-```
-You need to setup the `authorizationToken` variable with a current valid long-lived token to authenticate the application to your HomeAssistant instance.
+You need to setup the `API Key` in Settings with a current valid long-lived token to authenticate the application to your HomeAssistant instance.
 
 ### Known issues
 - The NavigationView Sections have a collapsable button, this should not be visible
 
 ### Working components
-- [x] The application will load all the entities at startup time (Entities that are not lights are hidden by default due to missing integration).
+- [x] The application will load all the entities at startup time
 - [x] It is possible to toggle lights on/off 
+- [x] Implement API calls for Home Assistant (more sensors, home player, settings)
+- [x] Implement application settings to allow people to configure the application (different URL, hide components, themes etc)
 
 ### TODO List
-- [ ] Implement API calls for Home Assistant (more sensors, home player, settings)
-- [ ] Implement application settings to allow people to configure the application (different URL, hide components, themes etc)
-- [ ] Find better icons as the SF symbols kit is limited
+- [ ] Implement Graphs
+- [ ] Re-implement HTTPS service to fetch entity historyw
 - [ ] Maybe implement Home Assistant login mechanism
-
-### Palette (Default theme)
-- https://coolors.co/bee9e8-62b6cb-1b4965-cae9ff-5fa8d3
+- [ ] Maybe implement Scan QR Code for API Key
 
 ## License
 The [Apache 2.0](LICENSE.txt) License apply
