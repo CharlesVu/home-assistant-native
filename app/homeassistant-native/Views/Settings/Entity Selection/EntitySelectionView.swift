@@ -3,6 +3,7 @@ import Factory
 import SwiftUI
 
 struct EntitySelectionView: View {
+    @EnvironmentObject private var themeManager: ThemeManager
     @ObservedObject var viewModel: EntitySelectionViewModel
     @State var entities: [Entity]
 
@@ -20,7 +21,10 @@ struct EntitySelectionView: View {
                 Section(section) {
                     ForEach(viewModel.entities(for: section)) { entity in
                         HStack {
-                            HABasicIconView(icon: iconMapper.map(entity: entity))
+                            HAWidgetImageView(
+                                imageName: iconMapper.map(entity: entity),
+                                color: themeManager.current.text
+                            )
                             Text(entity.displayName())
                         }.onTapGesture {
                             Task {

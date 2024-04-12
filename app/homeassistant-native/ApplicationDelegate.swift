@@ -17,6 +17,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        bindHomeAssistantPublishers()
+        return true
+    }
+
+    func bindHomeAssistantPublishers() {
         homeAssistant
             .entityPublisher
             .sink { [weak self] entityState in
@@ -41,8 +46,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 self?.updateRates(newRates: rates)
             }
             .store(in: &subscriptions)
-
-        return true
     }
 
     @MainActor

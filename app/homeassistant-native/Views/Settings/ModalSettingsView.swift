@@ -73,8 +73,7 @@ enum NavigationDestination: Hashable {
 
 struct ModalSettingsView: View {
     @EnvironmentObject private var themeManager: ThemeManager
-    @Environment(\.presentationMode)
-    var presentationMode: Binding<PresentationMode>
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
 
     @State private var path: NavigationPath = .init()
 
