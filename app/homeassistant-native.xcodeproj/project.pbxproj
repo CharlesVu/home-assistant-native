@@ -35,6 +35,7 @@
 		566574DA2BBFE74E00F7B69B /* HAEntityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566574D92BBFE74E00F7B69B /* HAEntityView.swift */; };
 		566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */; };
 		5666472A2BC829C400785B9B /* StateDisplayConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566647292BC829C400785B9B /* StateDisplayConfigurationView.swift */; };
+		56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56676A822BCD16E900DFB998 /* AppDelegateTests.swift */; };
 		566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */; };
 		568D546A2BB5BA0700E11B6D /* OctopusPricingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */; };
 		568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */; };
@@ -57,6 +58,16 @@
 		68C81E4C2777B7AE00A99F04 /* ModalSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C81E4B2777B7AE00A99F04 /* ModalSettingsView.swift */; };
 		68C81E4E2777BC5900A99F04 /* HATitleTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C81E4D2777BC5900A99F04 /* HATitleTextView.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		56676A842BCD16E900DFB998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6839795927766E420033DFBA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6839796027766E420033DFBA;
+			remoteInfo = "homeassistant-native";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5601731A2B77087600093D55 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +98,8 @@
 		566574D92BBFE74E00F7B69B /* HAEntityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAEntityView.swift; sourceTree = "<group>"; };
 		566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		566647292BC829C400785B9B /* StateDisplayConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateDisplayConfigurationView.swift; sourceTree = "<group>"; };
+		56676A802BCD16E900DFB998 /* homeAssistant-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "homeAssistant-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		56676A822BCD16E900DFB998 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPriceList.swift; sourceTree = "<group>"; };
 		56770B242B292FD500D151F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPricingView.swift; sourceTree = "<group>"; };
@@ -113,6 +126,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		56676A7D2BCD16E900DFB998 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6839795E27766E420033DFBA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -249,6 +269,14 @@
 			path = Ressouces;
 			sourceTree = "<group>";
 		};
+		56676A812BCD16E900DFB998 /* homeAssistant-Tests */ = {
+			isa = PBXGroup;
+			children = (
+				56676A822BCD16E900DFB998 /* AppDelegateTests.swift */,
+			);
+			path = "homeAssistant-Tests";
+			sourceTree = "<group>";
+		};
 		56AD26F22B2C72410076CAF2 /* Transformers */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +325,7 @@
 				560FA2442B2E27D8004ED11D /* ApplicationConfiguration */,
 				560FA2402B2E240B004ED11D /* HomeAssistant */,
 				6839796327766E420033DFBA /* homeassistant-native */,
+				56676A812BCD16E900DFB998 /* homeAssistant-Tests */,
 				6839796227766E420033DFBA /* Products */,
 				560FA2412B2E26A4004ED11D /* Frameworks */,
 			);
@@ -306,6 +335,7 @@
 			isa = PBXGroup;
 			children = (
 				6839796127766E420033DFBA /* Home Assistant.app */,
+				56676A802BCD16E900DFB998 /* homeAssistant-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -393,6 +423,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		56676A7F2BCD16E900DFB998 /* homeAssistant-Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56676A862BCD16E900DFB998 /* Build configuration list for PBXNativeTarget "homeAssistant-Tests" */;
+			buildPhases = (
+				56676A7C2BCD16E900DFB998 /* Sources */,
+				56676A7D2BCD16E900DFB998 /* Frameworks */,
+				56676A7E2BCD16E900DFB998 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				56676A852BCD16E900DFB998 /* PBXTargetDependency */,
+			);
+			name = "homeAssistant-Tests";
+			packageProductDependencies = (
+			);
+			productName = "homeAssistant-Tests";
+			productReference = 56676A802BCD16E900DFB998 /* homeAssistant-Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6839796027766E420033DFBA /* homeassistant-native */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6839798527766E440033DFBA /* Build configuration list for PBXNativeTarget "homeassistant-native" */;
@@ -421,9 +471,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1530;
 				LastUpgradeCheck = 1530;
 				TargetAttributes = {
+					56676A7F2BCD16E900DFB998 = {
+						CreatedOnToolsVersion = 15.3;
+						TestTargetID = 6839796027766E420033DFBA;
+					};
 					6839796027766E420033DFBA = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -447,11 +501,19 @@
 			projectRoot = "";
 			targets = (
 				6839796027766E420033DFBA /* homeassistant-native */,
+				56676A7F2BCD16E900DFB998 /* homeAssistant-Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		56676A7E2BCD16E900DFB998 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6839795F27766E420033DFBA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -465,6 +527,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		56676A7C2BCD16E900DFB998 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6839795D27766E420033DFBA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -518,7 +588,64 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		56676A852BCD16E900DFB998 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6839796027766E420033DFBA /* homeassistant-native */;
+			targetProxy = 56676A842BCD16E900DFB998 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		56676A872BCD16E900DFB998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vu.charles.homeAssistant-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Home Assistant.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Home Assistant";
+			};
+			name = Debug;
+		};
+		56676A882BCD16E900DFB998 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "vu.charles.homeAssistant-Tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Home Assistant.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Home Assistant";
+			};
+			name = Release;
+		};
 		6839798327766E440033DFBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -651,7 +778,7 @@
 				DEVELOPMENT_TEAM = TYBW749P94;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "homeassistant-native/Info.plist";
+				INFOPLIST_FILE = "homeassistant-native/Ressouces/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -685,7 +812,7 @@
 				DEVELOPMENT_TEAM = TYBW749P94;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "homeassistant-native/Info.plist";
+				INFOPLIST_FILE = "homeassistant-native/Ressouces/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -712,6 +839,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		56676A862BCD16E900DFB998 /* Build configuration list for PBXNativeTarget "homeAssistant-Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56676A872BCD16E900DFB998 /* Debug */,
+				56676A882BCD16E900DFB998 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6839795C27766E420033DFBA /* Build configuration list for PBXProject "homeassistant-native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

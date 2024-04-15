@@ -1,10 +1,12 @@
 import ApplicationConfiguration
 import Factory
 import Foundation
+import Spyable
 
+@Spyable
 protocol OctopusAgileStoring {
     func addRates(
-        _: [(
+        _ rates: [(
             start: Date,
             end: Date,
             price: Double

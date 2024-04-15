@@ -3,9 +3,11 @@ import Factory
 import Foundation
 import HomeAssistant
 import RealmSwift
+import Spyable
 
 typealias EmptyCallback = () async -> Void
 
+@Spyable
 protocol EntityStoring {
     func listenForEntityChange(
         id: String,

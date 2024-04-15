@@ -3,7 +3,9 @@ import Combine
 import Factory
 import Foundation
 import OSLog
+import Spyable
 
+@Spyable
 public protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
     var entityPublisher: PassthroughSubject<EntityState, Never> { get }
