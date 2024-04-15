@@ -15,13 +15,13 @@ class HAButtonViewModel: ObservableObject {
     @Published var alignment: ButtonAlignment = .vertical
     @Published var isWaitingForResponse = false
 
-    private var entityObserverToken: NotificationToken?
-    private var configurationObserverToken: NotificationToken?
-    private var entityID: String!
-    private var buttonMode: ButtonMode = .toggle
-    private var configuration: ButtonConfiguration?
+    var entityObserverToken: NotificationToken?
+    var configurationObserverToken: NotificationToken?
+    var entityID: String!
+    var buttonMode: ButtonMode = .toggle
+    var configuration: ButtonConfiguration?
 
-    private var state: Bool?
+    var state: Bool?
 
     init(displayableModelObjectID: String) {
         configuration = displayableStore.buttonConfiguration(displayableModelObjectID: displayableModelObjectID)

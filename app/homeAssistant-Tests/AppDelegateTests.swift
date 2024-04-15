@@ -12,8 +12,6 @@ final class homeAssistant_Tests: XCTestCase {
     let entityStoreSpy = EntityStoringSpy()
     let octopusStoreSpy = OctopusAgileStoringSpy()
 
-    private var subscriptions = Set<AnyCancellable>()
-
     override func setUp() async throws {
         homeAssistantBrdigeSpy.entityPublisher = .init()
         homeAssistantBrdigeSpy.entityInitialStatePublisher = .init()

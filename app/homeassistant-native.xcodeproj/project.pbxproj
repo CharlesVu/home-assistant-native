@@ -36,6 +36,7 @@
 		566574DC2BBFF22D00F7B69B /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 566574DB2BBFF22D00F7B69B /* Localizable.xcstrings */; };
 		5666472A2BC829C400785B9B /* StateDisplayConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566647292BC829C400785B9B /* StateDisplayConfigurationView.swift */; };
 		56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56676A822BCD16E900DFB998 /* AppDelegateTests.swift */; };
+		56676A8E2BCD343900DFB998 /* HAButtonViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */; };
 		566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */; };
 		568D546A2BB5BA0700E11B6D /* OctopusPricingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */; };
 		568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */; };
@@ -100,6 +101,7 @@
 		566647292BC829C400785B9B /* StateDisplayConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateDisplayConfigurationView.swift; sourceTree = "<group>"; };
 		56676A802BCD16E900DFB998 /* homeAssistant-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "homeAssistant-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56676A822BCD16E900DFB998 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
+		56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButtonViewModelTests.swift; sourceTree = "<group>"; };
 		566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPriceList.swift; sourceTree = "<group>"; };
 		56770B242B292FD500D151F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPricingView.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				56676A822BCD16E900DFB998 /* AppDelegateTests.swift */,
+				56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */,
 			);
 			path = "homeAssistant-Tests";
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */,
+				56676A8E2BCD343900DFB998 /* HAButtonViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,7 +2,9 @@ import ApplicationConfiguration
 import Factory
 import Foundation
 import RealmSwift
+import Spyable
 
+@Spyable
 protocol DisplayableStoring {
     func root() -> DisplayableModelObject?
 
