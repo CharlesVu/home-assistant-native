@@ -10,6 +10,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     @Injected(\.homeAssistant) private var homeAssistant
     @Injected(\.octopusStore) private var octopusStore
     @Injected(\.entityStore) private var entityStore
+    @Injected(\.displayableStore) private var displayableStore
 
     var subscriptions = Set<AnyCancellable>()
 
@@ -17,7 +18,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        bindHomeAssistantPublishers()
+        Task {
+            bindHomeAssistantPublishers()
+            await createInitialStateIfNeeded()
+        }
         return true
     }
 
@@ -46,6 +50,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 self?.updateRates(newRates: rates)
             }
             .store(in: &subscriptions)
+    }
+
+    @MainActor
+    func createInitialStateIfNeeded() async {
+        if displayableStore.root() == nil {
+            await displayableStore.createRootStack()
+        }
     }
 
     @MainActor

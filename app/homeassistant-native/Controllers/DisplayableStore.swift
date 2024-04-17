@@ -13,8 +13,9 @@ protocol DisplayableStoring {
     func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration
 
     func write(_ block: () -> Void) async
-
     func delete(_ objects: [DisplayableModelObject]) async
+
+    func createRootStack() async
 
     func observe(
         _ object: Object?,
@@ -122,6 +123,21 @@ struct DisplayableStore: DisplayableStoring {
             await write {
                 db.delete(object)
             }
+        }
+    }
+
+    @MainActor
+    func createRootStack() async {
+        let db = databaseManager.database()
+
+        await write {
+            let configuration = StackConfiguration()
+            db.add(configuration)
+
+            let newStackObject = DisplayableModelObject()
+            newStackObject.type = .stack
+            newStackObject.configurationID = configuration.id
+            db.add(newStackObject)
         }
     }
 }

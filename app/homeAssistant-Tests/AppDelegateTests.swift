@@ -11,6 +11,7 @@ final class homeAssistant_Tests: XCTestCase {
     let homeAssistantBrdigeSpy = HomeAssistantBridgingSpy()
     let entityStoreSpy = EntityStoringSpy()
     let octopusStoreSpy = OctopusAgileStoringSpy()
+    let displayableStoreSpy = DisplayableStoringSpy()
 
     override func setUp() async throws {
         homeAssistantBrdigeSpy.entityPublisher = .init()
@@ -20,6 +21,7 @@ final class homeAssistant_Tests: XCTestCase {
         Container.shared.homeAssistant.register { self.homeAssistantBrdigeSpy }
         Container.shared.entityStore.register { self.entityStoreSpy }
         Container.shared.octopusStore.register { self.octopusStoreSpy }
+        Container.shared.displayableStore.register { self.displayableStoreSpy }
     }
 
     func sut() -> AppDelegate {
@@ -66,6 +68,18 @@ final class homeAssistant_Tests: XCTestCase {
 
         self.homeAssistantBrdigeSpy.octopusPublisher.send([])
         wait(for: [expectation], timeout: 1)
+    }
 
+    func testInitialDatabasePopulation() async {
+        displayableStoreSpy.rootReturnValue = nil
+        let sut = sut()
+
+        let expectation = self.expectation(description: "Awaiting publisher")
+        displayableStoreSpy.createRootStackClosure = {
+            expectation.fulfill()
+            XCTAssertTrue(self.displayableStoreSpy.createRootStackCalled)
+        }
+        await sut.createInitialStateIfNeeded()
+        await fulfillment(of: [expectation], timeout: 1)
     }
 }
