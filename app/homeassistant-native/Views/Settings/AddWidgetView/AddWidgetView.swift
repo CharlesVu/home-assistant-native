@@ -5,7 +5,7 @@ import RealmSwift
 import SwiftUI
 
 class AddWidgetViewModel: ObservableObject {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.databaseProvider) var databaseProvider
     @Published var parent: DisplayableModelObject
 
     var path: Binding<NavigationPath>
@@ -18,14 +18,14 @@ class AddWidgetViewModel: ObservableObject {
     @MainActor
     func addButton() async {
         guard
-            let parentConfiguration = databaseManager.database().object(
+            let parentConfiguration = databaseProvider.database().object(
                 ofType: StackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
 
         do {
-            let db = databaseManager.database()
+            let db = databaseProvider.database()
             try await db.asyncWrite {
                 let configuration = ButtonConfiguration()
                 db.add(configuration)
@@ -47,14 +47,14 @@ class AddWidgetViewModel: ObservableObject {
     @MainActor
     func addStateDisplay() async {
         guard
-            let parentConfiguration = databaseManager.database().object(
+            let parentConfiguration = databaseProvider.database().object(
                 ofType: StackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
 
         do {
-            let db = databaseManager.database()
+            let db = databaseProvider.database()
             try await db.asyncWrite {
                 let configuration = StateDisplayConfiguration()
                 db.add(configuration)
@@ -76,14 +76,14 @@ class AddWidgetViewModel: ObservableObject {
     @MainActor
     func addOctopus() async {
         guard
-            let parentConfiguration = databaseManager.database().object(
+            let parentConfiguration = databaseProvider.database().object(
                 ofType: StackConfiguration.self,
                 forPrimaryKey: parent.configurationID
             )
         else { return }
 
         do {
-            let db = databaseManager.database()
+            let db = databaseProvider.database()
             try await db.asyncWrite {
                 let newButtonObject = DisplayableModelObject()
                 newButtonObject.parentSection = parent.id
@@ -101,7 +101,7 @@ class AddWidgetViewModel: ObservableObject {
 
     @MainActor
     func addStack() async {
-        let db = databaseManager.database()
+        let db = databaseProvider.database()
 
         guard
             let parentConfiguration = db.object(

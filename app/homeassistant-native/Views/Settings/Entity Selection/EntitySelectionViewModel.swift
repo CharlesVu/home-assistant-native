@@ -5,7 +5,7 @@ import RealmSwift
 import SwiftUI
 
 class EntitySelectionViewModel: ObservableObject {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.databaseProvider) var databaseProvider
 
     var entities = [Entity]()
     @Published var sections = [String]()
@@ -27,7 +27,7 @@ class EntitySelectionViewModel: ObservableObject {
     init(path: Binding<NavigationPath>, entityAttachable: any EntityAttachable) {
         self.path = path
         self.entityAttachable = entityAttachable
-        entities = Array(databaseManager.database().objects(Entity.self))
+        entities = Array(databaseProvider.database().objects(Entity.self))
         refresh()
     }
 
@@ -49,7 +49,7 @@ class EntitySelectionViewModel: ObservableObject {
 
     @MainActor
     func didSelectEntity(_ entity: Entity) async {
-        try? databaseManager.database().write {
+        try? databaseProvider.database().write {
             entityAttachable.entityID = entity.id
         }
         path.wrappedValue.removeLast()

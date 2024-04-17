@@ -5,7 +5,7 @@ import RealmSwift
 import SwiftUI
 
 class StackConfigurationViewModel: ObservableObject {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.databaseProvider) var databaseProvider
     @Injected(\.displayableStore) var displayableStore
 
     var sectionInformation: DisplayableModelObject

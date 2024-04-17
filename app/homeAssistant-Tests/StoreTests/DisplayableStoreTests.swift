@@ -8,13 +8,13 @@ import XCTest
 @testable import Home_Assistant
 
 final class DisplayableStore_Tests: XCTestCase {
-    var inMemoryRealm: InMemeoryRealm!
+    var inMemoryRealm: InMemeoryRealmProvider!
 
     @MainActor
     override func setUp() async throws {
         inMemoryRealm = .init()
 
-        Container.shared.databaseManager.register { self.inMemoryRealm }
+        Container.shared.databaseProvider.register { self.inMemoryRealm }
     }
 
     func sut() -> DisplayableStore {

@@ -4,7 +4,7 @@ import Foundation
 import OSLog
 import RealmSwift
 
-public class InMemeoryRealm: RealmProvider {
+public class InMemeoryRealmProvider: RealmProviding {
     private let realm: Realm
     let messageLogger = Logger(subsystem: "Realm", category: "Realm")
 

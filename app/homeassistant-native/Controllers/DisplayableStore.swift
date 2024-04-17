@@ -25,7 +25,7 @@ protocol DisplayableStoring {
 }
 
 struct DisplayableStore: DisplayableStoring {
-    @Injected(\.databaseManager) private var databaseManager
+    @Injected(\.databaseProvider) private var databaseProvider
 
     public func observe(
         _ object: Object?,
@@ -47,18 +47,18 @@ struct DisplayableStore: DisplayableStoring {
 
     @MainActor
     func root() -> DisplayableModelObject? {
-        return databaseManager.database().objects(DisplayableModelObject.self).filter({
+        return databaseProvider.database().objects(DisplayableModelObject.self).filter({
             $0.parentSection == nil
         }).first
     }
 
     @MainActor
     func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration {
-        let displayable = databaseManager.database().object(
+        let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
         )!
-        return databaseManager.database().object(
+        return databaseProvider.database().object(
             ofType: StackConfiguration.self,
             forPrimaryKey: displayable.configurationID
         )!
@@ -66,11 +66,11 @@ struct DisplayableStore: DisplayableStoring {
 
     @MainActor
     func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration {
-        let displayable = databaseManager.database().object(
+        let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
         )!
-        return databaseManager.database().object(
+        return databaseProvider.database().object(
             ofType: ButtonConfiguration.self,
             forPrimaryKey: displayable.configurationID
         )!
@@ -78,11 +78,11 @@ struct DisplayableStore: DisplayableStoring {
 
     @MainActor
     func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration {
-        let displayable = databaseManager.database().object(
+        let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
         )!
-        return databaseManager.database().object(
+        return databaseProvider.database().object(
             ofType: StateDisplayConfiguration.self,
             forPrimaryKey: displayable.configurationID
         )!
@@ -90,14 +90,14 @@ struct DisplayableStore: DisplayableStoring {
 
     @MainActor
     func write(_ block: () -> Void) async {
-        try? await databaseManager.database().asyncWrite {
+        try? await databaseProvider.database().asyncWrite {
             block()
         }
     }
 
     @MainActor
     func delete(_ objects: [DisplayableModelObject]) async {
-        let db = databaseManager.database()
+        let db = databaseProvider.database()
         for object in objects {
             switch object.type {
                 case .stack:
@@ -128,7 +128,7 @@ struct DisplayableStore: DisplayableStoring {
 
     @MainActor
     func createRootStack() async {
-        let db = databaseManager.database()
+        let db = databaseProvider.database()
 
         await write {
             let configuration = StackConfiguration()

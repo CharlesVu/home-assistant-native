@@ -31,14 +31,14 @@ extension EntityStoring {
 }
 
 struct EntityStore: EntityStoring {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.databaseProvider) var databaseProvider
 
     public func listenForEntityChange(
         id: String,
         onChange: @escaping (Entity) -> Void,
         onDelete: EmptyCallback?
     ) -> NotificationToken? {
-        let entityObject = databaseManager.database()
+        let entityObject = databaseProvider.database()
             .object(ofType: EntityModelObject.self, forPrimaryKey: id)
 
         if let entityObject {
@@ -63,7 +63,7 @@ struct EntityStore: EntityStoring {
     @MainActor
     public func entity(id: String) async -> Entity? {
         guard
-            let entityObject = databaseManager.database()
+            let entityObject = databaseProvider.database()
                 .object(ofType: EntityModelObject.self, forPrimaryKey: id)
         else {
             return nil
@@ -73,12 +73,12 @@ struct EntityStore: EntityStoring {
 
     @MainActor
     func allEntitites() async -> [Entity] {
-        return Array(databaseManager.database().objects(Entity.self))
+        return Array(databaseProvider.database().objects(Entity.self))
     }
 
     @MainActor
     func updateEntity(newState: EntityState) async {
-        let db = databaseManager.database()
+        let db = databaseProvider.database()
 
         try? await db.asyncWrite {
             let model = EntityModelObject()
@@ -91,7 +91,7 @@ struct EntityStore: EntityStoring {
 
     @MainActor
     func updateEntities(newStates: [EntityState]) async {
-        let db = databaseManager.database()
+        let db = databaseProvider.database()
 
         try? await db.asyncWrite {
             newStates.map {

@@ -17,7 +17,7 @@ protocol OctopusAgileStoring {
 }
 
 struct OctopusAgileStore: OctopusAgileStoring {
-    @Injected(\.databaseManager) var databaseManager
+    @Injected(\.databaseProvider) var databaseProvider
 
     @MainActor
     public func addRates(
@@ -27,14 +27,14 @@ struct OctopusAgileStore: OctopusAgileStoring {
             price: Double
         )]
     ) async {
-        try? await databaseManager.database().asyncWrite {
+        try? await databaseProvider.database().asyncWrite {
             rates.forEach {
                 let rate = OctopusRateModelObject(
                     start: $0.start,
                     end: $0.end,
                     price: $0.price
                 )
-                databaseManager.database().add(rate, update: .modified)
+                databaseProvider.database().add(rate, update: .modified)
             }
         }
     }
@@ -42,7 +42,7 @@ struct OctopusAgileStore: OctopusAgileStoring {
     @MainActor
     func futureTariff() -> [OctopusRateModelObject] {
         return Array(
-            self.databaseManager.database()
+            self.databaseProvider.database()
                 .objects(OctopusRateModelObject.self)
                 .filter { $0.end > Date.now }
         )

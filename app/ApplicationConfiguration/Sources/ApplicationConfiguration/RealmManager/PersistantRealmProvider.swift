@@ -3,11 +3,7 @@ import Foundation
 import OSLog
 import RealmSwift
 
-public protocol RealmProvider {
-    func database() -> Realm
-}
-
-public class RealmManager: RealmProvider {
+public class PersistantRealmProvider: RealmProviding {
     private let realm: Realm
     let messageLogger = Logger(subsystem: "Realm", category: "Realm")
 
