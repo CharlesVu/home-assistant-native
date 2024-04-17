@@ -1,22 +1,19 @@
+import ApplicationConfiguration
 import Combine
 import Foundation
 import OSLog
 import RealmSwift
 
-public protocol RealmProvider {
-    func database() -> Realm
-}
-
-public class RealmManager: RealmProvider {
+public class InMemeoryRealm: RealmProvider {
     private let realm: Realm
     let messageLogger = Logger(subsystem: "Realm", category: "Realm")
 
+    @MainActor
     init() {
-        let configuration = Realm.Configuration(schemaVersion: 14)
+        let configuration = Realm.Configuration(
+            inMemoryIdentifier: UUID().uuidString
+        )
         realm = try! Realm(configuration: configuration)
-        if let path = realm.configuration.fileURL?.absoluteString {
-            messageLogger.debug("Realm Path \(path)")
-        }
     }
 
     public func database() -> Realm {

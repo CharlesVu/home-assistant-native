@@ -11,7 +11,7 @@ extension Container {
             .singleton
     }
 
-    public var databaseManager: Factory<RealmManager> {
+    public var databaseManager: Factory<RealmProvider> {
         Factory(self) { RealmManager() }.singleton
     }
 }

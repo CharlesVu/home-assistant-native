@@ -37,6 +37,8 @@
 		5666472A2BC829C400785B9B /* StateDisplayConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566647292BC829C400785B9B /* StateDisplayConfigurationView.swift */; };
 		56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56676A822BCD16E900DFB998 /* AppDelegateTests.swift */; };
 		56676A8E2BCD343900DFB998 /* HAButtonViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */; };
+		5667B88F2BCFDA4000E2A8FA /* InMemeoryRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5667B88E2BCFDA4000E2A8FA /* InMemeoryRealm.swift */; };
+		5667B8922BCFDB4600E2A8FA /* DisplayableStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5667B8912BCFDB4600E2A8FA /* DisplayableStoreTests.swift */; };
 		566DCFE22BB60A8E0041C0EB /* OctopusPriceList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */; };
 		568D546A2BB5BA0700E11B6D /* OctopusPricingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */; };
 		568D546C2BB5BEFC00E11B6D /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 568D546B2BB5BEFC00E11B6D /* TimeInterval.swift */; };
@@ -102,6 +104,8 @@
 		56676A802BCD16E900DFB998 /* homeAssistant-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "homeAssistant-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		56676A822BCD16E900DFB998 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HAButtonViewModelTests.swift; sourceTree = "<group>"; };
+		5667B88E2BCFDA4000E2A8FA /* InMemeoryRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemeoryRealm.swift; sourceTree = "<group>"; };
+		5667B8912BCFDB4600E2A8FA /* DisplayableStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayableStoreTests.swift; sourceTree = "<group>"; };
 		566DCFE12BB60A8E0041C0EB /* OctopusPriceList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPriceList.swift; sourceTree = "<group>"; };
 		56770B242B292FD500D151F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		568D54692BB5BA0700E11B6D /* OctopusPricingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctopusPricingView.swift; sourceTree = "<group>"; };
@@ -274,10 +278,28 @@
 		56676A812BCD16E900DFB998 /* homeAssistant-Tests */ = {
 			isa = PBXGroup;
 			children = (
+				5667B8902BCFDB2100E2A8FA /* StoreTests */,
+				5667B88D2BCFDA2F00E2A8FA /* DatabaseSpy */,
 				56676A822BCD16E900DFB998 /* AppDelegateTests.swift */,
 				56676A8D2BCD343900DFB998 /* HAButtonViewModelTests.swift */,
 			);
 			path = "homeAssistant-Tests";
+			sourceTree = "<group>";
+		};
+		5667B88D2BCFDA2F00E2A8FA /* DatabaseSpy */ = {
+			isa = PBXGroup;
+			children = (
+				5667B88E2BCFDA4000E2A8FA /* InMemeoryRealm.swift */,
+			);
+			path = DatabaseSpy;
+			sourceTree = "<group>";
+		};
+		5667B8902BCFDB2100E2A8FA /* StoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				5667B8912BCFDB4600E2A8FA /* DisplayableStoreTests.swift */,
+			);
+			path = StoreTests;
 			sourceTree = "<group>";
 		};
 		56AD26F22B2C72410076CAF2 /* Transformers */ = {
@@ -534,7 +556,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5667B8922BCFDB4600E2A8FA /* DisplayableStoreTests.swift in Sources */,
 				56676A832BCD16E900DFB998 /* AppDelegateTests.swift in Sources */,
+				5667B88F2BCFDA4000E2A8FA /* InMemeoryRealm.swift in Sources */,
 				56676A8E2BCD343900DFB998 /* HAButtonViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
