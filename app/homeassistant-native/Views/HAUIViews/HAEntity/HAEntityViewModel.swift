@@ -1,14 +1,13 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
 class HAEntityViewModel: ObservableObject {
-    @Injected(\.displayableStore) private var displayableStore
-    @Injected(\.iconMapper) private var iconMapper
-    @Injected(\.stateFormatter) private var stateFormatter
-    @Injected(\.entityStore) private var entityStore
+    private var iconMapper: IconMapper!
+    private var displayableStore: (any DisplayableStoring)!
+    private var entityStore: (any EntityStoring)!
+    private var stateFormatter: StateTransformer!
 
     @Published var iconName: String = "circle"
     @Published var title: String = ""
@@ -18,13 +17,32 @@ class HAEntityViewModel: ObservableObject {
     private var entityObserverToken: NotificationToken?
     private var configurationObserverToken: NotificationToken?
     private var configuration: StateDisplayConfiguration?
+    private let displayableModelObjectID: String
 
     init(displayableModelObjectID: String) {
-        configuration = displayableStore.stateDisplayConfiguration(displayableModelObjectID: displayableModelObjectID)
+        self.displayableModelObjectID = displayableModelObjectID
+    }
+
+    func set(
+        displayableStore: any DisplayableStoring,
+        entityStore: any EntityStoring,
+        stateFormatter: StateTransformer,
+        iconMapper: IconMapper
+    ) {
+        self.displayableStore = displayableStore
+        self.entityStore = entityStore
+        self.stateFormatter = stateFormatter
+        self.iconMapper = iconMapper
+
         Task {
+            configuration = await displayableStore.stateDisplayConfiguration(
+                displayableModelObjectID: displayableModelObjectID
+            )
+
             await observeConfiguration()
             await observeEntity()
         }
+
     }
 
     @MainActor

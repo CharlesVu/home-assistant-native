@@ -1,11 +1,10 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import RealmSwift
 import SwiftUI
 
 class AddWidgetViewModel: ObservableObject {
-    @Injected(\.databaseProvider) var databaseProvider
+    var databaseProvider: (any RealmProviding)!
     @Published var parent: DisplayableModelObject
 
     var path: Binding<NavigationPath>
@@ -13,6 +12,10 @@ class AddWidgetViewModel: ObservableObject {
     init(parent: DisplayableModelObject, path: Binding<NavigationPath>) {
         self.parent = parent
         self.path = path
+    }
+
+    func set(databaseProvider: any RealmProviding) {
+        self.databaseProvider = databaseProvider
     }
 
     @MainActor
@@ -134,6 +137,7 @@ class AddWidgetViewModel: ObservableObject {
 
 struct AddWidgetView: View {
     @ObservedObject var viewModel: AddWidgetViewModel
+    @EnvironmentObject var databaseProvider: PersistantRealmProvider
 
     init(
         path: Binding<NavigationPath>,
@@ -185,7 +189,9 @@ struct AddWidgetView: View {
                     HADetailTextView(text: "Add Octopus Pricing", textAlignment: .leading)
                 }
             )
-
+        }
+        .onAppear {
+            viewModel.set(databaseProvider: databaseProvider)
         }
     }
 }

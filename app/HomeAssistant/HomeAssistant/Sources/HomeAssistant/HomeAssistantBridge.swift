@@ -1,6 +1,5 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import Foundation
 import OSLog
 import Spyable
@@ -8,14 +7,15 @@ import Spyable
 @Spyable
 public protocol HomeAssistantBridging {
     func turnLight(on: Bool, entityID: String) async throws -> Int
+    func delete(entityID: String) async throws -> Int
+
     var entityPublisher: PassthroughSubject<EntityState, Never> { get }
     var entityInitialStatePublisher: PassthroughSubject<[EntityState], Never> { get }
     var octopusPublisher: PassthroughSubject<[OctopusRate], Never> { get }
     var responsePublisher: PassthroughSubject<HAMessage, Never> { get }
 }
 
-public final class HomeAssistantBridge: NSObject {
-    @Injected(\.config) private var configurationPublisher
+public final class HomeAssistantBridge: NSObject, ObservableObject {
     var configuration: HomeAssistantConfiguration!
 
     var socket: URLSessionWebSocketTask!
@@ -31,23 +31,20 @@ public final class HomeAssistantBridge: NSObject {
 
     private var subscriptions = Set<AnyCancellable>()
 
-    override public init() {
+    public init(homeAssistantConfigurationManager: HomeAssistantConfigurationManager) {
         super.init()
-
         decoder.dateDecodingStrategyFormatters = [
             .hassTime,
             .octopusTime,
         ]
-
-        configurationPublisher
-            .homeAssistantConfigurationPublisher
+        homeAssistantConfigurationManager.listen()
             .sink { [weak self] configuration in
                 guard let self, let configuration else { return }
                 self.configuration = configuration
                 self.connectWebsocket()
             }
             .store(in: &subscriptions)
-        _ = HomeAssistantConfigurationManager()
+
     }
 
     func connectWebsocket() {
@@ -146,6 +143,13 @@ extension HomeAssistantBridge: HomeAssistantBridging {
         try await send(message: message)
         return message.id!
     }
+
+    public func delete(entityID: String) async throws -> Int {
+        let message = HAMessageBuilder.deleteMessage(enitityId: entityID)
+        try await send(message: message)
+        return message.id!
+    }
+
 }
 
 extension DateFormatter {

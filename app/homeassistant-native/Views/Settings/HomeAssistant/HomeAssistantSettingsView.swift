@@ -1,12 +1,8 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import SwiftUI
 
 class HomeAssistantSettingsViewModel: ObservableObject {
-    @Injected(\.config) private var configurationPublisher
-    @Injected(\.homeAssistantConfigurationManager) private var homeAssistantConfigurationManager
-
     @Published var websocketEndpoint: String = "wss://homeassistant.local/api/websocket" {
         didSet {
             validate()
@@ -23,10 +19,12 @@ class HomeAssistantSettingsViewModel: ObservableObject {
 
     private var subscriptions = Set<AnyCancellable>()
     private var configuration: HomeAssistantConfiguration?
+    private var homeAssistantConfigurationManager: HomeAssistantConfigurationManager?
 
-    init() {
-        configurationPublisher
-            .homeAssistantConfigurationPublisher
+    func set(homeAssistantConfigurationManager: HomeAssistantConfigurationManager) {
+        self.homeAssistantConfigurationManager = homeAssistantConfigurationManager
+
+        homeAssistantConfigurationManager.listen()
             .sink { [self] configuration in
                 if let configuration {
                     self.configuration = configuration
@@ -54,7 +52,7 @@ class HomeAssistantSettingsViewModel: ObservableObject {
     }
 
     func save() {
-        homeAssistantConfigurationManager.set(
+        homeAssistantConfigurationManager?.set(
             websocketEndpoint: URL(string: websocketEndpoint)!,
             authToken: authToken
         )
@@ -64,6 +62,7 @@ class HomeAssistantSettingsViewModel: ObservableObject {
 
 struct HomeAssistantSettingsView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var homeAssistantConfigurationManager: HomeAssistantConfigurationManager
     @ObservedObject var viewModel: HomeAssistantSettingsViewModel = .init()
 
     var body: some View {
@@ -84,6 +83,7 @@ struct HomeAssistantSettingsView: View {
         .navigationTitle("Home Assistant")
         .accentColor(themeManager.current.text)
         .onAppear {
+            viewModel.set(homeAssistantConfigurationManager: homeAssistantConfigurationManager)
             viewModel.initializeValues()
         }
     }

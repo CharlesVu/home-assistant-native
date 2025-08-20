@@ -1,5 +1,5 @@
 import ApplicationConfiguration
-import Factory
+import Combine
 import Foundation
 import Spyable
 
@@ -13,11 +13,15 @@ protocol OctopusAgileStoring {
         )]
     ) async
 
-    func futureTariff() -> [OctopusRateModelObject]
+    func futureTariff() async -> [OctopusRateModelObject]
 }
 
-struct OctopusAgileStore: OctopusAgileStoring {
-    @Injected(\.databaseProvider) var databaseProvider
+class OctopusAgileStore: OctopusAgileStoring, ObservableObject {
+    private let databaseProvider: any RealmProviding
+
+    init(databaseProvider: any RealmProviding) {
+        self.databaseProvider = databaseProvider
+    }
 
     @MainActor
     public func addRates(
@@ -40,7 +44,7 @@ struct OctopusAgileStore: OctopusAgileStoring {
     }
 
     @MainActor
-    func futureTariff() -> [OctopusRateModelObject] {
+    func futureTariff() async -> [OctopusRateModelObject] {
         return Array(
             self.databaseProvider.database()
                 .objects(OctopusRateModelObject.self)

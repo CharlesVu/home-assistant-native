@@ -1,7 +1,13 @@
+import HomeAssistant
 import SwiftUI
 
 struct HAButton: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var iconMapper: IconMapper
+    @EnvironmentObject private var displayableStore: DisplayableStore
+    @EnvironmentObject private var entityStore: EntityStore
+    @EnvironmentObject private var homeAssistant: HomeAssistantBridge
+
     @ObservedObject var viewModel: HAButtonViewModel
 
     init(displayableModelObjectID: String) {
@@ -41,6 +47,14 @@ struct HAButton: View {
             Task {
                 await viewModel.handleTap()
             }
+        }
+        .onAppear {
+            viewModel.set(
+                displayableStore: displayableStore,
+                entityStore: entityStore,
+                homeAssistant: homeAssistant,
+                iconMapper: iconMapper
+            )
         }
 
     }

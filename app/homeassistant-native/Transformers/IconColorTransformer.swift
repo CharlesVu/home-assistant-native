@@ -1,9 +1,12 @@
 import ApplicationConfiguration
-import Factory
 import SwiftUI
 
-struct IconColorTransformer {
-    @Injected(\.themeManager) var themeManager
+class IconColorTransformer: ObservableObject {
+    let themeManager: ThemeManager
+
+    init(themeManager: ThemeManager) {
+        self.themeManager = themeManager
+    }
 
     func transform(_ entity: Entity) -> Color {
         if entity.deviceClass == .battery {

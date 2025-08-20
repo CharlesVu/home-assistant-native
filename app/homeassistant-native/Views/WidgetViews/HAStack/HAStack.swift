@@ -1,18 +1,29 @@
 import ApplicationConfiguration
-import Factory
 import RealmSwift
 import SwiftUI
 
 class HAStackViewModel: ObservableObject {
-    @Injected(\.displayableStore) var displayableStore
+    private var displayableStore: (any DisplayableStoring)!
+
     var configuration: StackConfiguration!
     var configurationObserverToken: NotificationToken?
     @Published var subViews = [HAViewType]()
     @Published var alignment: StackAlignment = .horizontal
+    private let displayableModelObjectID: String
 
-    init(displayableModelObjectID: String) {
-        configuration = displayableStore.stackConfiguration(displayableModelObjectID: displayableModelObjectID)
+    init(
+        displayableModelObjectID: String
+    ) {
+        self.displayableModelObjectID = displayableModelObjectID
+    }
+
+    func set(displayableStore: any DisplayableStoring, entityStore: EntityStore) {
+        self.displayableStore = displayableStore
+
         Task {
+            configuration = await displayableStore.stackConfiguration(
+                displayableModelObjectID: displayableModelObjectID
+            )
             await updateAlignment()
             await observeConfiguration()
             await mapSubViews()
@@ -52,6 +63,8 @@ class HAStackViewModel: ObservableObject {
 
 struct HAStack: View {
     @ObservedObject var viewModel: HAStackViewModel
+    @EnvironmentObject private var entityStore: EntityStore
+    @EnvironmentObject private var displayableStore: DisplayableStore
 
     init(displayableModelObjectID: String) {
         viewModel = .init(displayableModelObjectID: displayableModelObjectID)
@@ -62,11 +75,18 @@ struct HAStack: View {
             VStack(alignment: .leading) {
                 children
             }
+            .onAppear {
+                viewModel.set(displayableStore: displayableStore, entityStore: entityStore)
+            }
         } else {
             HStack(alignment: .top) {
                 children
             }
+            .onAppear {
+                viewModel.set(displayableStore: displayableStore, entityStore: entityStore)
+            }
         }
+
     }
 
     var children: some View {

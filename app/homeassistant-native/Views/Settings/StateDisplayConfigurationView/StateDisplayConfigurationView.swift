@@ -1,16 +1,15 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import RealmSwift
 import SwiftUI
 
 class StateDisplayConfigurationViewModel: ObservableObject {
-    @Injected(\.entityStore) var entityStore
-    @Injected(\.displayableStore) var displayableStore
+    private var entityStore: (any EntityStoring)!
+    private var displayableStore: (any DisplayableStoring)!
+    private var path: Binding<NavigationPath>
+    private var configurationObserverToken: NotificationToken?
 
     var configuration: StateDisplayConfiguration?
-    var path: Binding<NavigationPath>
-    private var configurationObserverToken: NotificationToken?
 
     @Published var alignment: String {
         didSet {
@@ -26,6 +25,11 @@ class StateDisplayConfigurationViewModel: ObservableObject {
         self.configuration = configuration
         self.path = path
         self.alignment = configuration.alignment.rawValue
+    }
+
+    func set(displayableStore: any DisplayableStoring, entityStore: any EntityStoring) {
+        self.displayableStore = displayableStore
+        self.entityStore = entityStore
 
         Task {
             await getEntityDetails()
@@ -66,6 +70,8 @@ class StateDisplayConfigurationViewModel: ObservableObject {
 
 struct StateDisplayConfigurationView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var displayableStore: DisplayableStore
+    @EnvironmentObject private var entityStore: EntityStore
     @ObservedObject var viewModel: StateDisplayConfigurationViewModel
 
     init(
@@ -90,6 +96,9 @@ struct StateDisplayConfigurationView: View {
         }
         .navigationTitle("Button Configuration")
         .accentColor(themeManager.current.text)
+        .onAppear {
+            viewModel.set(displayableStore: displayableStore, entityStore: entityStore)
+        }
     }
 
     var alignmentPicker: some View {

@@ -1,5 +1,4 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import HomeAssistant
 import RealmSwift
@@ -30,8 +29,12 @@ extension EntityStoring {
     }
 }
 
-struct EntityStore: EntityStoring {
-    @Injected(\.databaseProvider) var databaseProvider
+class EntityStore: EntityStoring, ObservableObject {
+    private let databaseProvider: any RealmProviding
+
+    init(databaseProvider: any RealmProviding) {
+        self.databaseProvider = databaseProvider
+    }
 
     public func listenForEntityChange(
         id: String,

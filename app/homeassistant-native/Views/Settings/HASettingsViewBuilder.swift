@@ -1,5 +1,4 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import SwiftUI
 
@@ -25,8 +24,13 @@ enum SettingDestination: Identifiable {
 }
 
 struct HAVSettingsViewBuilder {
-    @Injected(\.entityStore) var entityStore
-    @Injected(\.displayableStore) var displayableStore
+    private let entityStore: any EntityStoring
+    private let displayableStore: any DisplayableStoring
+
+    init(entityStore: any EntityStoring, displayableStore: any DisplayableStoring) {
+        self.entityStore = entityStore
+        self.displayableStore = displayableStore
+    }
 
     @ViewBuilder func view(viewType: SettingDestination) -> some View {
         switch viewType {
@@ -61,14 +65,14 @@ struct HAVSettingsViewBuilder {
     func map(model: DisplayableModelObject) async -> SettingDestination? {
         switch model.type {
             case .stack:
-                let configuration = displayableStore.stackConfiguration(displayableModelObjectID: model.id)
+                let configuration = await displayableStore.stackConfiguration(displayableModelObjectID: model.id)
 
                 return .stackConfiguration(
                     name: "\(configuration.alignment.rawValue.capitalized) Stack: \(model.name)",
                     model: model
                 )
             case .button:
-                let configuration = displayableStore.buttonConfiguration(displayableModelObjectID: model.id)
+                let configuration = await displayableStore.buttonConfiguration(displayableModelObjectID: model.id)
 
                 var displayName = "Not configured"
                 if let id = configuration.entityID, let entity = await entityStore.entity(id: id) {
@@ -76,7 +80,7 @@ struct HAVSettingsViewBuilder {
                 }
                 return .buttonCongiguration(name: displayName, configuration: configuration)
             case .stateDisplay:
-                let configuration = displayableStore.stateDisplayConfiguration(displayableModelObjectID: model.id)
+                let configuration = await displayableStore.stateDisplayConfiguration(displayableModelObjectID: model.id)
 
                 var displayName = "Not configured"
                 if let id = configuration.entityID, let entity = await entityStore.entity(id: id) {

@@ -1,6 +1,5 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
@@ -16,8 +15,6 @@ enum StaticEntityKeys: String {
 }
 
 class TemperatureHumidityWidgetViewModel: ObservableObject {
-    @Injected(\.entityStore) private var entityStore
-
     @Published var temperature: Double = 0
     @Published var humidity: Int = 0
     @Published var windSpeed: Double = 0
@@ -30,7 +27,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
     var tokens: [NotificationToken] = []
     private var subscriptions = Set<AnyCancellable>()
 
-    init() {
+    func set(entityStore: EntityStore) {
         if let token =
             entityStore
             .listenForEntityChange(
@@ -111,6 +108,7 @@ class TemperatureHumidityWidgetViewModel: ObservableObject {
 
 struct TemperatureHumidityWidgetView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var entityStore: EntityStore
     @StateObject var viewModel: TemperatureHumidityWidgetViewModel = .init()
 
     var body: some View {
@@ -174,6 +172,8 @@ struct TemperatureHumidityWidgetView: View {
 
             }
             .padding()
+        }.onAppear {
+            viewModel.set(entityStore: entityStore)
         }
     }
 }

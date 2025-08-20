@@ -1,15 +1,15 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
 class StackConfigurationViewModel: ObservableObject {
-    @Injected(\.databaseProvider) var databaseProvider
-    @Injected(\.displayableStore) var displayableStore
+    private var databaseProvider: (any RealmProviding)!
+    private var displayableStore: (any DisplayableStoring)!
+    private var entityStore: (any EntityStoring)!
 
     var sectionInformation: DisplayableModelObject
-    var configuration: StackConfiguration?
+    private var configuration: StackConfiguration?
 
     @Published var name: String {
         didSet {
@@ -39,6 +39,16 @@ class StackConfigurationViewModel: ObservableObject {
         self.name = sectionInformation.name
 
         self.path = path
+    }
+
+    func set(
+        databaseProvider: any RealmProviding,
+        displayableStore: any DisplayableStoring,
+        entityStore: any EntityStoring
+    ) {
+        self.databaseProvider = databaseProvider
+        self.displayableStore = displayableStore
+        self.entityStore = entityStore
         Task {
             await getChildren()
         }
@@ -52,7 +62,7 @@ class StackConfigurationViewModel: ObservableObject {
 
     @MainActor
     func getChildren() async {
-        configuration = displayableStore.stackConfiguration(displayableModelObjectID: sectionInformation.id)
+        configuration = await displayableStore.stackConfiguration(displayableModelObjectID: sectionInformation.id)
         alignment = configuration!.alignment.rawValue
         configurationObserverToken = displayableStore.observe(
             configuration,
@@ -73,7 +83,10 @@ class StackConfigurationViewModel: ObservableObject {
         destinations = []
         if let children = configuration?.children {
             for element in children {
-                if let destination = await HAVSettingsViewBuilder().map(model: element) {
+                if let destination = await HAVSettingsViewBuilder(
+                    entityStore: entityStore,
+                    displayableStore: displayableStore
+                ).map(model: element) {
                     destinations.append(destination)
                 }
             }

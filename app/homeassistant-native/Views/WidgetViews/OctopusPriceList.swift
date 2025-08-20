@@ -1,24 +1,24 @@
 import ApplicationConfiguration
-import Factory
 import RealmSwift
 import SwiftUI
 
 class OctopusPriceListViewModel: ObservableObject {
-    @Injected(\.octopusStore) var octopusStore
 
     @Published var tariffs: [OctopusRateModelObject] = []
     @Published var meanPrice: Double = 0
 
     var timer: Timer?
 
-    init() {
+    func set(octopusStore: OctopusAgileStore) {
         timer = Timer.scheduledTimer(withTimeInterval: 5.minutes, repeats: true) { [weak self] _ in
             guard let self else { return }
-            let tariffs = octopusStore.futureTariff()
-            var total: Double = 0
-            tariffs.forEach { total += $0.price }
-            meanPrice = total / Double(tariffs.count)
-            self.tariffs = tariffs
+            Task {
+                let tariffs = await octopusStore.futureTariff()
+                var total: Double = 0
+                tariffs.forEach { total += $0.price }
+                self.meanPrice = total / Double(tariffs.count)
+                self.tariffs = tariffs
+            }
         }
         timer?.fire()
     }

@@ -1,4 +1,4 @@
-import Factory
+import Combine
 import Foundation
 
 public struct HomeAssistantConfiguration {
@@ -6,12 +6,11 @@ public struct HomeAssistantConfiguration {
     public let authToken: String
 }
 
-public class HomeAssistantConfigurationManager {
-    @Injected(\.config) private var config
+public class HomeAssistantConfigurationManager: ObservableObject {
+    private let homeAssistantConfigurationPublisher = CurrentValueSubject<HomeAssistantConfiguration?, Never>(nil)
 
-    var websocketEndpoint: URL!
-
-    var authToken: String!
+    private var websocketEndpoint: URL!
+    private var authToken: String!
 
     public init() {
         if let savedEnpoint = UserDefaults.standard.string(
@@ -28,7 +27,7 @@ public class HomeAssistantConfigurationManager {
 
     private func sendUpdateIfNeeded() {
         if websocketEndpoint != nil && authToken != nil {
-            config.homeAssistantConfigurationPublisher.send(
+            homeAssistantConfigurationPublisher.send(
                 .init(websocketEndpoint: websocketEndpoint, authToken: authToken)
             )
         }
@@ -43,5 +42,9 @@ public class HomeAssistantConfigurationManager {
         )
         UserDefaults.standard.setValue(authToken, forKey: "HomeAssistantConfiguration.authToken")
         sendUpdateIfNeeded()
+    }
+
+    public func listen() -> AnyPublisher<HomeAssistantConfiguration?, Never> {
+        homeAssistantConfigurationPublisher.eraseToAnyPublisher()
     }
 }

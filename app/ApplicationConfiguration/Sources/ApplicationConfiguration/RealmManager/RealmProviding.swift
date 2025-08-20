@@ -1,5 +1,6 @@
+import Combine
 import RealmSwift
 
-public protocol RealmProviding {
+public protocol RealmProviding: ObservableObject {
     func database() -> Realm
 }

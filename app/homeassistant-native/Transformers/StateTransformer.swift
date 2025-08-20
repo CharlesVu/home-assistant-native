@@ -2,7 +2,7 @@ import ApplicationConfiguration
 import Foundation
 import HomeAssistant
 
-struct StateTransformer {
+class StateTransformer: ObservableObject {
     func displayableState(`for` entity: Entity) -> String {
         // remove the unknown/unavailable state from the computation so we don't append the unit
         if entity.state == "unknown" {

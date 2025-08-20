@@ -1,21 +1,23 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
 class RootConfigurationViewModel: ObservableObject {
-    @Injected(\.displayableStore) var displayableStore
-
     @Published var rootViewType: SettingDestination?
 
-    init() {
-        if let rootObject = displayableStore.root() {
-            Task {
-                let rootViewType = await HAVSettingsViewBuilder().map(model: rootObject)
-                DispatchQueue.main.async {
-                    self.rootViewType = rootViewType
-                }
+    func set(
+        displayableStore: any DisplayableStoring,
+        entityStore: EntityStore
+    ) {
+
+        Task { @MainActor in
+            if let rootObject = await displayableStore.root() {
+                let rootViewType = await HAVSettingsViewBuilder(
+                    entityStore: entityStore,
+                    displayableStore: displayableStore
+                ).map(model: rootObject)
+                self.rootViewType = rootViewType
             }
         }
     }
@@ -23,6 +25,8 @@ class RootConfigurationViewModel: ObservableObject {
 
 struct RootConfigurationView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var displayableStore: DisplayableStore
+    @EnvironmentObject private var entityStore: EntityStore
 
     @ObservedObject var viewModel: RootConfigurationViewModel = .init()
     var path: Binding<NavigationPath>
@@ -30,11 +34,16 @@ struct RootConfigurationView: View {
     var body: some View {
         List {
             if let rootViewType = viewModel.rootViewType {
-                HAVSettingsViewBuilder().view(viewType: rootViewType)
-                    .listRowBackground(themeManager.current.lightBackground)
+                HAVSettingsViewBuilder(entityStore: entityStore, displayableStore: displayableStore).view(
+                    viewType: rootViewType
+                )
+                .listRowBackground(themeManager.current.lightBackground)
             }
         }
         .background(themeManager.current.background)
         .scrollContentBackground(.hidden)
+        .onAppear {
+            viewModel.set(displayableStore: displayableStore, entityStore: entityStore)
+        }
     }
 }

@@ -1,11 +1,10 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import RealmSwift
 import SwiftUI
 
 class EntitySelectionViewModel: ObservableObject {
-    @Injected(\.databaseProvider) var databaseProvider
+    var databaseProvider: (any RealmProviding)!
 
     var entities = [Entity]()
     @Published var sections = [String]()
@@ -27,6 +26,11 @@ class EntitySelectionViewModel: ObservableObject {
     init(path: Binding<NavigationPath>, entityAttachable: any EntityAttachable) {
         self.path = path
         self.entityAttachable = entityAttachable
+    }
+
+    func set(databaseProvider: any RealmProviding) {
+        self.databaseProvider = databaseProvider
+
         entities = Array(databaseProvider.database().objects(Entity.self))
         refresh()
     }

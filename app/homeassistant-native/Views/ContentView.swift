@@ -1,16 +1,16 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
 class ContentViewModel: ObservableObject {
-    @Injected(\.displayableStore) var displayableStore
     @Published var rootViewType: HAViewType?
 
-    init() {
-        if let rootObject = displayableStore.root() {
-            rootViewType = HAViewBuilder().map(model: rootObject)
+    func set(displayableStore: any DisplayableStoring) {
+        Task { @MainActor in
+            if let rootObject = await displayableStore.root() {
+                rootViewType = HAViewBuilder().map(model: rootObject)
+            }
         }
     }
 }
@@ -18,7 +18,8 @@ class ContentViewModel: ObservableObject {
 struct ContentView: View {
     @State var show = false
     @ObservedObject var viewModel: ContentViewModel = .init()
-    @StateObject var themeManager = Container.shared.themeManager.callAsFunction()
+    @EnvironmentObject var displayableStore: DisplayableStore
+    @EnvironmentObject var themeManager: ThemeManager
 
     var body: some View {
         VStack(spacing: 0) {
@@ -31,13 +32,9 @@ struct ContentView: View {
             .padding(.leading, 16)
             .padding(.trailing, 16)
         }
-        .environmentObject(themeManager)
         .background(themeManager.current.background)
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+        .onAppear {
+            viewModel.set(displayableStore: displayableStore)
+        }
     }
 }

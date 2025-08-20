@@ -1,31 +1,48 @@
 import ApplicationConfiguration
 import Combine
-import Factory
+import HomeAssistant
 import RealmSwift
 import SwiftUI
 
 class HAButtonViewModel: ObservableObject {
-    @Injected(\.iconMapper) private var iconMapper
-    @Injected(\.displayableStore) private var displayableStore
-    @Injected(\.entityStore) private var entityStore
-    @Injected(\.homeAssistant) private var homeAssistant
+    private var iconMapper: IconMapper!
+    private var displayableStore: (any DisplayableStoring)!
+    private var entityStore: (any EntityStoring)!
+    private var homeAssistant: (any HomeAssistantBridging)!
 
     @Published var iconName: String = "circle"
     @Published var title: String = ""
     @Published var alignment: ButtonAlignment = .vertical
     @Published var isWaitingForResponse = false
 
-    var entityObserverToken: NotificationToken?
+    private var entityObserverToken: NotificationToken?
     var configurationObserverToken: NotificationToken?
     var entityID: String!
     var buttonMode: ButtonMode = .toggle
     var configuration: ButtonConfiguration?
 
     var state: Bool?
+    private let displayableModelObjectID: String
 
     init(displayableModelObjectID: String) {
-        configuration = displayableStore.buttonConfiguration(displayableModelObjectID: displayableModelObjectID)
+        self.displayableModelObjectID = displayableModelObjectID
+    }
+
+    func set(
+        displayableStore: any DisplayableStoring,
+        entityStore: any EntityStoring,
+        homeAssistant: any HomeAssistantBridging,
+        iconMapper: IconMapper
+    ) {
+        self.displayableStore = displayableStore
+        self.entityStore = entityStore
+        self.homeAssistant = homeAssistant
+        self.iconMapper = iconMapper
+
         Task {
+            configuration = await displayableStore.buttonConfiguration(
+                displayableModelObjectID: displayableModelObjectID
+            )
             await observeConfiguration()
             await observeEntity()
         }

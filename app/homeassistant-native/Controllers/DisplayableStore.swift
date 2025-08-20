@@ -1,16 +1,15 @@
 import ApplicationConfiguration
-import Factory
 import Foundation
 import RealmSwift
 import Spyable
 
 @Spyable
 protocol DisplayableStoring {
-    func root() -> DisplayableModelObject?
+    func root() async -> DisplayableModelObject?
 
-    func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration
-    func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration
-    func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration
+    func stackConfiguration(displayableModelObjectID: String) async -> StackConfiguration
+    func buttonConfiguration(displayableModelObjectID: String) async -> ButtonConfiguration
+    func stateDisplayConfiguration(displayableModelObjectID: String) async -> StateDisplayConfiguration
 
     func write(_ block: () -> Void) async
     func delete(_ objects: [DisplayableModelObject]) async
@@ -24,8 +23,12 @@ protocol DisplayableStoring {
     ) -> NotificationToken?
 }
 
-struct DisplayableStore: DisplayableStoring {
-    @Injected(\.databaseProvider) private var databaseProvider
+class DisplayableStore: DisplayableStoring, ObservableObject {
+    private let databaseProvider: any RealmProviding
+
+    init(databaseProvider: any RealmProviding) {
+        self.databaseProvider = databaseProvider
+    }
 
     public func observe(
         _ object: Object?,
@@ -46,14 +49,14 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
-    func root() -> DisplayableModelObject? {
+    func root() async -> DisplayableModelObject? {
         return databaseProvider.database().objects(DisplayableModelObject.self).filter({
             $0.parentSection == nil
         }).first
     }
 
     @MainActor
-    func stackConfiguration(displayableModelObjectID: String) -> StackConfiguration {
+    func stackConfiguration(displayableModelObjectID: String) async -> StackConfiguration {
         let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
@@ -65,7 +68,7 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
-    func buttonConfiguration(displayableModelObjectID: String) -> ButtonConfiguration {
+    func buttonConfiguration(displayableModelObjectID: String) async -> ButtonConfiguration {
         let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
@@ -77,7 +80,7 @@ struct DisplayableStore: DisplayableStoring {
     }
 
     @MainActor
-    func stateDisplayConfiguration(displayableModelObjectID: String) -> StateDisplayConfiguration {
+    func stateDisplayConfiguration(displayableModelObjectID: String) async -> StateDisplayConfiguration {
         let displayable = databaseProvider.database().object(
             ofType: DisplayableModelObject.self,
             forPrimaryKey: displayableModelObjectID
@@ -101,18 +104,18 @@ struct DisplayableStore: DisplayableStoring {
         for object in objects {
             switch object.type {
                 case .stack:
-                    let configuration = stackConfiguration(displayableModelObjectID: object.id)
+                    let configuration = await stackConfiguration(displayableModelObjectID: object.id)
                     await delete(Array(configuration.children))
                     await write {
                         db.delete(configuration)
                     }
                 case .button:
-                    let configuration = buttonConfiguration(displayableModelObjectID: object.id)
+                    let configuration = await buttonConfiguration(displayableModelObjectID: object.id)
                     await write {
                         db.delete(configuration)
                     }
                 case .stateDisplay:
-                    let configuration = stateDisplayConfiguration(displayableModelObjectID: object.id)
+                    let configuration = await stateDisplayConfiguration(displayableModelObjectID: object.id)
                     await write {
                         db.delete(configuration)
                     }

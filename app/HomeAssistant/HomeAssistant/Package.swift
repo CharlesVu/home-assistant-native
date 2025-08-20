@@ -17,7 +17,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/hmlongco/Factory", from: "2.3.0"),
         .package(url: "https://github.com/bradleymackey/swift-spyable", branch: "feature/modifiers"),
         .package(path: "../ApplicationConfiguration"),
     ],
@@ -27,7 +26,6 @@ let package = Package(
         .target(
             name: "HomeAssistant",
             dependencies: [
-                "Factory",
                 "ApplicationConfiguration",
                 .product(name: "Spyable", package: "swift-spyable"),
             ]

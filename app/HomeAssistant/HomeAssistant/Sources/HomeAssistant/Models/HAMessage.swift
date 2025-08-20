@@ -11,6 +11,7 @@ public struct HAMessage: Codable {
     public var domain: String?
     public var service: String?
     public var target: HATarget?
+    public var enitityId: String?
 
     public enum ResultType: Codable {
         case entities([EntityState])
@@ -49,6 +50,7 @@ public struct HAMessage: Codable {
         case event
         case getStates = "get_states"
         case callService = "call_service"
+        case deleteEntity = "config/entity_registry/remove"
         // Ignored
         case recorder_5min_statistics_generated
     }
@@ -64,5 +66,6 @@ public struct HAMessage: Codable {
         case domain
         case target
         case service
+        case enitityId = "entity_id"
     }
 }

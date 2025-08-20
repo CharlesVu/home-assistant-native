@@ -17,7 +17,6 @@ let package = Package(
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/hmlongco/Factory", from: "2.3.0"),
         .package(url: "https://github.com/realm/realm-swift", from: "10.45.0"),
         .package(url: "https://github.com/bradleymackey/swift-spyable", branch: "feature/modifiers"),
     ],
@@ -27,7 +26,6 @@ let package = Package(
         .target(
             name: "ApplicationConfiguration",
             dependencies: [
-                "Factory",
                 .product(name: "RealmSwift", package: "realm-swift"),
                 .product(name: "Spyable", package: "swift-spyable"),
             ]

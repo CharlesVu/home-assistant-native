@@ -1,6 +1,5 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import HomeAssistant
 import RealmSwift
 import XCTest
@@ -8,24 +7,31 @@ import XCTest
 @testable import Home_Assistant
 
 final class homeAssistant_Tests: XCTestCase {
-    let homeAssistantBrdigeSpy = HomeAssistantBridgingSpy()
-    let entityStoreSpy = EntityStoringSpy()
-    let octopusStoreSpy = OctopusAgileStoringSpy()
-    let displayableStoreSpy = DisplayableStoringSpy()
+    var homeAssistantBrdigeSpy: HomeAssistantBridgingSpy!
+    var entityStoreSpy: EntityStoringSpy!
+    var octopusStoreSpy: OctopusAgileStoringSpy!
+    var displayableStoreSpy: DisplayableStoringSpy!
 
     override func setUp() async throws {
+        homeAssistantBrdigeSpy = HomeAssistantBridgingSpy()
+        entityStoreSpy = EntityStoringSpy()
+        octopusStoreSpy = OctopusAgileStoringSpy()
+        displayableStoreSpy = DisplayableStoringSpy()
+
         homeAssistantBrdigeSpy.entityPublisher = .init()
         homeAssistantBrdigeSpy.entityInitialStatePublisher = .init()
         homeAssistantBrdigeSpy.octopusPublisher = .init()
-
-        Container.shared.homeAssistant.register { self.homeAssistantBrdigeSpy }
-        Container.shared.entityStore.register { self.entityStoreSpy }
-        Container.shared.octopusStore.register { self.octopusStoreSpy }
-        Container.shared.displayableStore.register { self.displayableStoreSpy }
     }
 
     func sut() -> AppDelegate {
-        AppDelegate()
+        let sut = AppDelegate()
+        sut.set(
+            homeAssistant: homeAssistantBrdigeSpy,
+            entityStore: entityStoreSpy,
+            displayableStore: displayableStoreSpy,
+            octopusStore: octopusStoreSpy
+        )
+        return sut
     }
 
     func testEntityBinding() {

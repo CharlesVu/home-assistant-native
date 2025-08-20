@@ -1,6 +1,5 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import HomeAssistant
 import RealmSwift
 import XCTest
@@ -13,12 +12,10 @@ final class DisplayableStore_Tests: XCTestCase {
     @MainActor
     override func setUp() async throws {
         inMemoryRealm = .init()
-
-        Container.shared.databaseProvider.register { self.inMemoryRealm }
     }
 
     func sut() -> DisplayableStore {
-        return DisplayableStore()
+        return DisplayableStore(databaseProvider: inMemoryRealm)
     }
 
     @MainActor
@@ -36,7 +33,7 @@ final class DisplayableStore_Tests: XCTestCase {
             db.add(configuration)
             db.add(newStackObject)
         }
-        let rootStack = sut().root()
+        let rootStack = await sut().root()
 
         XCTAssertEqual(rootStack, newStackObject)
         XCTAssertEqual(id, newStackObject.id)

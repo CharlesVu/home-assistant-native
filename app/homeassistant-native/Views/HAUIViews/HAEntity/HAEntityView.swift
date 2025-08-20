@@ -1,7 +1,13 @@
+import HomeAssistant
 import SwiftUI
 
 struct HAEntityView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var iconMapper: IconMapper
+    @EnvironmentObject private var displayableStore: DisplayableStore
+    @EnvironmentObject private var entityStore: EntityStore
+    @EnvironmentObject private var stateFormatter: StateTransformer
+
     @ObservedObject var viewModel: HAEntityViewModel
 
     init(displayableModelObjectID: String) {
@@ -30,6 +36,13 @@ struct HAEntityView: View {
         Group {
             title
             detail
+        }.onAppear {
+            viewModel.set(
+                displayableStore: displayableStore,
+                entityStore: entityStore,
+                stateFormatter: stateFormatter,
+                iconMapper: iconMapper
+            )
         }
     }
 

@@ -1,28 +1,34 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import Foundation
 import HomeAssistant
 import RealmSwift
 import UIKit
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    @Injected(\.homeAssistant) private var homeAssistant
-    @Injected(\.octopusStore) private var octopusStore
-    @Injected(\.entityStore) private var entityStore
-    @Injected(\.displayableStore) private var displayableStore
+class AppDelegate {
+    private var homeAssistant: (any HomeAssistantBridging)!
+    private var entityStore: (any EntityStoring)!
+    private var displayableStore: (any DisplayableStoring)!
+    private var octopusStore: (any OctopusAgileStoring)!
 
-    var subscriptions = Set<AnyCancellable>()
+    private var subscriptions = Set<AnyCancellable>()
 
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
+    func set(
+        homeAssistant: any HomeAssistantBridging,
+        entityStore: any EntityStoring,
+        displayableStore: any DisplayableStoring,
+        octopusStore: any OctopusAgileStoring
+    ) {
+        self.homeAssistant = homeAssistant
+        self.entityStore = entityStore
+        self.displayableStore = displayableStore
+        self.octopusStore = octopusStore
+
+        bindHomeAssistantPublishers()
+
         Task {
-            bindHomeAssistantPublishers()
             await createInitialStateIfNeeded()
         }
-        return true
     }
 
     func bindHomeAssistantPublishers() {
@@ -47,14 +53,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         homeAssistant
             .octopusPublisher
             .sink { [weak self] rates in
-                self?.updateRates(newRates: rates)
+                Task {
+                    await self?.updateRates(newRates: rates)
+                }
             }
             .store(in: &subscriptions)
     }
 
     @MainActor
     func createInitialStateIfNeeded() async {
-        if displayableStore.root() == nil {
+        if await displayableStore.root() == nil {
             await displayableStore.createRootStack()
         }
     }

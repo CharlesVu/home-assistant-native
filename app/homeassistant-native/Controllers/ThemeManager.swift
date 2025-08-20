@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 class ThemeManager: ObservableObject {
-    @Published var current: Theme = .init(themeName: "Solarized")
+    @Published var current: Theme = .init(themeName: "Dracula")
 }
 
 struct Theme {

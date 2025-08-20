@@ -1,12 +1,10 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import RealmSwift
 import SwiftUI
 
 class HAGaugeViewModel: ObservableObject {
-    @Injected(\.entityStore) private var entityStore
-    @Injected(\.stateFormatter) private var stateFormatter
+    private var stateFormatter: StateTransformer!
 
     var entityID: String
     var token: NotificationToken?
@@ -19,6 +17,12 @@ class HAGaugeViewModel: ObservableObject {
 
     init(entityID: String) {
         self.entityID = entityID
+    }
+
+    func set(
+        stateFormatter: StateTransformer,
+        entityStore: EntityStore
+    ) {
         token =
             entityStore
             .listenForEntityChange(

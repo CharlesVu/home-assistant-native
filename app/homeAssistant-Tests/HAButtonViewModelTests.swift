@@ -1,6 +1,5 @@
 import ApplicationConfiguration
 import Combine
-import Factory
 import HomeAssistant
 import RealmSwift
 import XCTest
@@ -12,22 +11,21 @@ final class HAButtonViewModel_Tests: XCTestCase {
     let entityStoreSpy = EntityStoringSpy()
     let displayableStoreSpy = DisplayableStoringSpy()
 
-    override func setUp() async throws {
-
-        Container.shared.homeAssistant.register { self.homeAssistantBrdigeSpy }
-        Container.shared.entityStore.register { self.entityStoreSpy }
-        Container.shared.displayableStore.register { self.displayableStoreSpy }
-    }
-
     func sut() -> HAButtonViewModel {
-        return HAButtonViewModel(displayableModelObjectID: "")
+        let sut = HAButtonViewModel(displayableModelObjectID: "")
+        sut.set(
+            displayableStore: displayableStoreSpy,
+            entityStore: entityStoreSpy,
+            homeAssistant: homeAssistantBrdigeSpy,
+            iconMapper: IconMapper()
+        )
+        return sut
     }
 
     func test_ObserveConfigurationChanges() {
         displayableStoreSpy.buttonConfigurationDisplayableModelObjectIDReturnValue = .init()
 
         let sut = sut()
-
         let expectation = self.expectation(description: "Awaiting publisher")
 
         displayableStoreSpy.observeOnChangeOnDeleteClosure = { (object, onChange, onDelete) -> NotificationToken? in

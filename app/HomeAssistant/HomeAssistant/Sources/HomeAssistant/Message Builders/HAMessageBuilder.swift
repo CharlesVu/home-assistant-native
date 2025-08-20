@@ -18,4 +18,8 @@ struct HAMessageBuilder {
     static func getStateMessage() -> HAMessage {
         HAMessage(id: currentID, type: .getStates)
     }
+
+    static func deleteMessage(enitityId: String) -> HAMessage {
+        HAMessage(id: currentID, type: .deleteEntity, enitityId: enitityId)
+    }
 }

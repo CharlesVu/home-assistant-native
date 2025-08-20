@@ -1,10 +1,12 @@
 import ApplicationConfiguration
-import Factory
 import SwiftUI
 
 struct EntitySelectionView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var databaseProvider: PersistantRealmProvider
+    @EnvironmentObject private var iconMapper: IconMapper
     @ObservedObject var viewModel: EntitySelectionViewModel
+
     @State var entities: [Entity]
 
     init(path: Binding<NavigationPath>, entityAttachable: any EntityAttachable) {
@@ -14,8 +16,6 @@ struct EntitySelectionView: View {
     }
 
     var body: some View {
-        let iconMapper = Container.shared.iconMapper.callAsFunction()
-
         List {
             ForEach(viewModel.sections, id: \.self) { section in
                 Section(section) {
@@ -36,5 +36,8 @@ struct EntitySelectionView: View {
             }
         }
         .searchable(text: $viewModel.searchText)
+        .onAppear {
+            viewModel.set(databaseProvider: databaseProvider)
+        }
     }
 }

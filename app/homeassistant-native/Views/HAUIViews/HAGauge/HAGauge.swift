@@ -3,6 +3,8 @@ import SwiftUI
 struct HAGauge: View {
     @ObservedObject var viewModel: HAGaugeViewModel
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var stateTransformer: StateTransformer
+    @EnvironmentObject private var entityStore: EntityStore
 
     init(entityID: String) {
         viewModel = .init(entityID: entityID)
@@ -32,6 +34,11 @@ struct HAGauge: View {
             HAFootNoteView(
                 text: viewModel.title,
                 alignement: .center
+            )
+        }.onAppear {
+            viewModel.set(
+                stateFormatter: stateTransformer,
+                entityStore: entityStore
             )
         }
     }

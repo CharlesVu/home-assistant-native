@@ -2,7 +2,7 @@ import ApplicationConfiguration
 import Foundation
 import OSLog
 
-struct IconMapper {
+class IconMapper: ObservableObject {
     let messageLogger = Logger(subsystem: "IconMapper", category: "Icon")
 
     func map(entity: Entity) -> String {

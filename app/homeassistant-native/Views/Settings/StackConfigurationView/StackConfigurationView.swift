@@ -3,6 +3,9 @@ import SwiftUI
 
 struct StackConfigurationView: View {
     @EnvironmentObject private var themeManager: ThemeManager
+    @EnvironmentObject private var entityStore: EntityStore
+    @EnvironmentObject private var displayableStore: DisplayableStore
+    @EnvironmentObject private var databaseProvider: PersistantRealmProvider
     @ObservedObject var viewModel: StackConfigurationViewModel
 
     init(
@@ -33,6 +36,13 @@ struct StackConfigurationView: View {
         .navigationTitle("Vertical Stack")
         .accentColor(themeManager.current.text)
         .navigationBarTitleDisplayMode(.large)
+        .onAppear {
+            viewModel.set(
+                databaseProvider: databaseProvider,
+                displayableStore: displayableStore,
+                entityStore: entityStore
+            )
+        }
     }
 
     var children: some View {
@@ -41,7 +51,9 @@ struct StackConfigurationView: View {
                 HStack {
                     Image(systemName: "line.3.horizontal")
                         .foregroundColor(themeManager.current.text)
-                    HAVSettingsViewBuilder().view(viewType: child)
+                    HAVSettingsViewBuilder(entityStore: entityStore, displayableStore: displayableStore).view(
+                        viewType: child
+                    )
                 }
             }.onDelete { index in
                 Task { await viewModel.delete(at: index) }
