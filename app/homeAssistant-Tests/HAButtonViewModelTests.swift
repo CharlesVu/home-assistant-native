@@ -25,7 +25,7 @@ final class HAButtonViewModel_Tests: XCTestCase {
     func test_ObserveConfigurationChanges() {
         displayableStoreSpy.buttonConfigurationDisplayableModelObjectIDReturnValue = .init()
 
-        let sut = sut()
+        _ = sut()
         let expectation = self.expectation(description: "Awaiting publisher")
 
         displayableStoreSpy.observeOnChangeOnDeleteClosure = { (object, onChange, onDelete) -> NotificationToken? in
